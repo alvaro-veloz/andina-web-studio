@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portafolio de Diseño Web — Andina Web Studio | Ecuador y Sudamérica</title>
+
+  <!-- SEO básico -->
+  <meta name="description" content="Portafolio de Andina Web Studio. Sitios web diseñados a mano para profesionales y marcas en Ecuador, Chile y Argentina. Sin plantillas, sin atajos." />
+  <meta name="keywords" content="portafolio diseño web Ecuador, proyectos web Ecuador, agencia web Ecuador portafolio, diseño web profesional, Andina Web Studio proyectos, páginas web Ecuador" />
+  <meta name="author" content="Andina Web Studio" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Portafolio — Andina Web Studio" />
+  <meta property="og:description" content="Proyectos de diseño web hechos a mano para profesionales y marcas en Ecuador y Sudamérica." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://andinawebstudio.com/proyectos.html" />
+  <meta property="og:image" content="https://andinawebstudio.com/og-image.webp" />
+  <meta property="og:locale" content="es_EC" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Portafolio — Andina Web Studio" />
+  <meta name="twitter:description" content="Proyectos de diseño web hechos a mano para profesionales y marcas en Ecuador y Sudamérica." />
+  <meta name="twitter:image" content="https://andinawebstudio.com/og-image.webp" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="alternate icon" href="favicon.ico" />
+
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://andinawebstudio.com/proyectos.html" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <style>
+    /* ── RESET & VARIABLES ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:  #0A1628;
+      --sky:   #2D6FA3;
+      --ice:   #A8C8E8;
+      --white: #F7F9FC;
+      --grey:  rgba(247,249,252,0.45);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CURSOR ── */
+    #cursor {
+      width: 8px; height: 8px;
+      background: var(--ice);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    #cursorRing {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(168,200,232,0.4);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      opacity: 0;
+      transition: width 0.3s, height 0.3s, opacity 0.3s;
+    }
+
+    /* ── NAV ── */
+    .pf-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 5%;
+      mix-blend-mode: difference;
+    }
+
+    .pf-nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: gap 0.3s ease;
+    }
+    .pf-nav-back:hover { gap: 14px; }
+    .pf-nav-back svg { transition: transform 0.3s; }
+    .pf-nav-back:hover svg { transform: translateX(-3px); }
+
+    .pf-nav-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .pf-nav-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      color: var(--white);
+      opacity: 1;
+    }
+
+    /* ── HERO ── */
+    .pf-hero {
+      position: relative;
+      height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .pf-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--navy);
+    }
+
+    /* Imagen de fondo — reemplazar src con tu foto */
+    .pf-hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 1;
+      filter: none;
+      transition: opacity 1.2s ease;
+    }
+
+    /* Placeholder hasta que pongas la foto */
+    .pf-hero-placeholder {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        160deg,
+        #0A1628 0%,
+        #1A3A5C 40%,
+        #0d2238 70%,
+        #0A1628 100%
+      );
+    }
+
+    .pf-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(10,22,40,0.95) 0%,
+        rgba(10,22,40,0.3) 50%,
+        rgba(10,22,40,0.15) 100%
+      );
+    }
+
+    .pf-hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 5% 60px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+
+    .pf-hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ice);
+      opacity: 0.6;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pf-hero-label::before {
+      content: '';
+      display: block;
+      width: 32px; height: 1px;
+      background: var(--ice);
+      opacity: 0.4;
+    }
+
+    .pf-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(5rem, 14vw, 14rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      opacity: 0;
+      transform: translateY(40px);
+      animation: heroUp 1.1s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+    }
+
+    .pf-hero-right {
+      flex-shrink: 0;
+      max-width: 260px;
+      padding-bottom: 12px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: heroUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
+    }
+
+    .pf-hero-count {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .pf-hero-count span {
+      font-size: 1rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--ice);
+      opacity: 0.5;
+      letter-spacing: 0.1em;
+      vertical-align: super;
+    }
+
+    .pf-hero-desc {
+      font-size: 0.84rem;
+      color: rgba(247,249,252,0.5);
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    /* Scroll indicator */
+    .pf-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: heroUp 0.8s ease 1.2s forwards;
+    }
+    .pf-scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, transparent, var(--ice));
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    .pf-scroll-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(168,200,232,0.4);
+    }
+
+    @keyframes heroUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
+    /* ── GRID DE PROYECTOS ── */
+    .pf-grid-section {
+      position: relative;
+      z-index: 1;
+      background: #080808;
+      padding: 80px 5% 60px;
+    }
+
+    .pf-grid-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 56px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(168,200,232,0.08);
+    }
+
+    .pf-grid-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+    .pf-grid-header h2 strong {
+      font-weight: 600;
+      color: var(--ice);
+    }
+
+    .pf-grid-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      color: rgba(168,200,232,0.35);
+      text-transform: uppercase;
+    }
+
+    /* Grid */
+    .pf-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    /* Card */
+    .pf-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--navy);
+      cursor: none;
+      display: block;
+      text-decoration: none;
+      isolation: isolate;
+    }
+
+    /* Card grande — primera */
+    .pf-card.featured {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/7;
+    }
+
+    .pf-card-media {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.9s cubic-bezier(0.16,1,0.3,1), filter 0.6s ease;
+      filter: grayscale(15%);
+    }
+
+    /* Placeholder media */
+    .pf-card-placeholder {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0d2238, #1a3a5c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pf-card-placeholder-text {
+      display: none;
+    }
+    /* Card body siempre visible */
+
+
+    .pf-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(10,22,40,0.92) 0%,
+        rgba(10,22,40,0.2) 55%,
+        transparent 100%
+      );
+      transition: background 0.5s ease;
+    }
+
+    .pf-card:hover .pf-card-media {
+      transform: scale(1.04);
+      filter: grayscale(0%);
+    }
+
+    .pf-card:hover .pf-card-overlay {
+      background: linear-gradient(
+        to top,
+        rgba(10,22,40,0.96) 0%,
+        rgba(10,22,40,0.4) 55%,
+        rgba(10,22,40,0.1) 100%
+      );
+    }
+
+    .pf-card-body {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 28px 32px;
+      z-index: 2;
+    }
+
+    .pf-card-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      color: var(--ice);
+      opacity: 0.5;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .pf-card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 8px;
+      transform: translateY(6px);
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .pf-card:hover .pf-card-name {
+      transform: translateY(0);
+    }
+
+    .pf-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+    }
+
+    .pf-card:hover .pf-card-tags {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .pf-card-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: rgba(168,200,232,0.7);
+      border: 1px solid rgba(168,200,232,0.2);
+      border-radius: 100px;
+      padding: 3px 10px;
+    }
+
+    /* Link a sitio — esquina superior derecha */
+    .pf-card-link {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(247,249,252,0.1);
+      border: 1px solid rgba(247,249,252,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.3s, transform 0.3s, background 0.3s;
+      z-index: 3;
+      text-decoration: none;
+    }
+
+    .pf-card:hover .pf-card-link {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .pf-card-link:hover {
+      background: rgba(247,249,252,0.2) !important;
+    }
+
+    /* ── CTA FINAL ── */
+    .pf-cta {
+      background: #080808;
+      padding: 80px 5% 100px;
+      text-align: center;
+      border-top: 1px solid rgba(168,200,232,0.06);
+    }
+
+    .pf-cta-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ice);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .pf-cta-label::before,
+    .pf-cta-label::after {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--sky);
+      opacity: 0.3;
+    }
+
+    .pf-cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 32px;
+    }
+    .pf-cta-title strong { color: var(--sky); font-weight: 600; }
+
+    .pf-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--navy);
+      color: var(--white);
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 16px 32px;
+      border-radius: 100px;
+      transition: background 0.3s, gap 0.3s;
+    }
+    .pf-cta-btn:hover {
+      background: var(--sky);
+      gap: 18px;
+    }
+
+    /* ── FOOTER — sticky reveal ── */
+    .pf-footer-wrap {
+      position: sticky;
+      bottom: 0;
+      z-index: 0;
+    }
+
+    footer {
+      background: #0B1834;
+      color: var(--white);
+      padding: 60px 5% 40px;
+    }
+
+    /* Reusar clases del footer principal */
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(247,249,252,0.06);
+    }
+
+    .footer-brand .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .nav-logo-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.1;
+    }
+    .nav-logo-text span {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ice);
+      opacity: 0.5;
+    }
+
+    .footer-tagline {
+      font-size: 0.88rem;
+      color: rgba(247,249,252,0.45);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .footer-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .footer-tools-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(247,249,252,0.25);
+    }
+    .footer-tools-icons { display: flex; gap: 8px; align-items: center; }
+    .tool-logo { width: 18px; height: 18px; object-fit: contain; opacity: 0.75; }
+
+    .footer-geo { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+    .footer-geo-item { display: flex; align-items: center; gap: 8px; }
+    .footer-geo-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #28c840;
+      flex-shrink: 0;
+      animation: availPulse 2s ease-in-out infinite;
+    }
+    .footer-geo-item:nth-child(2) .footer-geo-dot { animation-delay: 0.6s; }
+    .footer-geo-item:nth-child(3) .footer-geo-dot { animation-delay: 1.2s; }
+    .footer-geo-item span:last-child {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: rgba(247,249,252,0.25);
+    }
+    @keyframes availPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(40,200,64,0.4); }
+      50% { opacity: 0.8; box-shadow: 0 0 0 5px rgba(40,200,64,0); }
+    }
+
+    .footer-col-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(247,249,252,0.25);
+      margin-bottom: 16px;
+    }
+
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a {
+      color: rgba(247,249,252,0.6);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--ice); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+    }
+    .footer-copy, .footer-credit {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: rgba(247,249,252,0.25);
+    }
+    .footer-credit span { color: rgba(247,249,252,0.5); }
+
+    .footer-payments {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 16px;
+      border-top: 1px solid rgba(247,249,252,0.04);
+    }
+    .footer-payments-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(247,249,252,0.2);
+    }
+    .pay-icon { height: 18px; opacity: 0.45; filter: brightness(10); }
+
+    /* ── VINILO ── */
+    .vinyl-player {
+      position: fixed;
+      bottom: 20px;
+      right: 16px;
+      z-index: 950;
+      display: block;
+    }
+
+    .vinyl-disc {
+      width: 56px; height: 56px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .vinyl-outer {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, #1a1a2e 0%, #0d0d1a 40%, #111 60%, #0a0a0a 100%);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      transition: box-shadow 0.3s ease;
+    }
+    .vinyl-disc:hover .vinyl-outer {
+      box-shadow: 0 6px 28px rgba(45,111,163,0.4), inset 0 0 0 1px rgba(168,200,232,0.15);
+    }
+    .vinyl-outer.spinning { animation: vinylSpin 3s linear infinite; }
+    @keyframes vinylSpin { to { transform: rotate(360deg); } }
+
+    .vinyl-groove { position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,0.04); }
+    .g1 { width: 80%; height: 80%; }
+    .g2 { width: 62%; height: 62%; }
+    .g3 { width: 44%; height: 44%; }
+
+    .vinyl-center {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1A3A5C, #2D6FA3);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .vinyl-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.38rem; font-weight: 700;
+      color: #A8C8E8; letter-spacing: 0.05em;
+    }
+
+    .vinyl-info {
+      background: rgba(10,22,40,0.88);
+      border: 1px solid rgba(168,200,232,0.12);
+      border-radius: 20px;
+      padding: 4px 10px;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+      white-space: nowrap;
+      position: absolute;
+      bottom: 100%; right: 0;
+      margin-bottom: 8px;
+    }
+    .vinyl-info.visible { opacity: 1; transform: translateY(0); }
+    .vinyl-track-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      color: rgba(247,249,252,0.75);
+      letter-spacing: 0.04em;
+    }
+
+    .vinyl-shuffle {
+      position: absolute;
+      bottom: -2px; left: -2px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: rgba(10,22,40,0.7);
+      border: 1px solid rgba(168,200,232,0.12);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: rgba(168,200,232,0.5);
+      transition: color 0.3s, transform 0.3s;
+    }
+    .vinyl-shuffle:hover { color: #A8C8E8; transform: rotate(180deg); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .pf-nav { padding: 20px 5%; }
+      .pf-nav-title { display: none; }
+      .pf-hero-content { flex-direction: column; align-items: flex-start; gap: 20px; padding-bottom: 80px; }
+      .pf-hero-right { max-width: 100%; }
+      .pf-grid { grid-template-columns: repeat(2, 1fr); }
+      .pf-card.featured { grid-column: 1 / -1; aspect-ratio: 4/3; }
+      .pf-card.featured { grid-column: 1; aspect-ratio: 4/3; }
+      .pf-card-body { padding: 20px; }
+      .pf-card-tags { opacity: 1; transform: translateY(0); }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .vinyl-player { bottom: 14px; right: 10px; }
+      .pf-scroll-vertical { bottom: 340px !important; }
+    }
+
+    /* ── LOGOS ROTANTES ── */
+    .pf-hero-brands {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .pf-brand-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(247,249,252,0.25);
+    }
+
+    .pf-brand-rotator {
+      position: relative;
+      height: 32px;
+      width: 160px;
+    }
+
+    .pf-brand-item {
+      position: absolute;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      pointer-events: none;
+    }
+
+    .pf-brand-item.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .pf-brand-item svg {
+      width: 20px;
+      height: 20px;
+      color: rgba(247,249,252,0.5);
+      flex-shrink: 0;
+    }
+
+    .pf-brand-item span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(247,249,252,0.45);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      .pf-hero-brands { align-items: flex-start; }
+      .pf-brand-rotator { width: 140px; }
+    }
+
+
+    /* ── SCROLL DOWN vertical ── */
+    .pf-scroll-vertical {
+      position: absolute;
+      bottom: 120px;
+      z-index: 2;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(247,249,252,0.25);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      opacity: 0;
+      animation: heroUp 0.8s ease 1.4s forwards;
+    }
+    .pf-scroll-left  { left: 28px; transform: rotate(180deg); }
+    .pf-scroll-right { right: 28px; }
+
+    /* ── Footer sticky push ── */
+    .pf-footer-wrap {
+      position: sticky;
+      bottom: 0;
+      z-index: 0;
+    }
+
+    /* ── Fix cursor en móvil ── */
+    @media (pointer: coarse) {
+      #cursor, #cursorRing { display: none !important; }
+    }
+
+
+    /* ── Footer sticky push — FINAL ── */
+    .pf-footer-wrap {
+      position: sticky !important;
+      bottom: 0 !important;
+      z-index: 0 !important;
+    }
+    .pf-hero, main, .pf-cta {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── CTA card content ── */
+    .pf-card-cta-content {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      text-align: center;
+      padding: 32px;
+    }
+    .pf-card-cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: #F7F9FC;
+      line-height: 1.1;
+    }
+    .pf-card-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      color: rgba(168,200,232,0.7);
+      text-transform: uppercase;
+      border: 1px solid rgba(168,200,232,0.2);
+      padding: 8px 20px;
+      border-radius: 100px;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .pf-card-cta:hover .pf-card-cta-btn {
+      border-color: rgba(168,200,232,0.5);
+      color: #F7F9FC;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="swup" class="transition-fade">
+  <!-- Cursor -->
+  <div id="cursor"></div>
+  <div id="cursorRing"></div>
+
+  <!-- Nav -->
+  <nav class="pf-nav">
+    <a href="index.html" class="pf-nav-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <path d="M13 8H3M7 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Andina Web Studio
+    </a>
+    <span class="pf-nav-title">Portafolio</span>
+    <span class="pf-nav-year">2026</span>
+  </nav>
+
+  <!-- Hero -->
+  <section class="pf-hero" style="position:relative;z-index:1;">
+    <div class="pf-hero-bg">
+      <img class="pf-hero-img" src="foto.webp" alt="Andina Web Studio" />
+      
+      <div class="pf-hero-overlay"></div>
+    </div>
+
+    <div class="pf-hero-content">
+      <div class="pf-hero-left">
+        <a href="https://instagram.com/andinawebstudio" target="_blank" rel="noopener" class="pf-hero-ig" style="color:rgba(247,249,252,0.6);text-decoration:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="color:rgba(247,249,252,0.6);">
+            <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/>
+          </svg>
+          <span style="color:rgba(247,249,252,0.6);">andinawebstudio</span>
+        </a>
+      </div>
+      <div class="pf-hero-right">
+        <div class="pf-hero-brands">
+          <div class="pf-brand-label">Diseño de nivel</div>
+          <div class="pf-brand-rotator">
+            <div class="pf-brand-item active">
+              <img src="https://cdn.simpleicons.org/nike/ffffff" alt="Nike" style="width:22px;height:22px;object-fit:contain;filter:brightness(10);"/>
+              <span>Nike</span>
+            </div>
+            <div class="pf-brand-item">
+              <img src="https://cdn.simpleicons.org/thenorthface/ffffff" alt="The North Face" style="width:22px;height:22px;object-fit:contain;filter:brightness(10);"/>
+              <span>The North Face</span>
+            </div>
+            <div class="pf-brand-item">
+              <img src="https://cdn.simpleicons.org/redbull/ffffff" alt="Red Bull" style="width:22px;height:22px;object-fit:contain;filter:brightness(10);"/>
+              <span>Red Bull</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll vertical izquierda -->
+    <div class="pf-scroll-vertical pf-scroll-left">SCROLL DOWN</div>
+    <!-- Scroll vertical derecha -->
+    <div class="pf-scroll-vertical pf-scroll-right">SCROLL DOWN</div>
+
+    <div class="pf-scroll">
+      <div class="pf-scroll-line"></div>
+      <span class="pf-scroll-label">scroll</span>
+    </div>
+  </section>
+
+  <!-- Grid de proyectos -->
+  <main class="pf-grid-section" style="position:relative;z-index:1;">
+    <div class="pf-grid-header">
+      <h2>Colección de <strong>proyectos</strong></h2>
+      <span class="pf-grid-meta">Precisión neurodivergente</span>
+    </div>
+
+    <div class="pf-grid">
+
+      <!-- 01 FEATURED — Clinidental -->
+      <a class="pf-card pf-card-featured" href="https://odontosalud.netlify.app" target="_blank" rel="noopener">
+        <video class="pf-card-bg" src="https://res.cloudinary.com/dvukaadvx/video/upload/q_auto/f_auto/v1778204922/2026-05-07_20-35-15_byralf.mp4" autoplay muted loop playsinline></video>
+        <div class="pf-card-ol"></div>
+        <div class="pf-card-info">
+          <div class="pf-card-n">01 — Salud Dental</div>
+          <div class="pf-card-t">Clinidental</div>
+          <div class="pf-card-tgs">
+            <span class="pf-tag">Salud dental</span>
+            <span class="pf-tag">Multi page</span>
+            <span class="pf-tag">Diseño a medida</span>
+          </div>
+        </div>
+        <div class="pf-card-ext">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </a>
+
+      <!-- 02 pequeña — Mariajosé -->
+      <a class="pf-card pf-card-sm" href="https://mariajose-carvajal.netlify.app" target="_blank" rel="noopener">
+        <video class="pf-card-bg" src="https://res.cloudinary.com/dvukaadvx/video/upload/q_auto/f_auto/v1778204923/2026-05-07_20-44-17_zd6e1f.mp4" autoplay muted loop playsinline></video>
+        <div class="pf-card-ol"></div>
+        <div class="pf-card-info">
+          <div class="pf-card-n">02 — Investigación</div>
+          <div class="pf-card-t">Mariajosé Carvajal</div>
+          <div class="pf-card-tgs">
+            <span class="pf-tag">Académico</span>
+            <span class="pf-tag">Diseño editorial</span>
+          </div>
+        </div>
+        <div class="pf-card-ext">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </a>
+
+      <!-- 03 pequeña — Bubbl -->
+      <a class="pf-card pf-card-sm" href="https://bubbl.so" target="_blank" rel="noopener">
+        <video class="pf-card-bg" src="https://res.cloudinary.com/dvukaadvx/video/upload/q_auto/f_auto/v1778204922/2026-05-07_20-45-41_dhyup7.mp4" autoplay muted loop playsinline></video>
+        <div class="pf-card-ol"></div>
+        <div class="pf-card-info">
+          <div class="pf-card-n">03 — Eventos</div>
+          <div class="pf-card-t">Bubbl</div>
+          <div class="pf-card-tgs">
+            <span class="pf-tag">Plataforma</span>
+            <span class="pf-tag">Diseño de marca</span>
+          </div>
+        </div>
+        <div class="pf-card-ext">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </a>
+
+      <!-- 04 FEATURED — Concha y Toro -->
+      <a class="pf-card pf-card-featured" href="https://conchaytoro.com/" target="_blank" rel="noopener">
+        <video class="pf-card-bg" src="https://res.cloudinary.com/dvukaadvx/video/upload/q_auto/f_auto/v1778205082/2026-05-07_20-50-24_xdaoku.mp4" autoplay muted loop playsinline></video>
+        <div class="pf-card-ol"></div>
+        <div class="pf-card-info">
+          <div class="pf-card-n">04 — Vinos</div>
+          <div class="pf-card-t">Viña Concha y Toro</div>
+          <div class="pf-card-tgs">
+            <span class="pf-tag">Vinos & licores</span>
+            <span class="pf-tag">Marca premium</span>
+          </div>
+        </div>
+        <div class="pf-card-ext">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </a>
+
+      <!-- 05 pequeña — Psicología -->
+      <a class="pf-card pf-card-sm" href="https://psicologiahumanizada.pages.dev/" target="_blank" rel="noopener">
+        <video class="pf-card-bg" src="https://res.cloudinary.com/dvukaadvx/video/upload/q_auto/f_auto/v1778205358/2026-05-07_20-55-23_i26zhm.mp4" autoplay muted loop playsinline></video>
+        <div class="pf-card-ol"></div>
+        <div class="pf-card-info">
+          <div class="pf-card-n">05 — Psicología</div>
+          <div class="pf-card-t">Psicología Humanizada</div>
+          <div class="pf-card-tgs">
+            <span class="pf-tag">Salud mental</span>
+            <span class="pf-tag">Diseño a medida</span>
+          </div>
+        </div>
+        <div class="pf-card-ext">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </a>
+
+      <!-- 06 pequeña — Nutrición -->
+      <a class="pf-card pf-card-sm" href="https://nutri-lou.pages.dev/" target="_blank" rel="noopener">
+        <video class="pf-card-bg" src="https://res.cloudinary.com/dvukaadvx/video/upload/q_auto/f_auto/v1778972570/2026-05-16_17-59-01_pnmwps.mp4" autoplay muted loop playsinline></video>
+        <div class="pf-card-ol"></div>
+        <div class="pf-card-info">
+          <div class="pf-card-n">06 — Nutrición</div>
+          <div class="pf-card-t">Nutrición Clínica</div>
+          <div class="pf-card-tgs">
+            <span class="pf-tag">Salud clínica</span>
+            <span class="pf-tag">Diseño a medida</span>
+          </div>
+        </div>
+        <div class="pf-card-ext">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </a>
+
+      <!-- 07 FEATURED — Instante Infinito -->
+      <a class="pf-card pf-card-featured" href="https://instante-infinito.pages.dev/" target="_blank" rel="noopener">
+        <video class="pf-card-bg" src="https://res.cloudinary.com/dvukaadvx/video/upload/q_auto/f_auto/v1778972584/2026-05-16_18-01-04_jnlevl.mp4" autoplay muted loop playsinline></video>
+        <div class="pf-card-ol"></div>
+        <div class="pf-card-info">
+          <div class="pf-card-n">07 — Perfumería</div>
+          <div class="pf-card-t">Instante Infinito</div>
+          <div class="pf-card-tgs">
+            <span class="pf-tag">E-commerce</span>
+            <span class="pf-tag">Lujo & lifestyle</span>
+          </div>
+        </div>
+        <div class="pf-card-ext">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </a>
+
+      <!-- 07 pequeña CTA — ¿Listo para destacar? -->
+      <a class="pf-card pf-card-sm pf-card-cta" href="https://wa.me/593989565924" target="_blank" rel="noopener">
+        <video class="pf-card-bg" src="https://res.cloudinary.com/dvukaadvx/video/upload/q_auto/f_auto/v1777137806/2026-04-25_12-22-20_zponwk.mp4" autoplay muted loop playsinline style="opacity:0.2;filter:grayscale(80%);"></video>
+        <div class="pf-card-ol"></div>
+        <div class="pf-cta-inner">
+          <div class="pf-cta-ttl">¿Listo para<br>destacar?</div>
+          <div class="pf-cta-b">
+            Hablemos
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+      <!-- PROYECTOS PENDIENTES — descomentar y completar
+      <a class="pf-card pf-card-sm" href="#" target="_blank" rel="noopener">
+        <div class="pf-card-bg" style="background:#0d2238;"></div>
+        <div class="pf-card-ol"></div>
+        <div class="pf-card-info">
+          <div class="pf-card-n">07 — Categoría</div>
+          <div class="pf-card-t">Nombre del proyecto</div>
+          <div class="pf-card-tgs"><span class="pf-tag">Tag 1</span><span class="pf-tag">Tag 2</span></div>
+        </div>
+      </a>
+      Repetir bloque para 08, 09, 10, 11, 12, 13, 14, 15, 16
+      -->
+
+  <!-- CTA -->
+  <section class="pf-cta" style="position:relative;z-index:1;">
+    <div class="pf-cta-label">¿Trabajamos juntos?</div>
+    <h2 class="pf-cta-title">El siguiente proyecto<br>puede ser el <strong>tuyo.</strong></h2>
+    <a href="https://wa.me/593989565924" target="_blank" rel="noopener" class="pf-cta-btn">
+      Hablemos
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 12L12 2M12 2H6M12 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- Footer sticky reveal -->
+  <div class="pf-footer-wrap" style="position:sticky;bottom:0;z-index:0;">
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="nav-logo" style="margin-bottom:16px;">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="8" fill="#1A3A5C"/>
+              <path d="M6 27L13 13L18 20L23 10L30 27H6Z" fill="none" stroke="#A8C8E8" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M18 20L23 10L30 27H18V20Z" fill="rgba(45,111,163,0.3)"/>
+              <circle cx="23" cy="10" r="1.5" fill="#A8C8E8"/>
+            </svg>
+            <div class="nav-logo-text">Andina<span>Web Studio</span></div>
+          </div>
+          <p class="footer-tagline">Hecho con nivel. Siempre.</p>
+          <div class="footer-tools">
+            <span class="footer-tools-label">Herramientas</span>
+            <div class="footer-tools-icons">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" title="Figma" class="tool-logo"/>
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" title="VS Code" class="tool-logo"/>
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" alt="Supabase" title="Supabase" class="tool-logo"/>
+              <img src="https://cdn.simpleicons.org/framer/ffffff" alt="Framer" title="Framer" class="tool-logo"/>
+            </div>
+          </div>
+          <div class="footer-geo">
+            <div class="footer-geo-item"><span class="footer-geo-dot"></span><span>55°58'S · Chile</span></div>
+            <div class="footer-geo-item"><span class="footer-geo-dot"></span><span>32°53'S · Argentina</span></div>
+            <div class="footer-geo-item"><span class="footer-geo-dot"></span><span>0°13'N · Ecuador</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Navegación</div>
+          <ul class="footer-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="proyectos.html">Portafolio</a></li>
+            <li><a href="index.html#proyectos">Proyectos</a></li>
+            <li><a href="index.html#sobre">Estudio</a></li>
+            <li><a href="index.html#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Contacto</div>
+          <ul class="footer-links">
+            <li><a href="mailto:andinawebstudio@proton.me">andinawebstudio@proton.me</a></li>
+            <li><a href="https://wa.me/593989565924" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li>
+              <a href="https://instagram.com/andinawebstudio" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;color:rgba(247,249,252,0.75);text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#A8C8E8'" onmouseout="this.style.color='rgba(247,249,252,0.75)'">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg>
+                @andinawebstudio
+              </a>
+            </li>
+            <li><span style="color:rgba(247,249,252,0.45);font-size:0.84rem;">Ecuador · Remoto</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Andina Web Studio — Todos los derechos reservados.</p>
+        <p class="footer-credit">Diseñado & desarrollado por <span>Andina Web Studio</span></p>
+      </div>
+      <div class="footer-payments">
+        <span class="footer-payments-label">Métodos de pago</span>
+        <img class="pay-icon" src="https://cdn.simpleicons.org/visa/ffffff" alt="Visa"/>
+        <img class="pay-icon" src="https://cdn.simpleicons.org/mastercard/ffffff" alt="Mastercard"/>
+        <img class="pay-icon" src="https://cdn.simpleicons.org/paypal/ffffff" alt="PayPal"/>
+        <img class="pay-icon" src="https://cdn.simpleicons.org/applepay/ffffff" alt="Apple Pay"/>
+        <img class="pay-icon" src="https://cdn.simpleicons.org/dinersclub/ffffff" alt="Diners Club"/>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Vinilo -->
+  <div class="vinyl-player" id="vinylPlayer">
+    <div class="vinyl-disc" id="vinylDisc" title="Click para play/pause">
+      <div class="vinyl-outer">
+        <div class="vinyl-groove g1"></div>
+        <div class="vinyl-groove g2"></div>
+        <div class="vinyl-groove g3"></div>
+        <div class="vinyl-center"><div class="vinyl-label">AWS</div></div>
+      </div>
+      <button class="vinyl-shuffle" id="vinylShuffle" title="Cambiar canción">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 3 21 3 21 8"/><polyline points="4 20 21 3"/>
+          <polyline points="21 16 21 21 16 21"/><line x1="4" y1="4" x2="9" y2="9"/>
+        </svg>
+      </button>
+    </div>
+    <div class="vinyl-info" id="vinylInfo">
+      <span class="vinyl-track-name" id="vinylTrackName">Always — DISTRXCT</span>
+    </div>
+  </div>
+
+  </div><!-- /#swup -->
+
+  <audio id="vinylAudio" preload="none"></audio>
+
+  <!-- GSAP -->
+  <!-- Swup transiciones -->
+  <link rel="stylesheet" href="https://unpkg.com/@swup/fade-theme@3/dist/index.css" />
+  <script src="https://unpkg.com/swup@4/dist/Swup.umd.js"></script>
+  <script src="https://unpkg.com/@swup/fade-theme@3/dist/index.umd.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <script>
+    // ── CURSOR — solo desktop ──
+    (function() {
+      var isTouch = window.matchMedia('(pointer: coarse)').matches;
+      if (isTouch) return;
+      var cur = document.getElementById('cursor');
+      var ring = document.getElementById('cursorRing');
+      if (!cur || !ring) return;
+      var mx = window.innerWidth/2, my = window.innerHeight/2, rx = mx, ry = my;
+      cur.style.opacity = '0'; ring.style.opacity = '0';
+      document.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        cur.style.opacity = '1'; ring.style.opacity = '1';
+      });
+      (function anim() {
+        rx += (mx-rx)*0.1; ry += (my-ry)*0.1;
+        cur.style.left = mx+'px'; cur.style.top = my+'px';
+        ring.style.left = rx+'px'; ring.style.top = ry+'px';
+        requestAnimationFrame(anim);
+      })();
+      document.querySelectorAll('a,.pf-card').forEach(function(el) {
+        el.addEventListener('mouseenter', function() { ring.style.width='52px'; ring.style.height='52px'; });
+        el.addEventListener('mouseleave', function() { ring.style.width='36px'; ring.style.height='36px'; });
+      });
+    })();
+
+    // ── GSAP card reveals ──
+    if (typeof gsap !== 'undefined') {
+      gsap.from('.pf-card', {
+        opacity: 0, y: 40, scale: 0.97,
+        duration: 0.8,
+        ease: 'power3.out',
+        stagger: 0.12,
+        scrollTrigger: undefined,
+        delay: 0.3
+      });
+    }
+
+    // ── STICKY FOOTER REVEAL ──
+    // El footer ya es sticky por CSS — el main tiene z-index:1 y el footer z-index:0
+
+    // ── VINILO ──
+    (function() {
+      var audio = document.getElementById('vinylAudio');
+      var disc  = document.getElementById('vinylDisc');
+      var outer = disc ? disc.querySelector('.vinyl-outer') : null;
+      var info  = document.getElementById('vinylInfo');
+      var trackName = document.getElementById('vinylTrackName');
+      var shuffle   = document.getElementById('vinylShuffle');
+      if (!audio || !disc) return;
+
+      var tracks = [
+        { src: 'track1.mp3', title: 'Always — DISTRXCT' },
+        { src: 'track2.mp3', title: 'Stylish Lifestyle — Dope Cat' },
+      ];
+      var current = 0;
+      var infoTimer = null;
+      audio.volume = 0.5;
+
+      function showInfo() {
+        clearTimeout(infoTimer);
+        info.classList.add('visible');
+        infoTimer = setTimeout(function() { info.classList.remove('visible'); }, 3000);
+      }
+
+      function loadTrack(idx) {
+        audio.src = tracks[idx].src;
+        trackName.textContent = tracks[idx].title;
+        showInfo();
+      }
+
+      disc.addEventListener('click', function() {
+        if (!audio.src || audio.src === window.location.href) loadTrack(current);
+        if (audio.paused) {
+          audio.play(); outer.classList.add('spinning'); showInfo();
+        } else {
+          audio.pause(); outer.classList.remove('spinning');
+        }
+      });
+
+      audio.addEventListener('ended', function() {
+        current = (current+1) % tracks.length;
+        loadTrack(current); audio.play(); outer.classList.add('spinning');
+      });
+
+      shuffle.addEventListener('click', function() {
+        current = (current+1) % tracks.length;
+        loadTrack(current);
+        if (!audio.paused) { audio.play(); outer.classList.add('spinning'); }
+      });
+
+      disc.addEventListener('mouseenter', showInfo);
+    })();
+
+    // ── LOGOS ROTANTES ──
+    (function() {
+      var items = document.querySelectorAll('.pf-brand-item');
+      if (!items.length) return;
+      var current = 0;
+      setInterval(function() {
+        items[current].classList.remove('active');
+        current = (current + 1) % items.length;
+        items[current].classList.add('active');
+      }, 2500);
+    })();
+
+  </script>
+</body>
+</html>
+<style>
+/* ── GRID NUEVO LIMPIO ── */
+.pf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  gap: 2px;
+}
+
+/* Card base */
+.pf-card {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  background: #0d1f35;
+  isolation: isolate;
+}
+
+/* Featured — ancho completo */
+.pf-card-featured {
+  grid-column: 1 / -1;
+  aspect-ratio: 16/7;
+}
+
+/* Pequeña */
+.pf-card-sm {
+  aspect-ratio: 4/3;
+}
+
+/* Fondo — imagen o video */
+.pf-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.pf-card:hover .pf-card-bg {
+  transform: scale(1.04);
+}
+
+/* Overlay */
+.pf-card-ol {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.1) 60%, transparent 100%);
+  z-index: 1;
+  transition: background 0.4s ease;
+}
+.pf-card:hover .pf-card-ol {
+  background: linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.3) 60%, rgba(8,8,8,0.1) 100%);
+}
+
+/* Info del proyecto */
+.pf-card-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px 28px;
+  z-index: 2;
+}
+
+.pf-card-n {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: rgba(168,200,232,0.5);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.pf-card-t {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 400;
+  color: #F7F9FC;
+  line-height: 1.1;
+  margin-bottom: 8px;
+  transform: translateY(4px);
+  transition: transform 0.4s ease;
+}
+.pf-card:hover .pf-card-t { transform: translateY(0); }
+
+.pf-card-tgs {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s;
+}
+.pf-card:hover .pf-card-tgs { opacity: 1; transform: translateY(0); }
+
+.pf-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: rgba(168,200,232,0.6);
+  border: 1px solid rgba(168,200,232,0.15);
+  border-radius: 100px;
+  padding: 2px 8px;
+}
+
+/* Link externo */
+.pf-card-ext {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(247,249,252,0.08);
+  border: 1px solid rgba(247,249,252,0.12);
+  display: flex; align-items: center; justify-content: center;
+  color: #F7F9FC;
+  opacity: 0; transform: scale(0.8);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 2;
+}
+.pf-card:hover .pf-card-ext { opacity: 1; transform: scale(1); }
+
+/* CTA card */
+.pf-cta-inner {
+  position: absolute;
+  inset: 0; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px; text-align: center; padding: 24px;
+}
+.pf-cta-ttl {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 300; color: #F7F9FC; line-height: 1.1;
+}
+.pf-cta-b {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.14em;
+  color: rgba(168,200,232,0.6); text-transform: uppercase;
+  border: 1px solid rgba(168,200,232,0.18);
+  padding: 7px 16px; border-radius: 100px;
+  transition: border-color 0.3s, color 0.3s;
+}
+.pf-card-cta:hover .pf-cta-b { border-color: rgba(168,200,232,0.5); color: #F7F9FC; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .pf-card-featured { aspect-ratio: 4/3; }
+  .pf-card-info { padding: 16px 18px; }
+  .pf-card-tgs { opacity: 1; transform: none; }
+}
+</style>
+<style>
+.curtain {
+  position: fixed;
+  inset: 0;
+  background: #080808;
+  z-index: 9000;
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+}
+</style>
+
+
+<script>
+  window.addEventListener('load', function() {
+    if (typeof Swup === 'undefined') return;
+    var swup = new Swup({
+      containers: ['#swup'],
+      animationSelector: '[class*="transition-"]'
+    });
+  });
+</script>
