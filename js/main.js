@@ -1084,3 +1084,27 @@
     disc.addEventListener('mouseenter', showInfo);
 
   })();
+
+  // =====================================================
+  // NAV — MAGNETIC HOVER
+  // =====================================================
+  (function() {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
+    var navLinks = document.querySelectorAll('.nav-links li a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('mousemove', function(e) {
+        var rect = link.getBoundingClientRect();
+        var x = e.clientX - rect.left - rect.width / 2;
+        var y = e.clientY - rect.top - rect.height / 2;
+        link.style.transform = 'translate(' + (x * 0.25) + 'px, ' + (y * 0.4) + 'px)';
+      });
+      link.addEventListener('mouseleave', function() {
+        link.style.transform = 'translate(0, 0)';
+        link.style.transition = 'transform 0.4s cubic-bezier(0.16,1,0.3,1)';
+      });
+      link.addEventListener('mouseenter', function() {
+        link.style.transition = 'transform 0.1s ease';
+      });
+    });
+  })();
