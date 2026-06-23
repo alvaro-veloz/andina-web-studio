@@ -309,32 +309,19 @@
       animation: heroUp 0.8s ease 1.2s forwards;
     }
 
-    /* Mouse animado */
-    .pf-scroll-mouse {
-      width: 26px;
-      height: 42px;
-      border: 1.5px solid rgba(168, 200, 232, 0.35);
-      border-radius: 13px;
-      display: flex;
-      justify-content: center;
-      padding-top: 7px;
-      transition: border-color 0.3s;
+    .pf-scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, transparent, var(--ice));
+      animation: scrollPulse 2s ease-in-out infinite;
     }
-    .pf-scroll-mouse:hover {
-      border-color: rgba(168, 200, 232, 0.7);
-    }
-    .pf-scroll-wheel {
-      width: 3px;
-      height: 7px;
-      background: var(--ice);
-      border-radius: 2px;
-      animation: pfMouseWheel 1.8s ease-in-out infinite;
-    }
-    @keyframes pfMouseWheel {
-      0%   { transform: translateY(0); opacity: 1; }
-      60%  { transform: translateY(11px); opacity: 0; }
-      61%  { transform: translateY(0); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
+
+    .pf-scroll-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(168, 200, 232, 0.4);
     }
 
     @keyframes heroUp {
@@ -1264,9 +1251,8 @@
       <div class="pf-scroll-vertical pf-scroll-right">SCROLL DOWN</div>
 
       <div class="pf-scroll">
-        <div class="pf-scroll-mouse">
-          <div class="pf-scroll-wheel"></div>
-        </div>
+        <div class="pf-scroll-line"></div>
+        <span class="pf-scroll-label">scroll</span>
       </div>
     </section>
 
