@@ -34,22 +34,23 @@ Official website of Andina Web Studio — a boutique web design and development 
 
 ```
 andina-web-studio/
-├── index.html                  # Main site
-├── proyectos.html              # Projects page
+├── index.html                  # Main site (CSS + JS via external files)
+├── proyectos.html              # Projects page (CSS + JS inline)
 ├── proyectos(base).html        # Projects page base version
 ├── andina.json                 # Studio data
 ├── GUIA_MANTENIMIENTO.md       # Maintenance guide
 ├── site.webmanifest
+├── og-image.jpg
 ├── favicon.ico
 ├── favicon-16x16.png
 ├── favicon-32x32.png
 ├── apple-touch-icon.png
 ├── android-chrome-192x192.png
 ├── android-chrome-512x512.png
-├── og-image.jpg
 ├── css/
 │   └── styles.css
 └── js/
+    └── main.js
 ```
 
 ## Local Development
