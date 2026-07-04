@@ -1432,9 +1432,10 @@
           <div class="contacto-item">
             <div class="contacto-item-icon">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path
-                  d="M15.1 12.4l-2.2-2.2a1.5 1.5 0 00-2.1 0l-.9.9c-.7-.4-2-1.5-2.9-2.4-.9-.9-2-2.2-2.4-2.9l.9-.9a1.5 1.5 0 000-2.1L3.3 2.6A1.5 1.5 0 001.2 2.6L.5 3.3C-.3 4.1.5 7.5 4.8 11.8s7.7 5.1 8.5 4.3l.7-.7a1.5 1.5 0 00-.1-2.1-.1-.1.1-.1.2 0z"
-                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M9 1.5C4.86 1.5 1.5 4.86 1.5 9c0 1.32.36 2.56.98 3.63L1.5 16.5l3.97-.96C6.5 16.12 7.72 16.5 9 16.5c4.14 0 7.5-3.36 7.5-7.5S13.14 1.5 9 1.5z"
+                  stroke="currentColor" stroke-width="1.5" />
+                <path d="M6.5 6.5s.5-.5 1 0l.7.7c.3.3.3.7 0 .9l-.3.3c.4.6 1.2 1.4 1.8 1.8l.3-.3c.3-.3.7-.3.9 0l.7.7c.5.5 0 1 0 1s-1 1-2 0C8 10.6 6 8.5 6 7.5s.5-1 .5-1z"
+                  fill="currentColor" />
               </svg>
             </div>
             <div>
@@ -1478,10 +1479,19 @@
             </svg>
             WhatsApp
           </a>
+          <button type="button" id="agendaOpenBtn" class="btn-agenda-open">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <rect x="2.5" y="3.5" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.5" />
+              <path d="M2.5 7h13" stroke="currentColor" stroke-width="1.5" />
+              <path d="M6 2v3M12 2v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              <circle cx="6.2" cy="10.2" r="1" fill="currentColor" />
+            </svg>
+            Agenda tu cita
+          </button>
         </div>
 
         <!-- Animación Lottie -->
-        <div style="margin-top:24px;display:flex;justify-content:center;">
+        <div class="contacto-lottie-wrap" style="display:flex;justify-content:center;">
           <dotlottie-player src="andina.json" autoplay loop style="width:100%;max-width:300px;">
           </dotlottie-player>
         </div>
@@ -1589,6 +1599,83 @@
 
     </div><!-- .contacto-inner -->
   </section>
+
+  <!-- AGENDAMIENTO — MODAL -->
+  <div class="agenda-modal" id="agendaModal" aria-hidden="true">
+    <div class="agenda-modal-backdrop" id="agendaModalBackdrop"></div>
+
+    <div class="agenda-modal-panel" role="dialog" aria-modal="true" aria-labelledby="agendaModalTitle">
+      <button class="agenda-modal-close" id="agendaModalClose" type="button" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </button>
+
+      <div class="agenda-modal-header">
+        <h2 class="agenda-modal-title" id="agendaModalTitle">Agenda tu cita.<br><strong>Lo demás, ya está
+            resuelto.</strong></h2>
+        <p class="agenda-modal-desc">Reserva tu espacio directo en el sistema. Confirmación inmediata, sin
+          llamadas ni esperas.</p>
+      </div>
+
+      <div class="agenda-board">
+
+        <div class="agenda-board-panel">
+          <div class="agenda-cal-header">
+            <button class="agenda-cal-nav" id="agendaPrev" aria-label="Mes anterior" type="button">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+            <div class="agenda-cal-month" id="agendaMonthLabel">Julio 2026</div>
+            <button class="agenda-cal-nav" id="agendaNext" aria-label="Mes siguiente" type="button">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="agenda-cal-weekdays">
+            <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+          </div>
+
+          <div class="agenda-cal-grid" id="agendaCalGrid"></div>
+        </div>
+
+        <div class="agenda-board-main">
+          <div class="agenda-selected-date" id="agendaSelectedDate">Selecciona una fecha</div>
+
+          <div class="agenda-slots" id="agendaSlots">
+            <div class="agenda-slots-empty">Elige un día en el calendario para ver los horarios disponibles</div>
+          </div>
+
+          <div class="agenda-form-fields" id="agendaFormFields" hidden>
+            <div class="agenda-field">
+              <label for="agendaNombre">Nombre completo</label>
+              <input type="text" id="agendaNombre" placeholder="Tu nombre" autocomplete="name" />
+            </div>
+            <div class="agenda-field">
+              <label for="agendaTelefono">WhatsApp</label>
+              <input type="tel" id="agendaTelefono" placeholder="+593 99 999 9999" autocomplete="tel" />
+            </div>
+            <div class="agenda-field">
+              <label for="agendaEmail">Email</label>
+              <input type="email" id="agendaEmail" placeholder="tucorreo@email.com" autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="agenda-error" id="agendaError" hidden></div>
+
+          <button class="agenda-confirm-btn" id="agendaConfirmBtn" type="button" disabled>
+            <span id="agendaConfirmText">Selecciona fecha y hora</span>
+          </button>
+        </div>
+
+      </div><!-- .agenda-board -->
+    </div><!-- .agenda-modal-panel -->
+  </div><!-- .agenda-modal -->
 
   <!-- FOOTER -->
   <footer>
@@ -1717,6 +1804,7 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
   <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/main.js" defer></script>
 
   <!-- REPRODUCTOR VINILO -->

@@ -1108,3 +1108,367 @@
       });
     });
   })();
+
+  // =====================================================
+  // AGENDAMIENTO — CALENDARIO INTERACTIVO (conectado a Supabase)
+  // =====================================================
+  (function() {
+    var grid = document.getElementById('agendaCalGrid');
+    if (!grid) return;
+
+    // --- Conexión a Supabase ---------------------------------------
+    // Reemplazá estos dos valores por los de TU proyecto:
+    // Supabase → Settings → API → Project URL / anon public key
+    var SUPABASE_URL = 'https://wdyrxrunmjrxgaputcol.supabase.co';
+    var SUPABASE_ANON_KEY = 'sb_publishable_w8ZiOrQH_OblYwE5x6flCw_uQNSamJt';
+
+    var supabase = null;
+    if (window.supabase && SUPABASE_URL.indexOf('TU_SUPABASE') === -1) {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+    // -----------------------------------------------------------------
+
+    var monthLabel = document.getElementById('agendaMonthLabel');
+    var prevBtn = document.getElementById('agendaPrev');
+    var nextBtn = document.getElementById('agendaNext');
+    var slotsWrap = document.getElementById('agendaSlots');
+    var confirmBtn = document.getElementById('agendaConfirmBtn');
+    var confirmText = document.getElementById('agendaConfirmText');
+    var selectedDateLabel = document.getElementById('agendaSelectedDate');
+    var formFields = document.getElementById('agendaFormFields');
+    var errorBox = document.getElementById('agendaError');
+    var nombreInput = document.getElementById('agendaNombre');
+    var telefonoInput = document.getElementById('agendaTelefono');
+    var emailInput = document.getElementById('agendaEmail');
+
+    var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    var dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    var viewYear = today.getFullYear();
+    var viewMonth = today.getMonth();
+
+    var minMonth = today.getMonth();
+    var minYear = today.getFullYear();
+    var maxMonthsAhead = 2; // solo se puede navegar 2 meses hacia adelante
+
+    var allSlots = ['09:00', '09:40', '10:20', '11:00', '11:40', '15:00', '15:40', '16:20', '17:00'];
+
+    var selectedDateKey = null;
+    var selectedSlot = null;
+    var confirmed = false;
+    var occupiedMap = {}; // { 'YYYY-MM-DD': ['09:00', '10:20', ...] }
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function isoDate(y, m, d) { return y + '-' + pad(m + 1) + '-' + pad(d); }
+    function dateKey(y, m, d) { return y + '-' + m + '-' + d; }
+
+    // Horario de atención — regla de negocio fija, no viene de la base de datos
+    function horarioBase(y, m, d) {
+      var dow = new Date(y, m, d).getDay(); // 0 = domingo
+      if (dow === 0) return []; // cerrado domingos
+      if (dow === 6) return allSlots.slice(0, 4); // sábados: agenda más corta
+      return allSlots.slice();
+    }
+
+    function isPast(y, m, d) {
+      var date = new Date(y, m, d);
+      date.setHours(0, 0, 0, 0);
+      return date < today;
+    }
+
+    // Trae de Supabase los horarios ya reservados del mes visible
+    function fetchOccupiedForMonth(y, m) {
+      if (!supabase) {
+        renderMonth();
+        if (selectedDateKey) refreshSelectedSlots();
+        return;
+      }
+
+      var start = isoDate(y, m, 1);
+      var lastDay = new Date(y, m + 1, 0).getDate();
+      var end = isoDate(y, m, lastDay);
+
+      supabase
+        .from('citas')
+        .select('fecha, hora')
+        .eq('estado', 'confirmada')
+        .gte('fecha', start)
+        .lte('fecha', end)
+        .then(function(res) {
+          occupiedMap = {};
+          if (res.data) {
+            res.data.forEach(function(row) {
+              if (!occupiedMap[row.fecha]) occupiedMap[row.fecha] = [];
+              occupiedMap[row.fecha].push(row.hora);
+            });
+          }
+          renderMonth();
+          if (selectedDateKey) refreshSelectedSlots();
+        })
+        .catch(function(err) {
+          console.error('No se pudo cargar la disponibilidad:', err);
+          renderMonth();
+        });
+    }
+
+    function getAvailability(y, m, d) {
+      var base = horarioBase(y, m, d);
+      if (base.length === 0) return [];
+      var iso = isoDate(y, m, d);
+      var ocupados = occupiedMap[iso] || [];
+      return base.filter(function(hora) {
+        return ocupados.indexOf(hora) === -1;
+      });
+    }
+
+    function refreshSelectedSlots() {
+      var parts = selectedDateKey.split('-');
+      var y = parseInt(parts[0], 10), m = parseInt(parts[1], 10), d = parseInt(parts[2], 10);
+      renderSlots(getAvailability(y, m, d), y, m, d);
+    }
+
+    function renderMonth() {
+      monthLabel.textContent = monthNames[viewMonth] + ' ' + viewYear;
+
+      var firstDay = new Date(viewYear, viewMonth, 1).getDay();
+      var offset = firstDay === 0 ? 6 : firstDay - 1; // semana empieza en lunes
+      var daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+      grid.innerHTML = '';
+
+      for (var i = 0; i < offset; i++) {
+        var empty = document.createElement('div');
+        empty.className = 'agenda-day is-empty';
+        grid.appendChild(empty);
+      }
+
+      for (var d = 1; d <= daysInMonth; d++) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'agenda-day';
+        btn.textContent = d;
+
+        var past = isPast(viewYear, viewMonth, d);
+        var avail = getAvailability(viewYear, viewMonth, d);
+        var key = dateKey(viewYear, viewMonth, d);
+
+        if (past || avail.length === 0) {
+          btn.classList.add('is-disabled');
+          btn.disabled = true;
+        } else {
+          btn.classList.add('has-slots');
+        }
+
+        if (key === selectedDateKey) {
+          btn.classList.add('is-selected');
+        }
+
+        if (viewYear === today.getFullYear() && viewMonth === today.getMonth() && d === today.getDate()) {
+          btn.classList.add('is-today');
+        }
+
+        (function(y, m, dd, k, av) {
+          btn.addEventListener('click', function() {
+            selectedDateKey = k;
+            selectedSlot = null;
+            confirmed = false;
+            errorBox.hidden = true;
+            renderMonth();
+            renderSlots(av, y, m, dd);
+            var dow = new Date(y, m, dd).getDay();
+            selectedDateLabel.textContent = dayNames[dow] + ' ' + dd + ' de ' + monthNames[m];
+            updateConfirmState();
+          });
+        })(viewYear, viewMonth, d, key, avail);
+
+        grid.appendChild(btn);
+      }
+
+      // límites de navegación: no ir a meses pasados, ni más de 2 meses adelante
+      var monthsFromMin = (viewYear - minYear) * 12 + (viewMonth - minMonth);
+      prevBtn.disabled = monthsFromMin <= 0;
+      nextBtn.disabled = monthsFromMin >= maxMonthsAhead;
+    }
+
+    function renderSlots(avail, y, m, d) {
+      slotsWrap.innerHTML = '';
+
+      if (!avail || avail.length === 0) {
+        var empty = document.createElement('div');
+        empty.className = 'agenda-slots-empty';
+        empty.textContent = 'Sin horarios disponibles este día';
+        slotsWrap.appendChild(empty);
+        return;
+      }
+
+      var fullDay = horarioBase(y, m, d);
+
+      fullDay.forEach(function(time) {
+        var pill = document.createElement('button');
+        pill.type = 'button';
+        pill.className = 'agenda-slot';
+        pill.textContent = time;
+
+        var available = avail.indexOf(time) !== -1;
+        if (!available) {
+          pill.disabled = true;
+        } else {
+          pill.addEventListener('click', function() {
+            selectedSlot = time;
+            confirmed = false;
+            errorBox.hidden = true;
+            slotsWrap.querySelectorAll('.agenda-slot').forEach(function(el) {
+              el.classList.remove('is-selected');
+            });
+            pill.classList.add('is-selected');
+            updateConfirmState();
+          });
+        }
+
+        slotsWrap.appendChild(pill);
+      });
+    }
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.hidden = false;
+    }
+
+    function updateConfirmState() {
+      confirmBtn.classList.remove('is-ready', 'is-confirmed');
+
+      if (confirmed) {
+        confirmBtn.classList.add('is-confirmed');
+        confirmText.textContent = 'Cita confirmada ✓';
+        confirmBtn.disabled = true;
+        formFields.hidden = true;
+      } else if (selectedDateKey && selectedSlot) {
+        formFields.hidden = false;
+        confirmBtn.classList.add('is-ready');
+        confirmBtn.disabled = false;
+        confirmText.textContent = 'Confirmar ' + selectedSlot;
+      } else {
+        formFields.hidden = true;
+        confirmBtn.disabled = true;
+        confirmText.textContent = 'Selecciona fecha y hora';
+      }
+    }
+
+    confirmBtn.addEventListener('click', function() {
+      if (!selectedDateKey || !selectedSlot || confirmed) return;
+
+      var nombre = (nombreInput.value || '').trim();
+      var telefono = (telefonoInput.value || '').trim();
+      var email = (emailInput.value || '').trim();
+
+      if (!nombre) { showError('Ingresa tu nombre completo.'); return; }
+      if (!telefono || telefono.replace(/\D/g, '').length < 7) {
+        showError('Ingresa un número de WhatsApp válido.');
+        return;
+      }
+      if (!email || email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+        showError('Ingresa un email válido.');
+        return;
+      }
+
+      if (!supabase) {
+        showError('El sistema de reservas todavía no está conectado. Escríbenos por WhatsApp mientras tanto.');
+        return;
+      }
+
+      var parts = selectedDateKey.split('-');
+      var y = parseInt(parts[0], 10), m = parseInt(parts[1], 10), d = parseInt(parts[2], 10);
+      var fecha = isoDate(y, m, d);
+
+      confirmBtn.disabled = true;
+      confirmText.textContent = 'Confirmando…';
+
+      supabase.from('citas').insert({
+        fecha: fecha,
+        hora: selectedSlot,
+        nombre: nombre,
+        telefono: telefono,
+        email: email || null
+      }).then(function(res) {
+        if (res.error) {
+          if (res.error.code === '23505') {
+            showError('Justo se ocupó ese horario. Elige otro, por favor.');
+            fetchOccupiedForMonth(viewYear, viewMonth);
+          } else {
+            showError('No se pudo confirmar la cita. Intenta de nuevo.');
+          }
+          confirmBtn.disabled = false;
+          confirmText.textContent = 'Confirmar ' + selectedSlot;
+          return;
+        }
+
+        confirmed = true;
+        if (!occupiedMap[fecha]) occupiedMap[fecha] = [];
+        occupiedMap[fecha].push(selectedSlot);
+        updateConfirmState();
+      }).catch(function(err) {
+        console.error('Error al confirmar la cita:', err);
+        showError('No se pudo confirmar la cita. Intenta de nuevo.');
+        confirmBtn.disabled = false;
+        confirmText.textContent = 'Confirmar ' + selectedSlot;
+      });
+    });
+
+    prevBtn.addEventListener('click', function() {
+      viewMonth--;
+      if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+      fetchOccupiedForMonth(viewYear, viewMonth);
+    });
+
+    nextBtn.addEventListener('click', function() {
+      viewMonth++;
+      if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+      fetchOccupiedForMonth(viewYear, viewMonth);
+    });
+
+    renderMonth();
+
+    // Se expone para que el modal recargue disponibilidad fresca cada vez que se abre
+    window.agendaRefreshAvailability = function() {
+      fetchOccupiedForMonth(viewYear, viewMonth);
+    };
+  })();
+
+  // =====================================================
+  // AGENDAMIENTO — MODAL OPEN/CLOSE
+  // =====================================================
+  (function() {
+    var openBtn = document.getElementById('agendaOpenBtn');
+    var modal = document.getElementById('agendaModal');
+    if (!openBtn || !modal) return;
+
+    var closeBtn = document.getElementById('agendaModalClose');
+    var backdrop = document.getElementById('agendaModalBackdrop');
+
+    function openModal() {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('agenda-modal-open');
+      if (window.agendaRefreshAvailability) window.agendaRefreshAvailability();
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('agenda-modal-open');
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+  })();
