@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Consultar Supabase para mantenerlo activo
         run: |
-          curl -s -o /dev/null -w "HTTP %{http_code}\n" \
-            "https://wdyrxrunmjrxgaputcol.supabase.co/rest/v1/" \
+          curl -s -X GET \
+            "https://wdyrxrunmjrxgaputcol.supabase.co/rest/v1/citas?select=fecha&limit=1" \
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
