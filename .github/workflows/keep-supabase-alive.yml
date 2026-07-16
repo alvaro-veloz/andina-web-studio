@@ -2,8 +2,9 @@ name: Keep Supabase Alive
 
 on:
   schedule:
-    # Corre todos los lunes a las 9:00 UTC (ajustá la hora si querés)
-    - cron: '0 9 * * 1'
+    # Corre 2 veces al día para más margen de seguridad
+    - cron: '0 9 * * *'   # 9:00 UTC
+    - cron: '0 21 * * *'  # 21:00 UTC
   workflow_dispatch: # también podés correrlo a mano desde GitHub si querés probarlo
 
 jobs:
@@ -12,7 +13,6 @@ jobs:
     steps:
       - name: Consultar Supabase para mantenerlo activo
         run: |
-          curl -s -X GET \
-            "https://wdyrxrunmjrxgaputcol.supabase.co/rest/v1/citas?select=id&limit=1" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
+          curl -s -o /dev/null -w "HTTP %{http_code}\n" \
+            "https://wdyrxrunmjrxgaputcol.supabase.co/rest/v1/" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}"
