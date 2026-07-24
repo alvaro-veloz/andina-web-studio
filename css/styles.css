@@ -65,29 +65,34 @@
     ========================================== */
     .reveal {
       opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(18px);
+      filter: blur(6px);
+      transition:
+        opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+      filter: blur(0);
     }
 
     .reveal-delay-1 {
-      transition-delay: 0.1s;
+      transition-delay: 0.06s;
     }
 
     .reveal-delay-2 {
-      transition-delay: 0.2s;
+      transition-delay: 0.12s;
     }
 
     .reveal-delay-3 {
-      transition-delay: 0.3s;
+      transition-delay: 0.18s;
     }
 
     .reveal-delay-4 {
-      transition-delay: 0.4s;
+      transition-delay: 0.24s;
     }
 
     /* ==========================================
@@ -5414,4 +5419,341 @@ body.agenda-modal-open {
   border-radius: 10px;
   padding: 10px 14px;
   margin-bottom: 14px;
+}
+
+/* ==========================================
+   LOOKBACK — Fase 1 (galería horizontal)
+========================================== */
+#lookback {
+  background: var(--white);
+  padding: 120px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+#lookback::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(10, 22, 40, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 22, 40, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+.lookback-bg-type {
+  position: absolute;
+  top: -0.12em;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(6rem, 18vw, 15rem);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(10, 22, 40, 0.05);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.lookback-header {
+  position: relative;
+  z-index: 1;
+  padding: 0 5%;
+  max-width: 720px;
+  margin-bottom: 56px;
+}
+
+.lookback-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.lookback-counter {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: rgba(10, 22, 40, 0.35);
+}
+
+.lookback-header .section-desc {
+  margin-top: 8px;
+}
+
+
+/* ==========================================
+   LOOKBACK — Fase 2: Estantería de libros
+   Cada pieza es un "lomo" angosto que muestra una
+   porción recortada (NUNCA borrosa) de la foto. Al
+   click, se abre en acordeón mostrando la foto completa.
+========================================== */
+.lookback-shelf {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  height: clamp(360px, 42vw, 560px);
+  padding: 0 5% 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+}
+
+.lookback-shelf::-webkit-scrollbar {
+  display: none;
+}
+
+.lookback-spine {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--spine-w, 78px);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--grey-soft);
+  border: 1px solid rgba(10, 22, 40, 0.08);
+  box-shadow: 0 14px 34px rgba(10, 22, 40, 0.12);
+  transition:
+    width 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s ease,
+    box-shadow 0.4s ease;
+  will-change: width, transform;
+}
+
+.lookback-spine.is-open {
+  width: var(--open-w, 420px);
+  box-shadow: 0 30px 70px rgba(10, 22, 40, 0.22);
+}
+
+.lookback-shelf.has-open .lookback-spine:not(.is-open) {
+  opacity: 0.5;
+}
+
+.lookback-spine:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.lookback-spine-media {
+  position: absolute;
+  inset: 0;
+}
+
+.lookback-spine-media img,
+.lookback-spine-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Sombra inferior para leer el lomo cuando está cerrado; se aclara al abrir */
+.lookback-spine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 22, 40, 0.6), transparent 50%);
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.lookback-spine.is-open::after {
+  opacity: 0.18;
+}
+
+/* Título vertical, como el lomo real de un libro — solo visible cerrado */
+.lookback-spine-label {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(247, 249, 252, 0.9);
+  white-space: nowrap;
+  max-height: calc(100% - 32px);
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.lookback-spine.is-open .lookback-spine-label {
+  opacity: 0;
+}
+
+/* Meta horizontal, solo visible cuando está abierto */
+.lookback-spine-meta {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+  pointer-events: none;
+}
+
+.lookback-spine.is-open .lookback-spine-meta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lookback-spine-meta .lookback-card-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  color: rgba(247, 249, 252, 0.6);
+  letter-spacing: 0.05em;
+}
+
+.lookback-spine-meta .lookback-card-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  color: var(--white);
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .lookback-shelf {
+    height: clamp(280px, 70vw, 400px);
+    gap: 6px;
+  }
+
+  .lookback-spine.is-open {
+    width: min(var(--open-w, 420px), 78vw);
+  }
+
+  .lookback-bg-type {
+    font-size: 4.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lookback-spine {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* ==========================================
+   LOOKBACK — Barra de sonido (waveform scrubber)
+   Reemplaza al scroll nativo: se ve como el waveform
+   de un reproductor de audio. La parte "reproducida"
+   usa el color de acento, el resto queda en gris.
+========================================== */
+.lookback-eq-wrap {
+  padding: 10px 5% 0;
+}
+
+.lookback-eq {
+  position: relative;
+  z-index: 1;
+  height: 74px; /* área táctil más grande que lo que se ve — más fácil de agarrar */
+  display: flex;
+  align-items: flex-end;
+  overflow: visible;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
+}
+
+.lookback-eq.is-scrubbing {
+  cursor: grabbing;
+}
+
+.lookback-eq-bars,
+.lookback-eq-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 52px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lookback-eq-bars {
+  position: relative;
+}
+
+.lookback-eq-progress {
+  width: 0%;
+}
+
+.lookback-eq-bar {
+  flex: 0 0 1.5px;
+  width: 1.5px;
+  height: var(--bar-h, 30%);
+  min-height: 3px;
+  border-radius: 999px;
+  background: rgba(10, 22, 40, 0.3);
+  transform-origin: bottom center;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Cuando tocás/hovereás una foto, su tramo de barras se enciende dorado
+   — así la barra se lee como parte de la misma pieza, no algo aparte. */
+.lookback-eq-bar.is-linked {
+  background: linear-gradient(180deg, #e8d4ae, var(--gold));
+  box-shadow: 0 0 6px rgba(201, 169, 110, 0.4);
+}
+
+.lookback-eq-progress .lookback-eq-bar {
+  /* El color real lo pone JS por barra (degradé sky→ice→gold); esto es
+     solo el fallback antes de que corra el script. */
+  background: var(--gold);
+  box-shadow: 0 0 4px rgba(45, 111, 163, 0.18);
+}
+
+/* Pequeño "cabezal" que remata la parte reproducida, como un playhead */
+.lookback-eq-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1px;
+  bottom: 0;
+  width: 1.5px;
+  border-radius: 2px;
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(201, 169, 110, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lookback-eq-progress {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .lookback-eq-wrap {
+    padding-top: 10px;
+  }
+  .lookback-eq {
+    height: 60px;
+  }
+  .lookback-eq-bars,
+  .lookback-eq-progress {
+    height: 40px;
+  }
 }

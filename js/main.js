@@ -47,7 +47,7 @@
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px 80px 0px' });
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     /* ==========================================
@@ -149,8 +149,29 @@
             }
           }
         }
-        requestAnimationFrame(draw);
+        if (isCanvasVisible) {
+          rafId = requestAnimationFrame(draw);
+        } else {
+          rafId = null;
+        }
       }
+
+      // Pausa el dibujo cuando el Hero no está en pantalla — mismo look,
+      // pero deja de gastar CPU/GPU en cuanto scrolleás más abajo.
+      let isCanvasVisible = true;
+      let rafId = null;
+      if ('IntersectionObserver' in window) {
+        const visObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            isCanvasVisible = entry.isIntersecting;
+            if (isCanvasVisible && !rafId) {
+              rafId = requestAnimationFrame(draw);
+            }
+          });
+        });
+        visObserver.observe(canvas);
+      }
+
       draw();
     })();
 
@@ -347,8 +368,12 @@
       const AUTO_SPEED = 0.003;
       const DAMPING = 0.96;
 
-      (function loop() {
-        requestAnimationFrame(loop);
+      let isSphereVisible = true;
+      let sphereRafId = null;
+
+      function sphereLoop() {
+        if (!isSphereVisible) { sphereRafId = null; return; }
+        sphereRafId = requestAnimationFrame(sphereLoop);
         t += 0.008;
 
         spheres.forEach((s, i) => {
@@ -372,7 +397,20 @@
         });
 
         renderer.render(scene, camera);
-      })();
+      }
+      sphereLoop();
+
+      // Pausa el render loop cuando la sección no está en pantalla —
+      // mismo look mientras la ves, cero costo cuando ya bajaste.
+      if ('IntersectionObserver' in window) {
+        const sphereVisObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            isSphereVisible = entry.isIntersecting;
+            if (isSphereVisible && !sphereRafId) sphereLoop();
+          });
+        });
+        sphereVisObserver.observe(canvas);
+      }
 
       /* Resize */
       function onResize() {
@@ -1472,3 +1510,648 @@
       }
     });
   })();
+
+  // =====================================================
+  // LOOKBACK — Fase 2 (estantería de libros)
+  // =====================================================
+  (function() {
+    var shelf = document.getElementById('lookbackShelf');
+    if (!shelf) return;
+
+    // ---------------------------------------------------------------
+    // Agregá tus fotos/videos acá. Copiá el mismo patrón de una fila
+    // y pegá tu link de Cloudinary + el número + una etiqueta corta.
+    // "tipo" puede ser 'img' o 'video'.
+    // "featured: true" hace que ese lomo sea un poco más ancho y que
+    // al abrirse ocupe más espacio (le da ritmo, como en una revista).
+    // ---------------------------------------------------------------
+    var lookbackItems = [
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/f_auto,q_auto/v1783217092/1_hf6qca.webp', tipo: 'img', numero: '01', etiqueta: 'Branding — Marzo', featured: true },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/f_auto,q_auto/v1783217092/2_z8yaf1.webp', tipo: 'img', numero: '02', etiqueta: 'Branding — Marzo' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' }
+
+      // Ejemplo de cómo seguir agregando (descomentá y editá):
+      // , { src: 'TU_LINK_DE_CLOUDINARY_AQUI', tipo: 'img', numero: '04', etiqueta: 'Merch — Abril' }
+      // , { src: 'TU_LINK_DE_VIDEO_AQUI', tipo: 'video', numero: '05', etiqueta: 'Merch — Abril', featured: true }
+    ];
+
+    var BASE_WIDTHS = [64, 80, 96]; // varía el "grosor" de cada lomo, como libros reales
+    var openIndex = null;
+    var linkedSpineIndex = null; // qué foto está resaltando la barra ahora mismo
+    var eqApi = null;            // lo llena el módulo del waveform una vez armado
+    var sharedT0 = (window.performance && performance.now) ? performance.now() : Date.now();
+
+    lookbackItems.forEach(function(item, index) {
+      var spine = document.createElement('div');
+      spine.className = 'lookback-spine';
+      spine.tabIndex = 0;
+      spine.setAttribute('role', 'button');
+      spine.setAttribute('aria-expanded', 'false');
+      spine.setAttribute('aria-label', 'Ver ' + item.etiqueta);
+
+      var baseW = item.featured ? 104 : BASE_WIDTHS[index % BASE_WIDTHS.length];
+      var openW = item.featured ? 480 : 400;
+      spine.style.setProperty('--spine-w', baseW + 'px');
+      spine.style.setProperty('--open-w', openW + 'px');
+
+      var media = document.createElement('div');
+      media.className = 'lookback-spine-media';
+
+      if (item.tipo === 'video') {
+        var video = document.createElement('video');
+        video.src = item.src;
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+        media.appendChild(video);
+      } else {
+        var img = document.createElement('img');
+        img.src = item.src;
+        img.loading = 'lazy';
+        img.alt = item.etiqueta || 'Andina Web Studio — branding';
+        media.appendChild(img);
+      }
+
+      // Título vertical, como el lomo real de un libro (solo visible cerrado)
+      var label = document.createElement('span');
+      label.className = 'lookback-spine-label';
+      label.textContent = item.numero + ' · ' + item.etiqueta;
+
+      // Meta horizontal, solo visible cuando el lomo está abierto
+      var meta = document.createElement('div');
+      meta.className = 'lookback-spine-meta';
+      meta.innerHTML =
+        '<span class="lookback-card-num">' + item.numero + '</span>' +
+        '<span class="lookback-card-tag">' + item.etiqueta + '</span>';
+
+      spine.appendChild(media);
+      spine.appendChild(label);
+      spine.appendChild(meta);
+      shelf.appendChild(spine);
+    });
+
+    var spines = shelf.querySelectorAll('.lookback-spine');
+    var counter = document.getElementById('lookbackCounter');
+    var total = lookbackItems.length;
+
+    function updateCounter() {
+      if (!counter) return;
+      var tot = String(total).padStart(2, '0');
+      counter.textContent = (openIndex === null ? '—' : String(openIndex + 1).padStart(2, '0')) + ' / ' + tot;
+    }
+    updateCounter();
+
+    // --- Sonido suave de apertura, generado con Web Audio (sin archivos) ---
+    var audioCtx = null;
+
+    // El navegador solo "destraba" el audio si esto corre DENTRO de un
+    // gesto real del usuario (pointerdown/touchstart), no un instante
+    // después (como dentro de un requestAnimationFrame). Por eso esta
+    // función se llama apenas empieza el toque, no cuando el sonido
+    // intenta reproducirse. Safari/iOS es más estricto que el resto:
+    // además de resume(), necesita que se reproduzca algo (aunque sea
+    // silencioso) en ese mismo instante para terminar de destrabar.
+    var audioUnlocked = false;
+    function unlockAudio() {
+      try {
+        if (!audioCtx) {
+          var AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          audioCtx = new AudioCtx();
+        }
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        if (!audioUnlocked) {
+          audioUnlocked = true;
+          var silentBuffer = audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
+          var silentSource = audioCtx.createBufferSource();
+          silentSource.buffer = silentBuffer;
+          silentSource.connect(audioCtx.destination);
+          silentSource.start(0);
+        }
+      } catch (e) { /* seguimos sin sonido */ }
+    }
+
+    // Red extra: algunos navegadores móviles solo confían en 'touchstart'
+    // para desbloquear audio, no en 'pointerdown'. Escuchamos en toda la
+    // sección para no depender de un único punto de entrada.
+    var lookbackSection = document.getElementById('lookback');
+    if (lookbackSection) {
+      lookbackSection.addEventListener('touchstart', unlockAudio, { passive: true });
+    }
+
+    // Capa más robusta: el PRIMER toque/click/tecla en CUALQUIER parte de
+    // la página (no solo dentro de Lookback) intenta destrabar el audio.
+    // Así, para cuando la persona llega a esta sección, ya suele estar
+    // destrabado de entrada.
+    ['pointerdown', 'touchstart', 'mousedown', 'click', 'keydown'].forEach(function(evt) {
+      document.addEventListener(evt, unlockAudio, { once: true, passive: true });
+    });
+
+    function playOpenSound() {
+      try {
+        unlockAudio();
+        if (!audioCtx) return;
+
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(480, audioCtx.currentTime + 0.14);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.2);
+      } catch (e) { /* si el navegador bloquea audio, seguimos sin sonido */ }
+    }
+
+    function pauseVideo(spine) {
+      var v = spine.querySelector('video');
+      if (v) { v.pause(); }
+    }
+
+    function playVideo(spine) {
+      var v = spine.querySelector('video');
+      if (v) { v.play().catch(function() {}); }
+    }
+
+    function closeAll() {
+      if (openIndex === null) return;
+      openIndex = null;
+      spines.forEach(function(spine) {
+        spine.classList.remove('is-open');
+        spine.setAttribute('aria-expanded', 'false');
+        pauseVideo(spine);
+      });
+      shelf.classList.remove('has-open');
+      updateCounter();
+      if (eqApi) eqApi.clear();
+    }
+
+    function openSpine(index) {
+      if (openIndex === index) {
+        closeAll();
+        return;
+      }
+      openIndex = index;
+      spines.forEach(function(spine, i) {
+        var isOpen = i === index;
+        spine.classList.toggle('is-open', isOpen);
+        spine.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (isOpen) { playVideo(spine); } else { pauseVideo(spine); }
+      });
+      shelf.classList.add('has-open');
+      playOpenSound();
+      updateCounter();
+      if (eqApi) eqApi.highlight(index);
+      // Centra el lomo recién abierto dentro de la estantería (por si hay scroll)
+      spines[index].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+
+    // ---------------------------------------------------------------
+    // BARRA DE SONIDO — waveform scrubber sincronizado con el scroll
+    // horizontal del shelf. La parte "reproducida" queda coloreada con
+    // el acento, el resto en gris. Las barras REACCIONAN en vivo: laten
+    // más fuerte cerca de donde tocás y cuanto más rápido te movés
+    // (como un ecualizador real), con un "tick" seco que acompaña el
+    // movimiento — más agudo cuanto más rápido arrastrás.
+    // ---------------------------------------------------------------
+    (function() {
+      var eq = document.getElementById('lookbackEq');
+      var barsWrap = document.getElementById('lookbackEqBars');
+      var progressWrap = document.getElementById('lookbackEqProgress');
+      if (!eq || !barsWrap || !progressWrap) return;
+
+      var BAR_W = 1.5; // ancho de cada barra (px) — finas, estilo premium
+      var BAR_GAP = 2; // separación entre barras (px)
+
+      var BAR_COUNT = 0;
+      var baseHeights = [];
+      var curHeights = [];
+      var baseBars = [];
+      var progressBars = [];
+
+      // Degradé multi-tono con tu paleta (celeste → hielo → dorado) en vez
+      // de un solo color plano — cada barra interpola según su posición.
+      var GRADIENT_STOPS = [
+        [45, 111, 163],  // --sky
+        [168, 200, 232], // --ice
+        [201, 169, 110]  // --gold
+      ];
+
+      function colorAt(t) {
+        var segments = GRADIENT_STOPS.length - 1;
+        var scaled = Math.min(Math.max(t, 0), 1) * segments;
+        var idx = Math.min(Math.floor(scaled), segments - 1);
+        var localT = scaled - idx;
+        var c0 = GRADIENT_STOPS[idx];
+        var c1 = GRADIENT_STOPS[idx + 1];
+        var r = Math.round(c0[0] + (c1[0] - c0[0]) * localT);
+        var g = Math.round(c0[1] + (c1[1] - c0[1]) * localT);
+        var b = Math.round(c0[2] + (c1[2] - c0[2]) * localT);
+        return 'rgb(' + r + ',' + g + ',' + b + ')';
+      }
+
+      function buildBars() {
+        // Calcula cuántas barras entran para llenar el ancho REAL del
+        // contenedor — así nunca queda un hueco vacío en pantallas grandes
+        // ni se amontonan de más en pantallas chicas.
+        var width = eq.getBoundingClientRect().width;
+        BAR_COUNT = Math.max(24, Math.floor(width / (BAR_W + BAR_GAP)));
+
+        baseHeights = [];
+        for (var i = 0; i < BAR_COUNT; i++) {
+          // Combinación de dos senos para un waveform con "forma", no ruido plano
+          var h = 20 + Math.abs(Math.sin(i * 0.4)) * 38 + Math.abs(Math.sin(i * 1.6)) * 18;
+          baseHeights.push(Math.min(h, 92));
+        }
+        curHeights = baseHeights.slice();
+
+        barsWrap.innerHTML = '';
+        progressWrap.innerHTML = '';
+
+        var fragA = document.createDocumentFragment();
+        var fragB = document.createDocumentFragment();
+        baseHeights.forEach(function(h, i) {
+          var barA = document.createElement('div');
+          barA.className = 'lookback-eq-bar';
+          barA.style.height = h.toFixed(1) + '%';
+          fragA.appendChild(barA);
+
+          var barB = document.createElement('div');
+          barB.className = 'lookback-eq-bar';
+          barB.style.height = h.toFixed(1) + '%';
+          barB.style.background = colorAt(i / Math.max(BAR_COUNT - 1, 1));
+          fragB.appendChild(barB);
+        });
+        barsWrap.appendChild(fragA);
+        progressWrap.appendChild(fragB);
+
+        baseBars = barsWrap.querySelectorAll('.lookback-eq-bar');
+        progressBars = progressWrap.querySelectorAll('.lookback-eq-bar');
+      }
+
+      buildBars();
+
+      function maxScroll() {
+        return Math.max(shelf.scrollWidth - shelf.clientWidth, 1);
+      }
+
+      function currentPct() {
+        return Math.min(Math.max(shelf.scrollLeft / maxScroll(), 0), 1);
+      }
+
+      var isScrubbing = false;
+      var hoverBarIndex = null; // qué barra está bajo el mouse, para el "cosquilleo" al pasar
+      var scrubTarget = null;   // marca si estás tocando la barra ahora mismo
+      var wheelTarget = null;   // a dónde "querés" llegar con la rueda del mouse (con inercia)
+
+      function scrubToClientX(clientX) {
+        var rect = eq.getBoundingClientRect();
+        var pct = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+        shelf.scrollLeft = pct * maxScroll();
+      }
+
+      function updateHoverIndex(clientX) {
+        var rect = eq.getBoundingClientRect();
+        var pct = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+        hoverBarIndex = pct * (BAR_COUNT - 1);
+      }
+
+      eq.addEventListener('pointerdown', function(e) {
+        unlockAudio();
+        isScrubbing = true;
+        scrubTarget = true;
+        wheelTarget = null; // si venías con inercia de la rueda, el toque manda
+        eq.classList.add('is-scrubbing');
+        eq.setPointerCapture(e.pointerId);
+        scrubToClientX(e.clientX);
+        updateHoverIndex(e.clientX);
+      });
+
+      eq.addEventListener('pointermove', function(e) {
+        updateHoverIndex(e.clientX);
+        if (!isScrubbing) return;
+        scrubToClientX(e.clientX);
+      });
+
+      eq.addEventListener('pointerleave', function() {
+        if (!isScrubbing) hoverBarIndex = null;
+      });
+
+      function endScrub() {
+        if (!isScrubbing) return;
+        isScrubbing = false;
+        scrubTarget = null;
+        eq.classList.remove('is-scrubbing');
+      }
+
+      eq.addEventListener('pointerup', endScrub);
+      eq.addEventListener('pointercancel', endScrub);
+
+      // ---------------------------------------------------------------
+      // Rueda del mouse sobre la estantería (o la barra) mueve las fotos
+      // en horizontal, con inercia suave — no hace falta soltar el mouse
+      // para recorrer todo el Lookback.
+      // ---------------------------------------------------------------
+      function onWheel(e) {
+        var base = wheelTarget !== null ? wheelTarget : shelf.scrollLeft;
+        var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        var atStart = base <= 0 && delta < 0;
+        var atEnd = base >= maxScroll() && delta > 0;
+
+        if (atStart || atEnd) {
+          // Ya no hay más fotos para mover en esa dirección — soltamos la
+          // rueda del mouse para que la página siga scrolleando normal,
+          // en vez de dejar a la persona "atrapada" ahí.
+          return;
+        }
+
+        unlockAudio();
+        e.preventDefault();
+        wheelTarget = Math.min(Math.max(base + delta, 0), maxScroll());
+      }
+      shelf.addEventListener('wheel', onWheel, { passive: false });
+      eq.addEventListener('wheel', onWheel, { passive: false });
+
+      // --- Tick seco (ruido filtrado), no un "bip" tipo burbuja ---
+      var lastTickPlayedAt = 0;
+      var MIN_TICK_INTERVAL_MS = 32; // evita que se amontonen ticks y "crepiten" en parlantes chicos
+
+      function playScrollTick(velocity, volumeScale) {
+        var nowMs = Date.now();
+        if (nowMs - lastTickPlayedAt < MIN_TICK_INTERVAL_MS) return;
+        lastTickPlayedAt = nowMs;
+
+        try {
+          if (!audioCtx) {
+            var AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            audioCtx = new AudioCtx();
+          }
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+
+          var now = audioCtx.currentTime;
+          var dur = 0.028;
+          var bufferSize = Math.max(1, Math.floor(audioCtx.sampleRate * dur));
+          var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+          var data = buffer.getChannelData(0);
+          var fadeIn = Math.floor(bufferSize * 0.25); // arranque suave, sin "click" de golpe
+          for (var k = 0; k < bufferSize; k++) {
+            var env = (1 - k / bufferSize);
+            if (k < fadeIn) env *= k / fadeIn;
+            data[k] = (Math.random() * 2 - 1) * env;
+          }
+
+          var noise = audioCtx.createBufferSource();
+          noise.buffer = buffer;
+
+          var vAbs = Math.min(Math.abs(velocity), 34);
+          var bandpass = audioCtx.createBiquadFilter();
+          bandpass.type = 'bandpass';
+          bandpass.frequency.value = 2000 + vAbs * 55;
+          bandpass.Q.value = 0.9;
+
+          var vol = (typeof volumeScale === 'number' ? volumeScale : 1);
+          var gain = audioCtx.createGain();
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.065 * vol, now + 0.004);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+          noise.connect(bandpass);
+          bandpass.connect(gain);
+          gain.connect(audioCtx.destination);
+          noise.start(now);
+          noise.stop(now + dur);
+        } catch (e) { /* sin audio, seguimos igual */ }
+      }
+
+      // ---------------------------------------------------------------
+      // Enlace visual con las fotos: cuando una foto está resaltada (hover
+      // o abierta), el tramo de barras que le corresponde se pinta dorado
+      // — así se lee como el MISMO objeto, no dos widgets pegados.
+      // ---------------------------------------------------------------
+      var linkedBars = [];
+
+      function clearLinkedBars() {
+        linkedBars.forEach(function(bar) { bar.classList.remove('is-linked'); });
+        linkedBars = [];
+      }
+
+      function highlightSpineRange(index) {
+        clearLinkedBars();
+        var spine = index === null ? null : spines[index];
+        var total = shelf.scrollWidth;
+        if (!spine || !total) return;
+        var startBar = Math.floor((spine.offsetLeft / total) * BAR_COUNT);
+        var endBar = Math.ceil(((spine.offsetLeft + spine.offsetWidth) / total) * BAR_COUNT);
+        for (var i = Math.max(0, startBar); i < Math.min(BAR_COUNT, endBar); i++) {
+          if (baseBars[i]) {
+            baseBars[i].classList.add('is-linked');
+            linkedBars.push(baseBars[i]);
+          }
+        }
+      }
+
+      eqApi = { highlight: highlightSpineRange, clear: clearLinkedBars };
+
+      // ---------------------------------------------------------------
+      // Loop continuo: sincroniza el progreso, hace "latir" las barras
+      // cerca de donde está pasando la acción (drag o mouse encima),
+      // "respira" en fase con la ola de las fotos, y dispara el tick con
+      // un umbral bien fino mientras estás tocando la barra directamente.
+      // ---------------------------------------------------------------
+      var lastFrameScroll = shelf.scrollLeft;
+      var smoothVelocity = 0;
+      var lastTickScroll = shelf.scrollLeft;
+      var TICK_STEP_TOUCH = 6;
+      var TICK_STEP_OTHER = 46;
+
+      function eqLoop() {
+        if (!scrubTarget && wheelTarget !== null) {
+          shelf.scrollLeft += (wheelTarget - shelf.scrollLeft) * 0.16;
+          if (Math.abs(wheelTarget - shelf.scrollLeft) < 0.5) wheelTarget = null;
+        }
+
+        var scrollNow = shelf.scrollLeft;
+        var rawVelocity = scrollNow - lastFrameScroll;
+        lastFrameScroll = scrollNow;
+        smoothVelocity += (rawVelocity - smoothVelocity) * 0.3;
+
+        var pct = currentPct();
+        progressWrap.style.width = (pct * 100) + '%';
+
+        var focusIndex = pct * (BAR_COUNT - 1);
+        var velocityBoost = prefersReducedMotion ? 0 : Math.min(Math.abs(smoothVelocity) * 1.4, 42);
+
+        var now = (window.performance && performance.now) ? performance.now() : Date.now();
+        var elapsedShared = (now - sharedT0) / 1000;
+        var breathe = prefersReducedMotion ? 1 : (1 + Math.sin(elapsedShared * 0.9) * 0.05);
+
+        for (var i = 0; i < BAR_COUNT; i++) {
+          var target = baseHeights[i] * breathe;
+
+          if (!prefersReducedMotion) {
+            var distFocus = Math.abs(i - focusIndex);
+            if (distFocus < 10) {
+              target += (1 - distFocus / 10) * velocityBoost;
+            }
+
+            if (hoverBarIndex !== null) {
+              var distHover = Math.abs(i - hoverBarIndex);
+              if (distHover < 7) {
+                target += (1 - distHover / 7) * 14;
+              }
+            }
+          }
+
+          target = Math.min(target, 100);
+          curHeights[i] += (target - curHeights[i]) * 0.22;
+
+          var val = curHeights[i].toFixed(1) + '%';
+          baseBars[i].style.height = val;
+          progressBars[i].style.height = val;
+        }
+
+        var tickStep = scrubTarget ? TICK_STEP_TOUCH : TICK_STEP_OTHER;
+        var scrollDelta = scrollNow - lastTickScroll;
+        if (Math.abs(scrollDelta) > tickStep) {
+          var volScale = scrubTarget ? Math.min(Math.abs(scrollDelta) / 40, 1) : 1;
+          playScrollTick(smoothVelocity, volScale);
+          lastTickScroll = scrollNow;
+        }
+
+        requestAnimationFrame(eqLoop);
+      }
+      requestAnimationFrame(eqLoop);
+
+      var resizeTimer = null;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          buildBars();
+          progressWrap.style.width = (currentPct() * 100) + '%';
+        }, 150);
+      });
+    })();
+
+    var hoverState = new Array(spines.length).fill(false);
+
+    // El 'click' nativo se cancela cuando el dedo se mueve aunque sea un
+    // poco dentro de un contenedor con scroll (por eso a veces abría y a
+    // veces no) — acá detectamos el "tap" nosotros mismos: si soltás
+    // cerca de donde apretaste y rápido, cuenta como toque.
+    spines.forEach(function(spine, i) {
+      var pStartX = 0;
+      var pStartY = 0;
+      var pStartT = 0;
+      var pMoved = false;
+      var tapHandled = false;
+
+      spine.addEventListener('pointerdown', function(e) {
+        unlockAudio();
+        pStartX = e.clientX;
+        pStartY = e.clientY;
+        pStartT = Date.now();
+        pMoved = false;
+        tapHandled = false;
+      });
+
+      spine.addEventListener('pointermove', function(e) {
+        if (Math.abs(e.clientX - pStartX) > 8 || Math.abs(e.clientY - pStartY) > 8) {
+          pMoved = true;
+        }
+      });
+
+      spine.addEventListener('pointerup', function(e) {
+        var dt = Date.now() - pStartT;
+        if (!pMoved && dt < 600) {
+          tapHandled = true;
+          openSpine(i);
+        }
+      });
+
+      // Red de seguridad: en algunos dispositivos híbridos (laptops con
+      // pantalla táctil) el navegador cancela el pointer event apenas
+      // detecta que el contenedor tiene scroll, aunque el toque haya sido
+      // limpio. Si eso pasó, el 'click' nativo del navegador (que sigue
+      // llegando en esos casos) abre igual.
+      spine.addEventListener('click', function() {
+        if (tapHandled) {
+          tapHandled = false;
+          return;
+        }
+        openSpine(i);
+      });
+
+      spine.addEventListener('mouseenter', function() {
+        hoverState[i] = true;
+        if (openIndex === null && eqApi) {
+          linkedSpineIndex = i;
+          eqApi.highlight(i);
+        }
+      });
+      spine.addEventListener('mouseleave', function() {
+        hoverState[i] = false;
+        if (openIndex === null && eqApi && linkedSpineIndex === i) {
+          linkedSpineIndex = null;
+          eqApi.clear();
+        }
+      });
+      spine.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openSpine(i);
+        } else if (e.key === 'Escape') {
+          closeAll();
+        }
+      });
+    });
+
+    // Cerrar si se clickea fuera de la estantería
+    document.addEventListener('click', function(e) {
+      if (openIndex !== null && !shelf.contains(e.target)) closeAll();
+    });
+
+    // ---------------------------------------------------------------
+    // Ola idle tipo "culebra" — mientras nada está abierto, cada lomo
+    // sube y baja levemente en cascada (desfasados entre sí), dando la
+    // sensación de una estantería viva, en movimiento constante. Al
+    // pasar el mouse por encima, ese lomo se "asoma" un poco más.
+    // Se detiene mientras hay uno abierto, para no distraer.
+    // ---------------------------------------------------------------
+    var waveY = new Array(spines.length).fill(0);
+    var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function loop() {
+      if (!prefersReducedMotion) {
+        var now = (window.performance && performance.now) ? performance.now() : Date.now();
+        var elapsed = (now - sharedT0) / 1000;
+
+        spines.forEach(function(spine, i) {
+          var targetY = 0;
+          if (openIndex === null) {
+            targetY = Math.sin(elapsed * 0.9 + i * 0.6) * 7;
+          }
+          if (hoverState[i] && !spine.classList.contains('is-open')) {
+            targetY -= 14;
+          }
+          waveY[i] += (targetY - waveY[i]) * 0.08;
+          spine.style.transform = 'translateY(' + waveY[i].toFixed(2) + 'px)';
+        });
+      }
+
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+
