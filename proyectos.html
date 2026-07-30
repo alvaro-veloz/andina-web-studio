@@ -2,6 +2,15 @@
 <html lang="es">
 
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E87KCH0P9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-6E87KCH0P9');
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portafolio de Diseño Web — Andina Web Studio | Ecuador y Sudamérica</title>
@@ -20,7 +29,7 @@
     content="Proyectos de diseño web hechos a mano para profesionales y marcas en Ecuador y Sudamérica." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://andinawebstudio.com/proyectos.html" />
-  <meta property="og:image" content="https://andinawebstudio.com/og-image.webp" />
+  <meta property="og:image" content="https://andinawebstudio.com/og-image.jpg" />
   <meta property="og:locale" content="es_EC" />
 
   <!-- Twitter -->
@@ -28,7 +37,7 @@
   <meta name="twitter:title" content="Portafolio — Andina Web Studio" />
   <meta name="twitter:description"
     content="Proyectos de diseño web hechos a mano para profesionales y marcas en Ecuador y Sudamérica." />
-  <meta name="twitter:image" content="https://andinawebstudio.com/og-image.webp" />
+  <meta name="twitter:image" content="https://andinawebstudio.com/og-image.jpg" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -164,6 +173,33 @@
       letter-spacing: 0.14em;
       color: var(--white);
       opacity: 1;
+    }
+
+    .pf-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .pf-nav-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      opacity: 0.75;
+      transition: opacity 0.25s ease;
+    }
+
+    .pf-nav-link:hover {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .pf-nav-link {
+        display: none;
+      }
     }
 
     /* ── HERO ── */
@@ -1192,6 +1228,215 @@
       color: #F7F9FC;
     }
   </style>
+<style>
+  /* ── GRID NUEVO LIMPIO ── */
+  .pf-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 2px;
+  }
+
+  /* Card base */
+  .pf-card {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    background: #0d1f35;
+    isolation: isolate;
+  }
+
+  /* Featured — ancho completo */
+  .pf-card-featured {
+    grid-column: 1 / -1;
+    aspect-ratio: 16/7;
+  }
+
+  /* Pequeña */
+  .pf-card-sm {
+    aspect-ratio: 4/3;
+  }
+
+  /* Fondo — imagen o video */
+  .pf-card-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pf-card:hover .pf-card-bg {
+    transform: scale(1.04);
+  }
+
+  /* Overlay */
+  .pf-card-ol {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8, 8, 8, 0.9) 0%, rgba(8, 8, 8, 0.1) 60%, transparent 100%);
+    z-index: 1;
+    transition: background 0.4s ease;
+  }
+
+  .pf-card:hover .pf-card-ol {
+    background: linear-gradient(to top, rgba(8, 8, 8, 0.95) 0%, rgba(8, 8, 8, 0.3) 60%, rgba(8, 8, 8, 0.1) 100%);
+  }
+
+  /* Info del proyecto */
+  .pf-card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 28px;
+    z-index: 2;
+  }
+
+  .pf-card-n {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    color: rgba(168, 200, 232, 0.5);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .pf-card-t {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-weight: 400;
+    color: #F7F9FC;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    transform: translateY(4px);
+    transition: transform 0.4s ease;
+  }
+
+  .pf-card:hover .pf-card-t {
+    transform: translateY(0);
+  }
+
+  .pf-card-tgs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s;
+  }
+
+  .pf-card:hover .pf-card-tgs {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pf-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    color: rgba(168, 200, 232, 0.6);
+    border: 1px solid rgba(168, 200, 232, 0.15);
+    border-radius: 100px;
+    padding: 2px 8px;
+  }
+
+  /* Link externo */
+  .pf-card-ext {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(247, 249, 252, 0.08);
+    border: 1px solid rgba(247, 249, 252, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F7F9FC;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 2;
+  }
+
+  .pf-card:hover .pf-card-ext {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* CTA card */
+  .pf-cta-inner {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    padding: 24px;
+  }
+
+  .pf-cta-ttl {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 300;
+    color: #F7F9FC;
+    line-height: 1.1;
+  }
+
+  .pf-cta-b {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    color: rgba(168, 200, 232, 0.6);
+    text-transform: uppercase;
+    border: 1px solid rgba(168, 200, 232, 0.18);
+    padding: 7px 16px;
+    border-radius: 100px;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .pf-card-cta:hover .pf-cta-b {
+    border-color: rgba(168, 200, 232, 0.5);
+    color: #F7F9FC;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .pf-card-featured {
+      aspect-ratio: 4/3;
+    }
+
+    .pf-card-info {
+      padding: 16px 18px;
+    }
+
+    .pf-card-tgs {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+<style>
+  .curtain {
+    position: fixed;
+    inset: 0;
+    background: #080808;
+    z-index: 9000;
+    transform: scaleX(0);
+    transform-origin: left center;
+    pointer-events: none;
+  }
+</style>
 </head>
 
 <body>
@@ -1211,13 +1456,18 @@
         Andina Web Studio
       </a>
       <span class="pf-nav-title">Portafolio</span>
-      <span class="pf-nav-year">2026</span>
+      <div class="pf-nav-right">
+        <a href="about.html" class="pf-nav-link">Estudio</a>
+        <a href="index.html#precios" class="pf-nav-link">Precios</a>
+        <a href="index.html#contacto" class="pf-nav-link">Contacto</a>
+        <span class="pf-nav-year">2026</span>
+      </div>
     </nav>
 
     <!-- Hero -->
     <section class="pf-hero" style="position:relative;z-index:1;">
       <div class="pf-hero-bg">
-        <img class="pf-hero-img" src="foto.webp" alt="Andina Web Studio" />
+        <img class="pf-hero-img" src="assets/img/foto.webp" alt="Andina Web Studio" />
 
         <div class="pf-hero-overlay"></div>
       </div>
@@ -1536,6 +1786,7 @@
               <li><a href="index.html">Inicio</a></li>
               <li><a href="proyectos.html">Portafolio</a></li>
               <li><a href="index.html#proyectos">Proyectos</a></li>
+              <li><a href="index.html#lookback">Lookback</a></li>
               <li><a href="index.html#sobre">Estudio</a></li>
               <li><a href="index.html#contacto">Contacto</a></li>
             </ul>
@@ -1613,333 +1864,7 @@
   <script src="https://unpkg.com/@swup/fade-theme@3/dist/index.umd.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-  <script>
-    // ── CURSOR — solo desktop ──
-    (function () {
-      var isTouch = window.matchMedia('(pointer: coarse)').matches;
-      if (isTouch) return;
-      var cur = document.getElementById('cursor');
-      var ring = document.getElementById('cursorRing');
-      if (!cur || !ring) return;
-      var mx = window.innerWidth / 2, my = window.innerHeight / 2, rx = mx, ry = my;
-      cur.style.opacity = '0'; ring.style.opacity = '0';
-      document.addEventListener('mousemove', function (e) {
-        mx = e.clientX; my = e.clientY;
-        cur.style.opacity = '1'; ring.style.opacity = '1';
-      });
-      (function anim() {
-        rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
-        cur.style.left = mx + 'px'; cur.style.top = my + 'px';
-        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-        requestAnimationFrame(anim);
-      })();
-      document.querySelectorAll('a,.pf-card').forEach(function (el) {
-        el.addEventListener('mouseenter', function () { ring.style.width = '52px'; ring.style.height = '52px'; });
-        el.addEventListener('mouseleave', function () { ring.style.width = '36px'; ring.style.height = '36px'; });
-      });
-    })();
-
-    // ── GSAP card reveals ──
-    if (typeof gsap !== 'undefined') {
-      gsap.from('.pf-card', {
-        opacity: 0, y: 40, scale: 0.97,
-        duration: 0.8,
-        ease: 'power3.out',
-        stagger: 0.12,
-        scrollTrigger: undefined,
-        delay: 0.3
-      });
-    }
-
-    // ── STICKY FOOTER REVEAL ──
-    // El footer ya es sticky por CSS — el main tiene z-index:1 y el footer z-index:0
-
-    // ── VINILO ──
-    (function () {
-      var audio = document.getElementById('vinylAudio');
-      var disc = document.getElementById('vinylDisc');
-      var outer = disc ? disc.querySelector('.vinyl-outer') : null;
-      var info = document.getElementById('vinylInfo');
-      var trackName = document.getElementById('vinylTrackName');
-      var shuffle = document.getElementById('vinylShuffle');
-      if (!audio || !disc) return;
-
-      var tracks = [
-        { src: 'track1.mp3', title: 'Always — DISTRXCT' },
-        { src: 'track2.mp3', title: 'Stylish Lifestyle — Dope Cat' },
-      ];
-      var current = 0;
-      var infoTimer = null;
-      audio.volume = 0.5;
-
-      function showInfo() {
-        clearTimeout(infoTimer);
-        info.classList.add('visible');
-        infoTimer = setTimeout(function () { info.classList.remove('visible'); }, 3000);
-      }
-
-      function loadTrack(idx) {
-        audio.src = tracks[idx].src;
-        trackName.textContent = tracks[idx].title;
-        showInfo();
-      }
-
-      disc.addEventListener('click', function () {
-        if (!audio.src || audio.src === window.location.href) loadTrack(current);
-        if (audio.paused) {
-          audio.play(); outer.classList.add('spinning'); showInfo();
-        } else {
-          audio.pause(); outer.classList.remove('spinning');
-        }
-      });
-
-      audio.addEventListener('ended', function () {
-        current = (current + 1) % tracks.length;
-        loadTrack(current); audio.play(); outer.classList.add('spinning');
-      });
-
-      shuffle.addEventListener('click', function () {
-        current = (current + 1) % tracks.length;
-        loadTrack(current);
-        if (!audio.paused) { audio.play(); outer.classList.add('spinning'); }
-      });
-
-      disc.addEventListener('mouseenter', showInfo);
-    })();
-
-    // ── LOGOS ROTANTES ──
-    (function () {
-      var items = document.querySelectorAll('.pf-brand-item');
-      if (!items.length) return;
-      var current = 0;
-      setInterval(function () {
-        items[current].classList.remove('active');
-        current = (current + 1) % items.length;
-        items[current].classList.add('active');
-      }, 2500);
-    })();
-
-  </script>
+  <script src="js/proyectos.js" defer></script>
 </body>
 
 </html>
-<style>
-  /* ── GRID NUEVO LIMPIO ── */
-  .pf-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
-    gap: 2px;
-  }
-
-  /* Card base */
-  .pf-card {
-    position: relative;
-    overflow: hidden;
-    display: block;
-    text-decoration: none;
-    background: #0d1f35;
-    isolation: isolate;
-  }
-
-  /* Featured — ancho completo */
-  .pf-card-featured {
-    grid-column: 1 / -1;
-    aspect-ratio: 16/7;
-  }
-
-  /* Pequeña */
-  .pf-card-sm {
-    aspect-ratio: 4/3;
-  }
-
-  /* Fondo — imagen o video */
-  .pf-card-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .pf-card:hover .pf-card-bg {
-    transform: scale(1.04);
-  }
-
-  /* Overlay */
-  .pf-card-ol {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(8, 8, 8, 0.9) 0%, rgba(8, 8, 8, 0.1) 60%, transparent 100%);
-    z-index: 1;
-    transition: background 0.4s ease;
-  }
-
-  .pf-card:hover .pf-card-ol {
-    background: linear-gradient(to top, rgba(8, 8, 8, 0.95) 0%, rgba(8, 8, 8, 0.3) 60%, rgba(8, 8, 8, 0.1) 100%);
-  }
-
-  /* Info del proyecto */
-  .pf-card-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 24px 28px;
-    z-index: 2;
-  }
-
-  .pf-card-n {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.14em;
-    color: rgba(168, 200, 232, 0.5);
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-
-  .pf-card-t {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-    font-weight: 400;
-    color: #F7F9FC;
-    line-height: 1.1;
-    margin-bottom: 8px;
-    transform: translateY(4px);
-    transition: transform 0.4s ease;
-  }
-
-  .pf-card:hover .pf-card-t {
-    transform: translateY(0);
-  }
-
-  .pf-card-tgs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s;
-  }
-
-  .pf-card:hover .pf-card-tgs {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .pf-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.06em;
-    color: rgba(168, 200, 232, 0.6);
-    border: 1px solid rgba(168, 200, 232, 0.15);
-    border-radius: 100px;
-    padding: 2px 8px;
-  }
-
-  /* Link externo */
-  .pf-card-ext {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(247, 249, 252, 0.08);
-    border: 1px solid rgba(247, 249, 252, 0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #F7F9FC;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: opacity 0.3s, transform 0.3s;
-    z-index: 2;
-  }
-
-  .pf-card:hover .pf-card-ext {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* CTA card */
-  .pf-cta-inner {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    text-align: center;
-    padding: 24px;
-  }
-
-  .pf-cta-ttl {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
-    font-weight: 300;
-    color: #F7F9FC;
-    line-height: 1.1;
-  }
-
-  .pf-cta-b {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.14em;
-    color: rgba(168, 200, 232, 0.6);
-    text-transform: uppercase;
-    border: 1px solid rgba(168, 200, 232, 0.18);
-    padding: 7px 16px;
-    border-radius: 100px;
-    transition: border-color 0.3s, color 0.3s;
-  }
-
-  .pf-card-cta:hover .pf-cta-b {
-    border-color: rgba(168, 200, 232, 0.5);
-    color: #F7F9FC;
-  }
-
-  /* Mobile */
-  @media (max-width: 768px) {
-    .pf-card-featured {
-      aspect-ratio: 4/3;
-    }
-
-    .pf-card-info {
-      padding: 16px 18px;
-    }
-
-    .pf-card-tgs {
-      opacity: 1;
-      transform: none;
-    }
-  }
-</style>
-<style>
-  .curtain {
-    position: fixed;
-    inset: 0;
-    background: #080808;
-    z-index: 9000;
-    transform: scaleX(0);
-    transform-origin: left center;
-    pointer-events: none;
-  }
-</style>
-
-
-<script>
-  window.addEventListener('load', function () {
-    if (typeof Swup === 'undefined') return;
-    var swup = new Swup({
-      containers: ['#swup'],
-      animationSelector: '[class*="transition-"]'
-    });
-  });
-</script>

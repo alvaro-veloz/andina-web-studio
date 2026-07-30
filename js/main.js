@@ -1055,8 +1055,8 @@
     if (!audio || !disc) return;
 
     var tracks = [
-      { src: 'track1.mp3', title: 'Always — DISTRXCT' },
-      { src: 'track2.mp3', title: 'Stylish Lifestyle — Dope Cat' },
+      { src: 'assets/audio/track1.mp3', title: 'Always — DISTRXCT' },
+      { src: 'assets/audio/track2.mp3', title: 'Stylish Lifestyle — Dope Cat' },
     ];
     var current = 0;
     audio.volume = 0.5;
@@ -1526,16 +1526,25 @@
     // al abrirse ocupe más espacio (le da ritmo, como en una revista).
     // ---------------------------------------------------------------
     var lookbackItems = [
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/f_auto,q_auto/v1783217092/1_hf6qca.webp', tipo: 'img', numero: '01', etiqueta: 'Branding — Marzo', featured: true },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/f_auto,q_auto/v1783217092/2_z8yaf1.webp', tipo: 'img', numero: '02', etiqueta: 'Branding — Marzo' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1783217092/3_jdtfmu.webp', tipo: 'img', numero: '03', etiqueta: 'Branding — Marzo' }
-
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785341674/Chimborazo_akwah1.webp', tipo: 'img', numero: '01', etiqueta: 'Chimborazo — Ecuador · 6.263 msnm', featured: true },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343260/xd_sstfzi.jpg', tipo: 'img', numero: '02', etiqueta: 'Región de los Lagos — Chile' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343260/702064239_18461669509104361_8934122530821064269_n_gi6ex0.jpg', tipo: 'img', numero: '02', etiqueta: 'Zorro gris — Región de los Lagos, Chile' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343506/705757809_18533296687079277_3930928108253867192_n_oa6hmg.jpg', tipo: 'img', numero: '03', etiqueta: 'Cayambe — Ecuador · 5.790 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343260/xdd_suaqrj.jpg', tipo: 'img', numero: '04', etiqueta: 'Osorno — Chile · 2.652 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344090/EL_ALTAR_mmqryi.jpg', tipo: 'img', numero: '05', etiqueta: 'El Altar — Ecuador · 5.319 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344090/EL_ALTAR_1_cfeqvu.jpg', tipo: 'img', numero: '05', etiqueta: 'El Altar — Ecuador · 5.319 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344811/ELCAJAS_nc3nkh.jpg', tipo: 'img', numero: '06', etiqueta: 'Parque Nacional Cajas — Ecuador · hasta 4.450 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344811/ELCAJAS1_t9wnyo.jpg', tipo: 'img', numero: '06', etiqueta: 'Parque Nacional Cajas — Ecuador · hasta 4.450 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344811/PALLATANGA_kxe8sg.jpg', tipo: 'img', numero: '07', etiqueta: 'Pallatanga — Ecuador · 1.520 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785345862/punay_lix1os.jpg', tipo: 'img', numero: '08', etiqueta: 'Cerro Puñay — Ecuador · 3.245 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361221/cotopaxi1_a6yxud.jpg', tipo: 'img', numero: '09', etiqueta: 'Parque Nacional Cotopaxi — Ecuador · 5.897 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361221/cotopaxi2_j6pzft.jpg', tipo: 'img', numero: '09', etiqueta: 'Parque Nacional Cotopaxi — Ecuador · 5.897 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361850/patagonia_hat7mr.jpg', tipo: 'img', numero: '10', etiqueta: 'Cerro Catedral — Bariloche, Argentina · 2.388 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361850/patagonia1_rpqctt.jpg', tipo: 'img', numero: '10', etiqueta: 'Cerro Catedral — Bariloche, Argentina · 2.388 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785362592/tilcara_voptvb.webp', tipo: 'img', numero: '11', etiqueta: 'Tilcara — Jujuy, Argentina · 2.465 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785362918/Vilcanota_j5fio9.jpg', tipo: 'img', numero: '12', etiqueta: 'Cordillera Vilcanota — Perú · 6.384 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785366896/patagonico_if9nx1.jpg', tipo: 'img', numero: '13', etiqueta: 'El Calafate — Patagonia, Argentina' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785366896/patagonico1_yjaxkm.jpg', tipo: 'img', numero: '13', etiqueta: 'El Calafate — Patagonia, Argentina' }
       // Ejemplo de cómo seguir agregando (descomentá y editá):
       // , { src: 'TU_LINK_DE_CLOUDINARY_AQUI', tipo: 'img', numero: '04', etiqueta: 'Merch — Abril' }
       // , { src: 'TU_LINK_DE_VIDEO_AQUI', tipo: 'video', numero: '05', etiqueta: 'Merch — Abril', featured: true }

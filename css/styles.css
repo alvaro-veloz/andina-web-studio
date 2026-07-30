@@ -917,6 +917,21 @@
       min-width: 220px;
     }
 
+    .sobre-card-float-link {
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .sobre-card-float-link:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .sobre-card-float-link:hover .icon-wrap {
+      background: rgba(45, 111, 163, 0.18);
+    }
+
     .sobre-card-float .icon-wrap {
       width: 44px;
       height: 44px;
@@ -926,6 +941,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: background 0.3s ease;
     }
 
     .sobre-card-float .stat-num {
@@ -4054,7 +4070,7 @@
 .proyectos-bg-img {
   position: absolute;
   inset: -20% 0;          /* extra alto para que el parallax no corte */
-  background-image: url('../chimborazo.webp');
+  background-image: url('../assets/img/chimborazo.webp');
   background-size: cover;
   background-position: center 40%;
   background-repeat: no-repeat;
@@ -4856,6 +4872,94 @@
 
 .nav-links li a:hover::after {
   width: 100%;
+}
+
+/* =====================================================
+   NAV — DROPDOWN "ESTUDIO"
+   ===================================================== */
+.nav-item-dropdown {
+  position: relative;
+}
+
+.nav-item-dropdown .nav-chevron {
+  display: inline-block;
+  margin-left: 4px;
+  transition: transform 0.25s ease;
+  vertical-align: middle;
+}
+
+.nav-item-dropdown:hover .nav-chevron {
+  transform: translateY(1px) rotate(180deg);
+}
+
+/* Puente invisible: conecta el link con el dropdown para que el
+   hover no se pierda al bajar el mouse por el espacio vacío */
+.nav-item-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 14px;
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  background: var(--white);
+  border: 1px solid var(--grey-soft);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(10, 22, 40, 0.12);
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  width: max-content;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 200;
+}
+
+.nav-item-dropdown:hover .nav-dropdown,
+.nav-item-dropdown:focus-within .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav-dropdown li {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-dropdown li a {
+  display: block;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.nav-dropdown li a::after {
+  content: none;
+}
+
+.nav-dropdown li a:hover {
+  background: var(--grey-soft);
+  color: var(--sky);
+}
+
+.mobile-sub-link {
+  padding-left: 24px !important;
+  opacity: 0.7;
+  font-size: 0.85em !important;
 }
 
 /* =====================================================
