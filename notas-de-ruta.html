@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E87KCH0P9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-6E87KCH0P9');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Notas de ruta — Andina Web Studio</title>
+  <meta name="description"
+    content="Salud, tecnología, IA, herramientas y curiosidades — notas de Andina Web Studio. Sin listicles de agencia." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="author" content="Andina Web Studio" />
+  <meta name="theme-color" content="#0A1628" />
+  <link rel="canonical" href="https://andinawebstudio.com/notas-de-ruta.html" />
+  <meta name="geo.region" content="EC-B" />
+  <meta name="geo.placename" content="San Miguel de Bolívar, Ecuador" />
+  <meta name="language" content="Spanish" />
+  <meta name="content-language" content="es-EC" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://andinawebstudio.com/notas-de-ruta.html" />
+  <meta property="og:site_name" content="Andina Web Studio" />
+  <meta property="og:locale" content="es_EC" />
+  <meta property="og:title" content="Notas de ruta — Andina Web Studio" />
+  <meta property="og:description" content="Salud, tecnología, IA, herramientas y curiosidades." />
+  <meta property="og:image" content="https://andinawebstudio.com/og-image.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Notas de ruta — Andina Web Studio" />
+  <meta name="twitter:description" content="Salud, tecnología, IA, herramientas y curiosidades." />
+  <meta name="twitter:image" content="https://andinawebstudio.com/og-image.jpg" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/notas-de-ruta.css" />
+</head>
+
+<body class="nr-body">
+
+  <div class="nr-cursor" id="nrCursor"></div>
+  <div class="nr-cursor-ring" id="nrCursorRing"></div>
+
+  <!-- NAV -->
+  <nav class="nr-nav">
+    <a href="index.html" class="nr-logo">
+      <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="8" fill="#000000" />
+        <path d="M6 27L13 13L18 20L23 10L30 27H6Z" fill="none" stroke="#FFFFFF" stroke-width="1.5"
+          stroke-linejoin="round" />
+        <path d="M18 20L23 10L30 27H18V20Z" fill="rgba(255,255,255,0.12)" />
+        <circle cx="23" cy="10" r="1.5" fill="#FFFFFF" />
+      </svg>
+      <div class="nav-logo-text">Andina<span>Web Studio</span></div>
+    </a>
+    <div class="nr-nav-links">
+      <a href="proyectos.html">PORTAFOLIO ↗</a>
+      <a href="about.html">QUIÉNES SOMOS</a>
+      <a href="index.html">INICIO</a>
+      <a href="index.html#contacto" class="nr-nav-cta">CONTACTO</a>
+      <button class="nr-hamburger" id="nrHamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="nr-mobile-menu" id="nrMobileMenu">
+    <a href="proyectos.html">Portafolio</a>
+    <a href="about.html">Quiénes somos</a>
+    <a href="index.html">Inicio</a>
+    <a href="index.html#contacto">Contacto</a>
+  </div>
+
+  <!-- HERO CINEMATOGRÁFICO -->
+  <!-- ⚠️ Reemplazá el <source> por tu video real (assets/video/cordillera.mp4).
+       Video corto (5-8s), en loop, comprimido, sin audio. -->
+  <section class="nr-hero" id="nrHero">
+    <div class="nr-hero-bar nr-hero-bar-top"></div>
+    <div class="nr-hero-bar nr-hero-bar-bottom"></div>
+
+    <video class="nr-hero-media" id="nrHeroVideo" autoplay muted loop playsinline
+      poster="assets/img/hero-cordillera-poster.jpg">
+      <source src="assets/video/cordillera.mp4" type="video/mp4" />
+    </video>
+    <div class="nr-hero-grain"></div>
+
+    <div class="nr-hero-center">
+      <h1 class="nr-hero-title">
+        <span class="nr-hero-title-line nr-hero-title-left">NOTAS</span><span
+          class="nr-hero-title-line nr-hero-title-right">DE&nbsp;RUTA</span>
+      </h1>
+      <div class="nr-hero-eyebrow" id="nrHeroEyebrow"></div>
+      <p class="nr-hero-sub">Salud, tecnología, IA, herramientas y curiosidades — escrito porque nos interesa,
+        no porque Google lo pide.</p>
+    </div>
+
+    <div class="nr-scroll-cue">
+      <svg width="14" height="20" viewBox="0 0 14 20" fill="none">
+        <path d="M1 1L7 19L13 1" stroke="currentColor" stroke-width="1.2" />
+      </svg>
+      SCROLL
+    </div>
+  </section>
+
+  <!-- CATEGORÍAS -->
+  <section class="nr-categories">
+    <div class="nr-section-eyebrow">EXPLORAR POR TEMA</div>
+    <h2>Cuatro rutas distintas — elegí por dónde entrar, o seguí bajando y las ves todas.</h2>
+
+    <div class="nr-cat-grid">
+      <div class="nr-cat-tile" data-category="salud">
+        <img src="https://res.cloudinary.com/demo/image/upload/f_auto,q_auto/w_600/samples/people/kitchen-bar"
+          alt="Salud" loading="lazy" />
+        <div class="nr-cat-tile-content">
+          <div class="nr-cat-tile-num">01</div>
+          <h3>Salud</h3>
+          <p>Notas desde la formación en enfermería del estudio.</p>
+          <span class="nr-cat-tile-link">Ver notas →</span>
+        </div>
+      </div>
+
+      <div class="nr-cat-tile" data-category="tech-ia">
+        <img src="https://res.cloudinary.com/demo/image/upload/f_auto,q_auto/w_600/samples/people/boy-snow-hoodie"
+          alt="Tecnología e IA" loading="lazy" />
+        <div class="nr-cat-tile-content">
+          <div class="nr-cat-tile-num">02</div>
+          <h3>Tecnología &amp; IA</h3>
+          <p>Modelos, herramientas nuevas, y lo que realmente cambia algo.</p>
+          <span class="nr-cat-tile-link">Ver notas →</span>
+        </div>
+      </div>
+
+      <div class="nr-cat-tile" data-category="herramientas">
+        <img src="https://res.cloudinary.com/demo/image/upload/f_auto,q_auto/w_600/samples/landscapes/architecture-signs"
+          alt="Herramientas y repos" loading="lazy" />
+        <div class="nr-cat-tile-content">
+          <div class="nr-cat-tile-num">03</div>
+          <h3>Herramientas &amp; Repos</h3>
+          <p>Repositorios de GitHub y software que vale la pena conocer.</p>
+          <span class="nr-cat-tile-link">Ver notas →</span>
+        </div>
+      </div>
+
+      <div class="nr-cat-tile" data-category="curiosidades">
+        <img src="https://res.cloudinary.com/demo/image/upload/f_auto,q_auto/w_600/samples/landscapes/nature-mountains"
+          alt="Curiosidades" loading="lazy" />
+        <div class="nr-cat-tile-content">
+          <div class="nr-cat-tile-num">04</div>
+          <h3>Curiosidades</h3>
+          <p>Lo que no entra en ninguna categoría pero vale compartir.</p>
+          <span class="nr-cat-tile-link">Ver notas →</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="nr-cat-reset" id="nrCatReset" type="button">✕ Ver todo</button>
+  </section>
+
+  <!-- CARRUSEL -->
+  <section class="nr-carousel-section">
+    <div class="nr-carousel-head">
+      <div class="nr-section-eyebrow">RECIENTES</div>
+      <h2>Últimas lecturas</h2>
+    </div>
+    <div class="swiper nr-swiper">
+      <div class="swiper-wrapper" id="nrCarouselWrapper"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+
+  <!-- LISTADO COMPLETO / FILTRADO -->
+  <section class="nr-list-section" id="nrList" aria-label="Todas las notas"></section>
+
+  <!-- FOOTER — igual al de index.html -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nav-logo" style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="8" fill="#000000" />
+            <path d="M6 27L13 13L18 20L23 10L30 27H6Z" fill="none" stroke="#FFFFFF" stroke-width="1.5"
+              stroke-linejoin="round" />
+            <path d="M18 20L23 10L30 27H18V20Z" fill="rgba(255,255,255,0.12)" />
+            <circle cx="23" cy="10" r="1.5" fill="#FFFFFF" />
+          </svg>
+          <div class="nav-logo-text">Andina<span>Web Studio</span></div>
+        </div>
+        <p class="footer-tagline">Hecho con nivel. Siempre.</p>
+        <div class="footer-tools">
+          <span class="footer-tools-label">Herramientas</span>
+          <div class="footer-tools-icons">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" title="Figma" class="tool-logo" />
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="Visual Studio Code" title="Visual Studio Code" class="tool-logo" />
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" alt="Supabase" title="Supabase" class="tool-logo" />
+            <img src="https://cdn.simpleicons.org/framer/ffffff" alt="Framer" title="Framer" class="tool-logo" />
+          </div>
+        </div>
+        <div class="footer-geo">
+          <div class="footer-geo-item"><span class="footer-geo-dot"></span><span>55°58'S · Chile</span></div>
+          <div class="footer-geo-item"><span class="footer-geo-dot"></span><span>32°53'S · Argentina</span></div>
+          <div class="footer-geo-item"><span class="footer-geo-dot"></span><span>0°13'N · Ecuador</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Navegación</div>
+        <ul class="footer-links">
+          <li><a href="index.html#proyectos">Proyectos</a></li>
+          <li><a href="proyectos.html">Portafolio completo</a></li>
+          <li><a href="index.html#lookback">Lookback</a></li>
+          <li><a href="about.html">Quiénes somos</a></li>
+          <li><a href="notas-de-ruta.html">Notas de ruta</a></li>
+          <li><a href="index.html#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contacto</div>
+        <ul class="footer-links">
+          <li><a href="mailto:hola@andinawebstudio.com">hola@andinawebstudio.com</a></li>
+          <li><a href="https://wa.me/593989565924" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li>
+            <a href="https://instagram.com/andinawebstudio" target="_blank" rel="noopener"
+              style="display:inline-flex;align-items:center;gap:6px;color:rgba(245,245,245,0.65);text-decoration:none;transition:color 0.3s;"
+              onmouseover="this.style.color='#A8C8E8'" onmouseout="this.style.color='rgba(245,245,245,0.65)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
+                <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="2" />
+                <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="2" />
+                <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" />
+              </svg>
+              @andinawebstudio
+            </a>
+          </li>
+          <li><span style="color:rgba(245,245,245,0.4);font-size:0.84rem;font-weight:300;">Ecuador · Remoto</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Andina Web Studio — Todos los derechos reservados.</p>
+      <p class="footer-credit">Diseñado &amp; desarrollado por <span>Andina Web Studio</span></p>
+    </div>
+    <div class="footer-payments">
+      <span class="footer-payments-label">Métodos de pago</span>
+      <div class="footer-payments-icons">
+        <img class="pay-icon-img" src="https://cdn.simpleicons.org/visa/ffffff" alt="Visa" title="Visa" />
+        <img class="pay-icon-img" src="https://cdn.simpleicons.org/mastercard/ffffff" alt="Mastercard" title="Mastercard" />
+        <img class="pay-icon-img" src="https://cdn.simpleicons.org/paypal/ffffff" alt="PayPal" title="PayPal" />
+        <img class="pay-icon-img" src="https://cdn.simpleicons.org/applepay/ffffff" alt="Apple Pay" title="Apple Pay" />
+        <img class="pay-icon-img" src="https://cdn.simpleicons.org/dinersclub/ffffff" alt="Diners Club" title="Diners Club" />
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);</script>
+  <script src="js/notas-de-ruta.js" defer></script>
+</body>
+
+</html>
