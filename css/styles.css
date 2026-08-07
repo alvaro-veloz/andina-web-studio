@@ -331,15 +331,30 @@
       animation: fadeUp 0.8s 0.2s forwards;
     }
 
-    .hero-badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--sky);
-      animation: pulse 2s infinite;
+    .hero-badge-icon {
+      color: var(--sky);
+      flex-shrink: 0;
+      animation: heroBadgeFloat 3s ease-in-out infinite;
     }
 
-    @keyframes pulse {
+    .hero-badge-icon .hbi-spark {
+      transform-origin: 9.5px 4px;
+      animation: heroBadgeSpark 2.4s ease-in-out infinite;
+    }
+
+    @keyframes heroBadgeFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-1px);
+      }
+    }
+
+    @keyframes heroBadgeSpark {
 
       0%,
       100% {
@@ -348,8 +363,8 @@
       }
 
       50% {
-        opacity: 0.5;
-        transform: scale(1.3);
+        opacity: 0.4;
+        transform: scale(1.6);
       }
     }
 
@@ -515,6 +530,13 @@
       60%  { transform: translateY(10px); opacity: 0; }
       61%  { transform: translateY(0); opacity: 0; }
       100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* El mouse animado es una invitación a scrollear con mouse — no aplica en táctil */
+    @media (pointer: coarse) {
+      .scroll-indicator {
+        display: none !important;
+      }
     }
 
     /* ==========================================

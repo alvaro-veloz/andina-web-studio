@@ -181,6 +181,11 @@
       gap: 28px;
     }
 
+    @media (max-width: 1000px) and (min-width: 769px) {
+      .pf-nav-right { gap: 16px; }
+      .pf-nav-link { font-size: 0.62rem; }
+    }
+
     .pf-nav-link {
       font-family: 'DM Mono', monospace;
       font-size: 0.68rem;
@@ -197,10 +202,59 @@
     }
 
     @media (max-width: 768px) {
-      .pf-nav-link {
+      .pf-nav-link,
+      .pf-nav-year {
         display: none;
       }
     }
+
+    .pf-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .pf-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .pf-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .pf-hamburger.open span:nth-child(2) { opacity: 0; }
+    .pf-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    @media (max-width: 768px) {
+      .pf-hamburger { display: flex; }
+    }
+
+    .pf-mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.97);
+      backdrop-filter: blur(20px);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+    }
+    .pf-mobile-menu.open { display: flex; }
+    .pf-mobile-menu a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .pf-mobile-menu a:hover { color: var(--ice); }
 
     /* ── HERO ── */
     .pf-hero {
@@ -371,6 +425,13 @@
       60%  { transform: translateY(11px); opacity: 0; }
       61%  { transform: translateY(0); opacity: 0; }
       100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* El mouse animado es una invitación a scrollear con mouse — no aplica en táctil */
+    @media (pointer: coarse) {
+      .pf-scroll {
+        display: none !important;
+      }
     }
 
     @keyframes heroUp {
@@ -1459,10 +1520,21 @@
       <div class="pf-nav-right">
         <a href="about.html" class="pf-nav-link">Estudio</a>
         <a href="index.html#precios" class="pf-nav-link">Precios</a>
+        <a href="notas-de-ruta.html" class="pf-nav-link">Notas de ruta</a>
+        <a href="backstage.html" class="pf-nav-link">Backstage</a>
         <a href="index.html#contacto" class="pf-nav-link">Contacto</a>
         <span class="pf-nav-year">2026</span>
+        <button class="pf-hamburger" id="pfHamburger" aria-label="Menú"><span></span><span></span><span></span></button>
       </div>
     </nav>
+
+    <div class="pf-mobile-menu" id="pfMobileMenu">
+      <a href="about.html" onclick="pfCloseMobile()">Estudio</a>
+      <a href="index.html#precios" onclick="pfCloseMobile()">Precios</a>
+      <a href="notas-de-ruta.html" onclick="pfCloseMobile()">Notas de ruta</a>
+      <a href="backstage.html" onclick="pfCloseMobile()">Backstage</a>
+      <a href="index.html#contacto" onclick="pfCloseMobile()">Contacto</a>
+    </div>
 
     <!-- Hero -->
     <section class="pf-hero" style="position:relative;z-index:1;">

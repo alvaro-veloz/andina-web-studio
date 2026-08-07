@@ -110,3 +110,20 @@
       animationSelector: '[class*="transition-"]'
     });
   });
+
+/* Menú mobile — hamburguesa */
+(function () {
+  var hamburger = document.getElementById('pfHamburger');
+  var mobileMenu = document.getElementById('pfMobileMenu');
+  if (!hamburger || !mobileMenu) return;
+
+  hamburger.addEventListener('click', function () {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  window.pfCloseMobile = function () {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  };
+})();

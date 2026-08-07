@@ -84,6 +84,11 @@ body {
   align-items: center;
 }
 
+@media (max-width: 900px) {
+  .ab-nav-links { gap: 18px; }
+  .ab-nav-links a { font-size: 0.72rem; }
+}
+
 .ab-nav-links a {
   color: rgba(245, 245, 245, 0.55);
   text-decoration: none;

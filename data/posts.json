@@ -12,15 +12,15 @@
     "featured": true
   },
   {
-    "slug": "ejemplo-articulo-plantilla",
-    "title": "[Plantilla] Título de la nota aquí",
-    "dek": "Post de ejemplo que muestra todos los bloques disponibles: texto, imagen, cita, código y video. Reemplazalo o dejalo como referencia.",
-    "category": "herramientas",
-    "date": "2026-08-01",
-    "readingTime": 6,
-    "tags": ["plantilla"],
-    "cover": "https://res.cloudinary.com/dvukaadvx/image/upload/f_auto,q_auto,w_900/v1785810903/pexels-konrads-photo-37406589_xqexpw.webp",
-    "url": "notas-de-ruta/ejemplo-articulo-plantilla.html",
+    "slug": "tecnica-smile-cirugia-refractiva",
+    "title": "SMILE: la cirugía láser que corrige la vista sin cortar un colgajo",
+    "dek": "Una alternativa a la cirugía refractiva tradicional que evita el paso que más genera dudas: el colgajo corneal.",
+    "category": "salud",
+    "date": "2026-08-04",
+    "readingTime": 3,
+    "tags": ["salud", "oftalmología"],
+    "cover": "https://res.cloudinary.com/demo/image/upload/f_auto,q_auto,w_900/samples/landscapes/architecture-signs",
+    "url": "notas-de-ruta/tecnica-smile-cirugia-refractiva.html",
     "featured": false
   }
 ]

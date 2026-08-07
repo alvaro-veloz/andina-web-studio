@@ -111,6 +111,11 @@ body.nr-body {
 
 .nr-nav-links { display: flex; gap: 28px; align-items: center; }
 
+@media (max-width: 900px) and (min-width: 641px) {
+  .nr-nav-links { gap: 16px; }
+  .nr-nav-links a { font-size: 0.68rem; }
+}
+
 .nr-nav-links a {
   color: var(--grey-mid);
   text-decoration: none;

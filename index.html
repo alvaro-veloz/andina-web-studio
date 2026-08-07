@@ -238,8 +238,17 @@
           <li><a href="notas-de-ruta.html">Notas de ruta</a></li>
         </ul>
       </li>
-      <li><a href="#proceso">Proceso</a></li>
-      <li><a href="#precios">Precios</a></li>
+      <li class="nav-item-dropdown">
+        <a href="#proceso">Proceso
+          <svg class="nav-chevron" width="9" height="6" viewBox="0 0 9 6" fill="none">
+            <path d="M1 1l3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+        <ul class="nav-dropdown">
+          <li><a href="backstage.html">Backstage</a></li>
+        </ul>
+      </li>
       <li><a href="#contacto" class="nav-cta">Contacto</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menú">
@@ -255,6 +264,7 @@
     <a href="about.html" onclick="closeMobile()" class="mobile-sub-link">↳ Quiénes somos</a>
     <a href="notas-de-ruta.html" onclick="closeMobile()" class="mobile-sub-link">↳ Notas de ruta</a>
     <a href="#proceso" onclick="closeMobile()">Proceso</a>
+    <a href="backstage.html" onclick="closeMobile()" class="mobile-sub-link">↳ Backstage</a>
     <a href="#precios" onclick="closeMobile()">Precios</a>
     <a href="#contacto" onclick="closeMobile()">Contacto</a>
   </div>

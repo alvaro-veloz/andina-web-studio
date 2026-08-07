@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E87KCH0P9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-6E87KCH0P9');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Backstage — Andina Web Studio | El código real detrás de cada sitio</title>
+  <meta name="description"
+    content="Nada de arrastrar bloques. Mirá el código real detrás de los proyectos de Andina Web Studio: la galería Lookback, el reproductor de vinilo, el sistema de reservas con Supabase y las animaciones GSAP." />
+
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="author" content="Andina Web Studio" />
+  <meta name="theme-color" content="#08090b" />
+  <link rel="canonical" href="https://andinawebstudio.com/backstage.html" />
+
+  <meta name="geo.region" content="EC-B" />
+  <meta name="geo.placename" content="San Miguel de Bolívar, Ecuador" />
+  <meta name="language" content="Spanish" />
+  <meta name="content-language" content="es-EC" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://andinawebstudio.com/backstage.html" />
+  <meta property="og:site_name" content="Andina Web Studio" />
+  <meta property="og:locale" content="es_EC" />
+  <meta property="og:title" content="Backstage — Andina Web Studio" />
+  <meta property="og:description" content="El código real detrás de cada sitio. Sin plantillas, sin arrastrar bloques." />
+  <meta property="og:image" content="https://andinawebstudio.com/og-image.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Backstage — Andina Web Studio" />
+  <meta name="twitter:description" content="El código real detrás de cada sitio." />
+  <meta name="twitter:image" content="https://andinawebstudio.com/og-image.jpg" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,500&family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/backstage.css" />
+</head>
+
+<body class="bs-page">
+
+  <!-- NAV -->
+  <nav class="bs-nav">
+    <a href="index.html" class="bs-logo">
+      <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="8" fill="#000000" />
+        <path d="M6 27L13 13L18 20L23 10L30 27H6Z" fill="none" stroke="#FFFFFF" stroke-width="1.5"
+          stroke-linejoin="round" />
+        <path d="M18 20L23 10L30 27H18V20Z" fill="rgba(255,255,255,0.12)" />
+        <circle cx="23" cy="10" r="1.5" fill="#FFFFFF" />
+      </svg>
+    </a>
+    <div class="bs-nav-links">
+      <a href="proyectos.html">PORTAFOLIO ↗</a>
+      <a href="index.html#sobre">INICIO</a>
+      <a href="about.html">ESTUDIO</a>
+      <a href="notas-de-ruta.html">NOTAS DE RUTA</a>
+      <a href="index.html#contacto" class="bs-nav-cta">CONTACTO</a>
+    </div>
+    <button class="bs-hamburger" id="bsHamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="bs-mobile-menu" id="bsMobileMenu">
+    <a href="proyectos.html">Portafolio</a>
+    <a href="index.html#sobre">Inicio</a>
+    <a href="about.html">Estudio</a>
+    <a href="notas-de-ruta.html">Notas de ruta</a>
+    <a href="index.html#contacto">Contacto</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="bs-hero">
+    <div class="bs-hero-grid">
+      <div class="bs-hero-left bs-reveal">
+        <span class="bs-rec">
+          <span class="bs-rec-dot"></span>
+          <span class="bs-rec-label">Backstage</span>
+          <span class="bs-rec-time" id="bsRecTime">00:00:00:00</span>
+        </span>
+        <h1>Esto no se arma <strong>arrastrando figuritas.</strong></h1>
+      </div>
+      <div class="bs-hero-right bs-reveal bs-reveal-1">
+        <p class="bs-hero-sub">Código real, en vivo, de andinawebstudio.com.</p>
+        <a href="#casos" class="bs-hero-link"><span class="n">01</span> Ver los casos →</a>
+      </div>
+    </div>
+
+    <div class="bs-editor-wrap bs-reveal bs-reveal-2">
+      <div class="bs-editor" id="bsEditor">
+        <aside class="bs-sidebar">
+          <div class="bs-sidebar-title">Proyectos — andinawebstudio.com</div>
+          <div id="bsSidebar"></div>
+        </aside>
+        <div class="bs-main">
+          <div class="bs-tabbar">
+            <div class="bs-dots"><span></span><span></span><span></span></div>
+            <div class="bs-tab" id="bsTab">lookback.js</div>
+            <div class="bs-diff-stats" id="bsDiff"></div>
+          </div>
+          <pre class="bs-code" id="bsCode"></pre>
+        </div>
+
+        <div class="bs-terminal">
+          <div class="bs-terminal-bar"><span class="dot"></span> build — andina.local</div>
+          <div class="bs-terminal-body" id="bsLog"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOW — conecta las secciones -->
+  <div class="bs-flow" id="bsFlow">
+    <div class="bs-rail">
+      <div class="bs-rail-pulse"></div>
+      <div class="bs-rail-pulse d2"></div>
+      <span class="bs-snake-node" style="top:6%;"></span>
+      <span class="bs-snake-node" style="top:32%;"></span>
+      <span class="bs-snake-node" style="top:62%;"></span>
+      <span class="bs-snake-node" style="top:88%;"></span>
+      <span class="bs-snake-note bs-reveal" style="top:32%;">// líneas, ventanas y formas: todo esto es código, no imágenes</span>
+    </div>
+
+  <!-- MITO VS REALIDAD -->
+  <section class="bs-split">
+    <div class="bs-split-head bs-reveal">
+      <span class="bs-label">Mito vs. realidad</span>
+      <h2>No es arrastrar y soltar.</h2>
+    </div>
+    <div class="bs-split-grid">
+      <div class="bs-window bs-reveal bs-reveal-1">
+        <div class="bs-window-bar bs-window-bar-mute">
+          <span class="bs-dots"><span></span><span></span><span></span></span>
+          <span class="bs-window-title">mito.txt</span>
+        </div>
+        <div class="bs-window-body">
+          <h3 class="is-myth-h">Lo que se imagina</h3>
+          <ul class="is-myth">
+            <li class="bs-type">Arrastrar bloques</li>
+            <li class="bs-type">Elegir una plantilla</li>
+            <li class="bs-type">El mismo motor para todos</li>
+            <li class="bs-type">Solo lo visual</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bs-window bs-reveal bs-reveal-2">
+        <div class="bs-window-bar">
+          <span class="bs-dots"><span></span><span></span><span></span></span>
+          <span class="bs-window-title">realidad.js</span>
+        </div>
+        <div class="bs-window-body">
+          <h3 class="is-real-h">Lo que realmente pasa</h3>
+          <ul class="is-real">
+            <li class="bs-type"><strong>Código</strong> a medida, línea por línea</li>
+            <li class="bs-type"><strong>Lógica real</strong>: bases de datos, audio, animación</li>
+            <li class="bs-type"><strong>Cada sitio</strong>, distinto por dentro</li>
+            <li class="bs-type">Lo visual es la <strong>última capa</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOS CASOS -->
+  <section class="bs-cases" id="casos">
+    <div class="bs-cases-head bs-reveal">
+      <span class="bs-label">Los casos</span>
+      <h2>Cuatro piezas, un solo sitio.</h2>
+    </div>
+    <div class="bs-cases-grid">
+      <article class="bs-case-card bs-reveal bs-reveal-1">
+        <span class="num bs-type">01</span>
+        <h3>Lookback</h3>
+        <p class="bs-type">Estantería armada en JS, con sonido propio hecho en Web Audio API.</p>
+        <div class="bs-mini-window">
+          <div class="bs-mini-bar">
+            <span class="bs-dots"><span></span><span></span><span></span></span>
+            <span class="bs-mini-title">lookback.js</span>
+          </div>
+          <div class="bs-mini-code"><span class="tk-p">spine.</span><span class="tk-f">addEventListener</span><span class="tk-p">(</span><span class="tk-s">'click'</span><span class="tk-p">, </span><span class="tk-k">function</span><span class="tk-p">(){ shelf.classList.add(</span><span class="tk-s">'is-open'</span><span class="tk-p">); });</span></div>
+        </div>
+      </article>
+      <article class="bs-case-card bs-reveal bs-reveal-2">
+        <span class="num bs-type">02</span>
+        <h3>Vinyl Player</h3>
+        <p class="bs-type">El disco gira sincronizado con el audio real, no con una animación suelta.</p>
+        <div class="bs-mini-window">
+          <div class="bs-mini-bar">
+            <span class="bs-dots"><span></span><span></span><span></span></span>
+            <span class="bs-mini-title">vinyl-player.js</span>
+          </div>
+          <div class="bs-mini-code"><span class="tk-p">tonearm.style.transform = </span><span class="tk-s">'rotate('</span><span class="tk-p"> + deg + </span><span class="tk-s">'deg)'</span><span class="tk-p">;</span></div>
+        </div>
+      </article>
+      <article class="bs-case-card bs-reveal bs-reveal-3">
+        <span class="num bs-type">03</span>
+        <h3>Booking</h3>
+        <p class="bs-type">Calendario conectado en vivo a Supabase: bloquea, guarda y confirma solo.</p>
+        <div class="bs-mini-window">
+          <div class="bs-mini-bar">
+            <span class="bs-dots"><span></span><span></span><span></span></span>
+            <span class="bs-mini-title">booking.js</span>
+          </div>
+          <div class="bs-mini-code"><span class="tk-p">.</span><span class="tk-f">eq</span><span class="tk-p">(</span><span class="tk-s">'estado'</span><span class="tk-p">, </span><span class="tk-s">'confirmada'</span><span class="tk-p">).</span><span class="tk-f">then</span><span class="tk-p">(renderMonth);</span></div>
+        </div>
+      </article>
+      <article class="bs-case-card bs-reveal bs-reveal-4">
+        <span class="num bs-type">04</span>
+        <h3>Reveals</h3>
+        <p class="bs-type">GSAP y ScrollTrigger deciden cuándo entra cada elemento en pantalla.</p>
+        <div class="bs-mini-window">
+          <div class="bs-mini-bar">
+            <span class="bs-dots"><span></span><span></span><span></span></span>
+            <span class="bs-mini-title">reveals.js</span>
+          </div>
+          <div class="bs-mini-code"><span class="tk-t">scrollTrigger</span><span class="tk-p">: { </span><span class="tk-t">start</span><span class="tk-p">: </span><span class="tk-s">'top 75%'</span> <span class="tk-p">}</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- STACK — marquee -->
+  <section class="bs-stack bs-reveal">
+    <div class="bs-stack-label">Con qué armamos cada página</div>
+    <div class="bs-marquee">
+      <div class="bs-marquee-track" id="bsMarquee"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bs-cta bs-reveal">
+    <div class="bs-window">
+      <div class="bs-window-bar">
+        <span class="bs-dots"><span></span><span></span><span></span></span>
+        <span class="bs-window-title">nuevo-proyecto.sh</span>
+      </div>
+      <div class="bs-window-body bs-window-body-center">
+        <div class="bs-cta-prompt bs-type"><span class="bs-log-caret">$</span> ./empezar<span class="bs-cursor-blink"></span></div>
+        <h2>¿Querés algo <strong>así de tuyo?</strong></h2>
+        <p class="bs-type">Sin plantillas. Lo escribimos desde cero.</p>
+        <div class="bs-cta-actions">
+          <a href="index.html#contacto" class="bs-btn bs-btn-primary">Empezar un proyecto</a>
+          <a href="proyectos.html" class="bs-btn bs-btn-ghost">Ver portafolio completo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bs-footer">
+    <span>© 2026 Andina Web Studio</span>
+    <span>Backstage — código real, sin plantillas</span>
+  </footer>
+
+  <script src="js/backstage.js" defer></script>
+</body>
+
+</html>
