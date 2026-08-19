@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E87KCH0P9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-6E87KCH0P9');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Música — Andina Web Studio</title>
+  <meta name="description"
+    content="Mixes grabados por Andina Web Studio — experiencia musical para eventos y fiestas." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="author" content="Andina Web Studio" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="canonical" href="https://andinawebstudio.com/musica.html" />
+  <meta name="language" content="Spanish" />
+  <meta name="content-language" content="es-EC" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://andinawebstudio.com/musica.html" />
+  <meta property="og:site_name" content="Andina Web Studio" />
+  <meta property="og:locale" content="es_EC" />
+  <meta property="og:title" content="Música — Andina Web Studio" />
+  <meta property="og:description" content="Mixes grabados por Andina Web Studio — experiencia musical para eventos y fiestas." />
+  <meta property="og:image" content="https://andinawebstudio.com/og-image.jpg" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/musica.css?v=30" />
+</head>
+
+<body class="mu-body">
+
+  <!-- ============================================================
+       HERO INMERSIVO — video de fondo con crossfade al hover
+       ⚠️ Cada <button class="mu-mixitem"> tiene:
+         data-video      → ruta a tu .mp4 local (assets/video/musica/mix-XX.mp4),
+                            el que crossfadea en el hero de arriba
+         data-poster     → imagen de respaldo mientras no subas el video real
+         data-clip       → clip corto (~30s) de fondo del bloque grande de
+                            abajo, en loop y muteado (con botón para activar
+                            sonido) — tu video de Cloudinary
+         data-cutout     → foto tuya/de la DJ con el fondo recortado,
+                            compuesta sobre el clip
+         data-yt         → ID de YouTube — arma el link "Ver el set completo"
+                            Y el reproductor embebido de abajo (carga
+                            perezosa: arranca con miniatura)
+         data-tag        → etiqueta corta (género / vibe)
+         data-instagram  → link al Instagram de la DJ — ícono clásico
+                            (líneas blancas), ubicado distinto en mobile
+                            y en escritorio
+       Agregá o quitá <li> según cuántos mixes tengas — el JS no tiene
+       nada hardcodeado, lee todo de estos atributos.
+  ============================================================ -->
+  <section class="mu-hero" id="muHero">
+
+    <div class="mu-hero-bg" aria-hidden="true">
+      <video class="mu-bg-video mu-bg-a is-active" muted loop playsinline preload="auto"
+        poster="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"></video>
+      <video class="mu-bg-video mu-bg-b" muted loop playsinline preload="none"></video>
+      <span class="mu-hero-vignette"></span>
+      <span class="mu-hero-grain"></span>
+    </div>
+
+    <!-- NAV — flota transparente sobre el video -->
+    <nav class="mu-nav">
+      <a href="index.html" class="ab-logo">
+        <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="36" height="36" rx="8" fill="#000000" />
+          <path d="M6 27L13 13L18 20L23 10L30 27H6Z" fill="none" stroke="#FFFFFF" stroke-width="1.5"
+            stroke-linejoin="round" />
+          <path d="M18 20L23 10L30 27H18V20Z" fill="rgba(255,255,255,0.12)" />
+          <circle cx="23" cy="10" r="1.5" fill="#FFFFFF" />
+        </svg>
+      </a>
+      <div class="ab-nav-links">
+        <a href="proyectos.html">PORTAFOLIO ↗</a>
+        <a href="index.html#sobre">INICIO</a>
+        <a href="about.html">ESTUDIO</a>
+        <a href="notas-de-ruta.html">NOTAS DE RUTA</a>
+        <a href="backstage.html">BACKSTAGE</a>
+        <a href="index.html#contacto" class="ab-nav-cta">CONTACTO</a>
+      </div>
+      <button class="ab-hamburger" id="muHamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    </nav>
+
+    <!-- CONTENIDO CENTRAL — eyebrow + lista de mixes (esto reemplaza al menú SHOWS/LIVE/LISTEN de la referencia) -->
+    <div class="mu-hero-inner">
+      <span class="mu-eyebrow">Música</span>
+
+      <ul class="mu-mixlist" id="muMixlist">
+        <li>
+          <!-- Cloudinary (antes de pasar a local): https://res.cloudinary.com/ba71avrb/video/upload/v1786828255/Locura.mp4 -->
+          <button class="mu-mixitem is-active" type="button" data-yt="aQLPX2B9_KY"
+            data-video="assets/video/musica/mix-01.mp4"
+            data-poster="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
+            data-clip="assets/video/musica/dj.mp4"
+            data-cutout="https://res.cloudinary.com/ba71avrb/image/upload/f_auto,q_auto/dj-cutout_upscayl_3x_upscayl-standard-4x.png"
+            data-dj="Martu Bidondo"
+            data-instagram="https://www.instagram.com/martubidondo"
+            data-tag="La Patagonia">San Martín de los Andes</button>
+        </li>
+        <li>
+          <!-- Cloudinary (antes de pasar a local): https://res.cloudinary.com/ba71avrb/video/upload/v1786923573/dj-2.mp4 -->
+          <button class="mu-mixitem" type="button" data-yt="jNQXAC9IVRw"
+            data-video="assets/video/musica/mix-02.mp4"
+            data-poster="https://img.youtube.com/vi/jNQXAC9IVRw/maxresdefault.jpg"
+            data-clip="assets/video/musica/dj2.mp4"
+            data-cutout="https://res.cloudinary.com/ba71avrb/image/upload/f_auto,q_auto/v1787088239/dj-123.png"
+            data-dj="Marti Pritz"
+            data-instagram="https://www.instagram.com/martipritz"
+            data-tag="Buenos Aires · WHAT Creativo">What Creativo</button>
+        </li>
+        <li>
+          <!-- Cloudinary (antes de pasar a local): https://res.cloudinary.com/ba71avrb/video/upload/q_auto,w_1280,c_limit/v1786485412/Timeline_1.mp4 -->
+          <button class="mu-mixitem" type="button" data-yt="dQw4w9WgXcQ"
+            data-video="assets/video/musica/mix-03.mp4"
+            data-poster="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
+            data-clip="assets/video/musica/dj3.mp4"
+            data-cutout="https://res.cloudinary.com/ba71avrb/image/upload/f_auto,q_auto/v1786921242/dj3.webp"
+            data-dj="Ramapal"
+            data-instagram="https://www.instagram.com/wasabi.fest/"
+            data-tag="Buenos Aires · Wasabi Fest">Wasabi</button>
+        </li>
+        <li>
+          <!-- Cloudinary (antes de pasar a local): https://res.cloudinary.com/ba71avrb/video/upload/v1786676209/xd.mp4 -->
+          <button class="mu-mixitem" type="button" data-yt="jNQXAC9IVRw"
+            data-video="assets/video/musica/mix-04.mp4"
+            data-poster="https://img.youtube.com/vi/jNQXAC9IVRw/maxresdefault.jpg"
+            data-clip="assets/video/musica/dj4.mp4"
+            data-cutout="https://res.cloudinary.com/ba71avrb/image/upload/f_auto,q_auto/v1786921243/dj4.webp"
+            data-dj="Cele Arrabal"
+            data-instagram="https://www.instagram.com/celearrabal/"
+            data-tag="Casa de Cele Arrabal · Buenos Aires">Palermo</button>
+        </li>
+      </ul>
+    </div>
+
+    <p class="mu-hero-caption">Mixes grabados en la Patagonia y en discotecas de Buenos Aires, subidos seguido.</p>
+
+    <a href="index.html#contacto" class="mu-hero-mail" aria-label="Escribinos">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m22 6-10 7L2 6" />
+      </svg>
+    </a>
+
+    <!-- MOBILE ONLY — se llenan por JS a partir de los mismos data-* de #muMixlist.
+         Ocultos en escritorio (ver media query en musica.css). -->
+    <div class="mu-hero-slides" id="muHeroSlides"></div>
+    <nav class="mu-slide-nav" id="muSlideNav" aria-label="Mixes"></nav>
+  </section>
+
+  <div class="ab-mobile-menu" id="muMobileMenu">
+    <a href="proyectos.html">Portafolio</a>
+    <a href="index.html#sobre">Inicio</a>
+    <a href="about.html">Estudio</a>
+    <a href="notas-de-ruta.html">Notas de ruta</a>
+    <a href="backstage.html">Backstage</a>
+    <a href="index.html#contacto">Contacto</a>
+  </div>
+
+  <!-- ============================================================
+       PLAYLIST — carátulas dispersas en arco + reproductor vinilo
+       (estilo COVEO). Los datos NO están hardcodeados: TRACKS en
+       musica.js define solo "buscar" (término de búsqueda) y el JS
+       trae carátula + preview de 30s reales desde la iTunes Search
+       API (gratis, sin login, sin API key). Para cambiar una canción
+       solo editás el array TRACKS en js/musica.js.
+  ============================================================ -->
+  <section class="mu-playlist" id="muPlaylist">
+    <div class="mu-playlist-head">
+      <span class="mu-eyebrow">Playlist</span>
+      <h2 class="mu-playlist-title">Lo que estamos <span>sonando</span></h2>
+    </div>
+
+    <div class="mu-arc" id="muArc" aria-label="Canciones — click para escuchar un preview">
+      <!-- las portadas se generan por JS -->
+    </div>
+
+    <div class="mu-vinyl-player" id="muVinylPlayer">
+      <div class="mu-vinyl-disc-wrap">
+        <div class="mu-vinyl-disc" id="muVinylDisc">
+          <img id="muVinylArt" src="" alt="" />
+        </div>
+      </div>
+      <div class="mu-vinyl-meta">
+        <span class="mu-vinyl-label" id="muVinylLabel">Elegí una canción</span>
+        <span class="mu-vinyl-track" id="muVinylTrack">—</span>
+      </div>
+      <div class="mu-vinyl-right">
+        <span class="mu-vinyl-time" id="muVinylTime">00:00 / 00:00</span>
+        <button class="mu-vinyl-toggle" id="muVinylToggle" type="button" aria-label="Reproducir o pausar" disabled>
+          <svg id="muVinylPlayIcon" width="15" height="15" viewBox="0 0 18 18" fill="currentColor">
+            <path d="M5 3.5v11l9-5.5-9-5.5z" />
+          </svg>
+          <svg id="muVinylPauseIcon" width="15" height="15" viewBox="0 0 18 18" fill="currentColor" style="display:none">
+            <path d="M4 3h3.4v12H4V3zm6.6 0H14v12h-3.4V3z" />
+          </svg>
+        </button>
+      </div>
+      <audio id="muAudio" preload="none"></audio>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SHOWCASE — un bloque grande por mix: clip corto de fondo (data-clip,
+       muteado con toggle de sonido) + tu foto recortada (data-cutout) +
+       link "Ver el set completo en YouTube", y debajo — en su propio
+       bloque — el video real de YouTube embebido (data-yt), con carga
+       perezosa (arranca con miniatura, recién mete el iframe al tocar).
+       Alterna de lado en cada mix. Cada bloque tiene id="mix-<slug>" —
+       ahí saltan los botones "Escuchar" de los videos de arriba en mobile.
+       Se arma 100% por JS a partir de #muMixlist — nada hardcodeado.
+  ============================================================ -->
+  <section class="mu-showcase" id="muShowcase"></section>
+
+  <!-- ============================================================
+       AGENCIAS ALIADAS — no ofrecemos el show en vivo nosotros mismos,
+       compartimos los sets de 2 agencias amigas con las que nos
+       recomendamos mutuamente. Reemplazá cada <img src> por el logo
+       real en PNG (fondo transparente, cuadrado, ideal 300x300) y
+       cada href por el link de contacto/Instagram de esa agencia.
+  ============================================================ -->
+  <section class="mu-partners">
+    <p class="mu-partners-text">¿Buscás vivir esta misma experiencia?</p>
+    <span class="mu-partners-sub">Continúa la aventura</span>
+
+    <div class="mu-partners-logos">
+      <a href="https://andinawebstudio.com/" class="mu-partner-logo" aria-label="Andina Web Studio">
+        <img src="assets/img/logo-andina.webp" alt="Andina Web Studio" />
+      </a>
+      <a href="https://www.bresh.com/" class="mu-partner-logo" aria-label="Nombre agencia aliada 1" target="_blank" rel="noopener">
+        <img src="assets/img/logo-agencia-2.webp" alt="Nombre agencia aliada 1" />
+      </a>
+      <a href="https://www.wasabifest.com.ar/" class="mu-partner-logo" aria-label="Nombre agencia aliada 2" target="_blank" rel="noopener">
+        <img src="assets/img/logo-agencia-3.webp" alt="Nombre agencia aliada 2" />
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER — versión con más identidad, exclusiva de esta página -->
+  <footer class="mu-footer">
+    <div class="mu-footer-brand">
+      <svg width="22" height="22" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="8" fill="#000000" />
+        <path d="M6 27L13 13L18 20L23 10L30 27H6Z" fill="none" stroke="#FFFFFF" stroke-width="1.5"
+          stroke-linejoin="round" />
+        <path d="M18 20L23 10L30 27H18V20Z" fill="rgba(255,255,255,0.12)" />
+        <circle cx="23" cy="10" r="1.5" fill="#FFFFFF" />
+      </svg>
+      <div>
+        <div class="mu-footer-copy">© 2026 Andina Web Studio</div>
+      </div>
+    </div>
+    <a href="#" class="mu-footer-top" id="muFooterTop">Volver arriba ↑</a>
+  </footer>
+
+  <!-- MODAL — reproductor, se abre al hacer click en cualquier mix (hero o grid) -->
+  <div class="mu-player" id="muPlayer" aria-hidden="true">
+    <div class="mu-player-backdrop" id="muPlayerBackdrop"></div>
+    <div class="mu-player-frame">
+      <button class="mu-player-close" id="muPlayerClose" aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"
+          stroke-linecap="round">
+          <path d="M2 2l14 14M16 2 2 16" />
+        </svg>
+      </button>
+      <div class="mu-player-embed" id="muPlayerEmbed"></div>
+    </div>
+  </div>
+
+  <!-- Marcador temporal de versión — solo para confirmar que el celular está
+       cargando el JS/CSS más nuevo. Se puede sacar después de resolver el bug. -->
+  <div style="position:fixed;bottom:4px;left:4px;z-index:9999;font-family:monospace;font-size:9px;color:rgba(255,255,255,0.35);pointer-events:none;">v30</div>
+
+  <script src="js/musica.js?v=30" defer></script>
+</body>
+
+</html>

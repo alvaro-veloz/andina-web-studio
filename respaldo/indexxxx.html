@@ -196,8 +196,6 @@
 <body>
 
   <!-- CURSOR -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
 
   <!-- PRELOADER -->
   <div id="preloader">
@@ -235,10 +233,20 @@
         </a>
         <ul class="nav-dropdown">
           <li><a href="about.html">Quiénes somos</a></li>
+          <li><a href="notas-de-ruta.html">Notas de ruta</a></li>
         </ul>
       </li>
-      <li><a href="#proceso">Proceso</a></li>
-      <li><a href="#precios">Precios</a></li>
+      <li class="nav-item-dropdown">
+        <a href="#proceso">Proceso
+          <svg class="nav-chevron" width="9" height="6" viewBox="0 0 9 6" fill="none">
+            <path d="M1 1l3.5 3.5L8 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+        <ul class="nav-dropdown">
+          <li><a href="backstage.html">Backstage</a></li>
+        </ul>
+      </li>
       <li><a href="#contacto" class="nav-cta">Contacto</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menú">
@@ -252,7 +260,9 @@
     <a href="proyectos.html" onclick="closeMobile()" class="mobile-pf-link">Portafolio completo</a>
     <a href="#sobre" onclick="closeMobile()">Estudio</a>
     <a href="about.html" onclick="closeMobile()" class="mobile-sub-link">↳ Quiénes somos</a>
+    <a href="notas-de-ruta.html" onclick="closeMobile()" class="mobile-sub-link">↳ Notas de ruta</a>
     <a href="#proceso" onclick="closeMobile()">Proceso</a>
+    <a href="backstage.html" onclick="closeMobile()" class="mobile-sub-link">↳ Backstage</a>
     <a href="#precios" onclick="closeMobile()">Precios</a>
     <a href="#contacto" onclick="closeMobile()">Contacto</a>
   </div>
@@ -291,7 +301,10 @@
       <!-- Columna izquierda — texto principal -->
       <div class="hero-left">
         <div class="hero-badge">
-          <div class="hero-badge-dot"></div>
+          <svg class="hero-badge-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="hbi-peak" d="M1 10.5L5 4l2.2 3.3L9.5 4L13 10.5H1z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" fill="none" />
+            <circle class="hbi-spark" cx="9.5" cy="4" r="0.9" fill="currentColor" />
+          </svg>
           <span>Diseño Web · Ecuador · Argentina · Chile</span>
         </div>
         <h1 class="hero-title">Andina<br><strong>Web Studio</strong></h1>
@@ -922,24 +935,35 @@
           <div class="pvp-mockup">
             <div class="pvp-bar">
               <div class="pvp-dots"><span></span><span></span><span></span></div>
-              <span class="pvp-filename">proyecto-cliente.html — VS Code</span>
+              <span class="pvp-filename" id="pvpFilename">proyecto-cliente.html — VS Code</span>
+              <span class="pvp-diff" id="pvpDiff"><span class="pvp-diff-add">+18</span><span class="pvp-diff-del">-2</span></span>
             </div>
             <div class="pvp-screen">
-              <div class="pvp-typing">
-                <span class="pvp-line l1"><span class="c-grey">&lt;!-- Diseño a medida --&gt;</span></span>
-                <span class="pvp-line l2"><span class="c-blue">&lt;section</span> <span
+              <div class="pvp-typing" id="pvpTyping">
+                <span class="pvp-line"><span class="c-grey">&lt;!-- Diseño a medida --&gt;</span></span>
+                <span class="pvp-line"><span class="c-blue">&lt;section</span> <span
                     class="c-teal">class</span>=<span class="c-orange">"hero"</span><span
                     class="c-blue">&gt;</span></span>
-                <span class="pvp-line l3">&nbsp;&nbsp;<span class="c-blue">&lt;h1&gt;</span><span class="c-white">Tu
+                <span class="pvp-line">&nbsp;&nbsp;<span class="c-blue">&lt;h1&gt;</span><span class="c-white">Tu
                     negocio online</span><span class="c-blue">&lt;/h1&gt;</span></span>
-                <span class="pvp-line l4">&nbsp;&nbsp;<span class="c-blue">&lt;p&gt;</span><span class="c-white">Hecho
+                <span class="pvp-line">&nbsp;&nbsp;<span class="c-blue">&lt;p&gt;</span><span class="c-white">Hecho
                     con código real</span><span class="c-blue">&lt;/p&gt;</span></span>
-                <span class="pvp-line l5"><span class="c-blue">&lt;/section&gt;</span></span>
-                <span class="pvp-cursor"></span>
+                <span class="pvp-line"><span class="c-blue">&lt;/section&gt;</span></span>
+                <span class="pvp-cursor" id="pvpCursor"></span>
               </div>
             </div>
           </div>
           <div class="pvp-label">Cada sitio: código escrito línea a línea, sin plantillas</div>
+        </div>
+        <div class="pvp-cta-wrap">
+          <a href="backstage.html" class="pvp-cta">
+            <span class="pvp-cta-bracket">&lt;/&gt;</span>
+            Ver el código real — <strong>Backstage</strong>
+            <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+              <path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
         </div>
       </div>
     </div>
@@ -1762,7 +1786,9 @@
         <ul class="footer-links">
           <li><a href="#proyectos">Proyectos</a></li>
           <li><a href="proyectos.html">Portafolio completo</a></li>
-          <li><a href="#sobre">Estudio</a></li>
+          <li><a href="#lookback">Lookback</a></li>
+          <li><a href="about.html">Quiénes somos</a></li>
+          <li><a href="notas-de-ruta.html">Notas de ruta</a></li>
           <li><a href="#proceso">Proceso</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>

@@ -83,39 +83,9 @@
       background: var(--navy);
       color: var(--white);
       overflow-x: hidden;
-      cursor: none;
     }
 
-    /* ── CURSOR ── */
-    #cursor {
-      width: 8px;
-      height: 8px;
-      background: var(--ice);
-      border-radius: 50%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    #cursorRing {
-      width: 36px;
-      height: 36px;
-      border: 1px solid rgba(168, 200, 232, 0.4);
-      border-radius: 50%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      transition: width 0.3s, height 0.3s, opacity 0.3s;
-    }
+    /* cursor personalizado eliminado — se usa el puntero por defecto */
 
     /* ── NAV ── */
     .pf-nav {
@@ -506,7 +476,6 @@
       overflow: hidden;
       aspect-ratio: 4/3;
       background: var(--navy);
-      cursor: none;
       display: block;
       text-decoration: none;
       isolation: isolate;
@@ -1223,14 +1192,6 @@
       z-index: 0;
     }
 
-    /* ── Fix cursor en móvil ── */
-    @media (pointer: coarse) {
-
-      #cursor,
-      #cursorRing {
-        display: none !important;
-      }
-    }
 
 
     /* ── Footer sticky push — FINAL ── */
@@ -1504,8 +1465,6 @@
 
   <div id="swup" class="transition-fade">
     <!-- Cursor -->
-    <div id="cursor"></div>
-    <div id="cursorRing"></div>
 
     <!-- Nav -->
     <nav class="pf-nav">

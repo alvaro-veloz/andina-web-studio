@@ -1,28 +1,3 @@
-    // ── CURSOR — solo desktop ──
-    (function () {
-      var isTouch = window.matchMedia('(pointer: coarse)').matches;
-      if (isTouch) return;
-      var cur = document.getElementById('cursor');
-      var ring = document.getElementById('cursorRing');
-      if (!cur || !ring) return;
-      var mx = window.innerWidth / 2, my = window.innerHeight / 2, rx = mx, ry = my;
-      cur.style.opacity = '0'; ring.style.opacity = '0';
-      document.addEventListener('mousemove', function (e) {
-        mx = e.clientX; my = e.clientY;
-        cur.style.opacity = '1'; ring.style.opacity = '1';
-      });
-      (function anim() {
-        rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
-        cur.style.left = mx + 'px'; cur.style.top = my + 'px';
-        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-        requestAnimationFrame(anim);
-      })();
-      document.querySelectorAll('a,.pf-card').forEach(function (el) {
-        el.addEventListener('mouseenter', function () { ring.style.width = '52px'; ring.style.height = '52px'; });
-        el.addEventListener('mouseleave', function () { ring.style.width = '36px'; ring.style.height = '36px'; });
-      });
-    })();
-
     // ── GSAP card reveals ──
     if (typeof gsap !== 'undefined') {
       gsap.from('.pf-card', {

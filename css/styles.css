@@ -929,10 +929,10 @@
       position: absolute;
       bottom: -20px;
       right: -20px;
-      background: var(--white);
+      background: linear-gradient(135deg, var(--sky), var(--navy));
       border-radius: var(--radius-md);
-      padding: 20px 24px;
-      box-shadow: var(--shadow-md);
+      padding: 20px 26px;
+      box-shadow: 0 16px 40px -12px rgba(45, 111, 163, 0.55);
       display: flex;
       align-items: center;
       gap: 16px;
@@ -942,41 +942,50 @@
     .sobre-card-float-link {
       text-decoration: none;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      animation: sobre-cta-pulse 2.8s ease-in-out infinite;
+    }
+
+    @keyframes sobre-cta-pulse {
+      0%, 100% { box-shadow: 0 16px 40px -12px rgba(45, 111, 163, 0.55); }
+      50% { box-shadow: 0 16px 46px -10px rgba(45, 111, 163, 0.85), 0 0 0 6px rgba(45, 111, 163, 0.08); }
     }
 
     .sobre-card-float-link:hover {
       transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
+      box-shadow: 0 20px 50px -10px rgba(45, 111, 163, 0.75);
     }
 
     .sobre-card-float-link:hover .icon-wrap {
-      background: rgba(45, 111, 163, 0.18);
+      background: rgba(255, 255, 255, 0.28);
+      transform: translateX(4px);
     }
 
     .sobre-card-float .icon-wrap {
       width: 44px;
       height: 44px;
       border-radius: 10px;
-      background: rgba(45, 111, 163, 0.1);
+      background: rgba(255, 255, 255, 0.16);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: background 0.3s ease;
+      transition: background 0.3s ease, transform 0.3s ease;
     }
+
+    .sobre-card-float .icon-wrap svg path { stroke: #fff; }
 
     .sobre-card-float .stat-num {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.6rem;
       font-weight: 600;
-      color: var(--navy);
+      color: #fff;
       line-height: 1;
     }
 
     .sobre-card-float .stat-label {
       font-size: 0.72rem;
-      color: var(--grey-mid);
+      color: rgba(255, 255, 255, 0.75);
       text-transform: uppercase;
       letter-spacing: 0.08em;
     }
@@ -1615,47 +1624,7 @@
       }
     }
 
-    /* ==========================================
-       CURSOR PERSONALIZADO (desktop)
-    ========================================== */
-    @media (pointer: fine) {
-      .cursor {
-        width: 8px;
-        height: 8px;
-        background: var(--sky);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        transform: translate(-50%, -50%);
-        transition: width 0.2s, height 0.2s, background 0.2s;
-        mix-blend-mode: multiply;
-      }
-
-      .cursor-ring {
-        width: 36px;
-        height: 36px;
-        border: 1.5px solid rgba(45, 111, 163, 0.4);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translate(-50%, -50%);
-        transition: width 0.35s ease, height 0.35s ease, transform 0.08s linear;
-      }
-
-      body:has(a:hover) .cursor {
-        width: 14px;
-        height: 14px;
-        background: var(--accent);
-      }
-
-      body:has(a:hover) .cursor-ring {
-        width: 52px;
-        height: 52px;
-        border-color: var(--sky);
-      }
-    }
+    /* cursor personalizado eliminado — se usa el puntero por defecto del sistema */
 
     /* ==========================================
        PRELOADER
@@ -2042,6 +2011,22 @@
       color: var(--gold);
       background: rgba(201, 169, 110, 0.1);
       border-color: rgba(201, 169, 110, 0.25);
+    }
+
+    /* Badge "En construcción" — mismo lenguaje visual que .precio-badge */
+    .proyecto-badge-wip {
+      display: inline-block;
+      vertical-align: middle;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sky);
+      background: rgba(45, 111, 163, 0.1);
+      border: 1px solid rgba(45, 111, 163, 0.2);
+      padding: 4px 10px;
+      border-radius: 40px;
+      margin-left: 10px;
     }
 
     .precio-nombre {
@@ -2450,8 +2435,12 @@
        PROCESO — video / placeholder
     ========================================== */
     .proceso-video-wrap {
-      max-width: 680px;
+      max-width: 920px;
       margin: 40px auto 0;
+    }
+
+    @media (max-width: 980px) {
+      .proceso-video-wrap { max-width: 92%; }
     }
 
     .proceso-video {
@@ -2470,17 +2459,51 @@
     }
 
     .pvp-mockup {
-      background: #1e1e1e;
+      background: #000000;
+      position: relative;
+      overflow: hidden;
+      animation: pvp-glow 4s ease-in-out infinite;
+    }
+
+    @keyframes pvp-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(45, 111, 163, 0); }
+      50% { box-shadow: 0 0 40px 4px rgba(45, 111, 163, 0.18); }
+    }
+
+    .pvp-mockup::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -60%;
+      width: 35%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.05) 45%, transparent 90%);
+      pointer-events: none;
+      animation: pvp-sheen 6s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes pvp-sheen {
+      0% { left: -60%; }
+      45%, 100% { left: 130%; }
     }
 
     .pvp-bar {
-      background: #2d2d2d;
-      padding: 9px 14px;
+      background: #050505;
+      padding: 13px 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     }
+
+    .pvp-diff {
+      margin-left: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      display: flex;
+      gap: 6px;
+    }
+    .pvp-diff-add { color: #6bc17a; }
+    .pvp-diff-del { color: #e07a7a; }
 
     .pvp-dots {
       display: flex;
@@ -2507,60 +2530,50 @@
 
     .pvp-filename {
       font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
+      font-size: 0.72rem;
       color: rgba(255, 255, 255, 0.3);
       letter-spacing: 0.05em;
+      transition: opacity 0.3s ease;
+    }
+
+    .pvp-diff {
+      transition: opacity 0.3s ease;
     }
 
     .pvp-screen {
-      padding: 20px 24px 24px;
-      min-height: 140px;
+      padding: 28px 32px;
+      height: 190px;
+      overflow: hidden;
       display: flex;
       align-items: flex-start;
     }
 
     .pvp-typing {
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.8rem;
       line-height: 1.9;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    @media (max-width: 640px) {
+      .pvp-screen { padding: 20px 18px; height: 190px; }
+      .pvp-typing { font-size: 0.66rem; line-height: 1.85; }
     }
 
     .pvp-line {
       display: block;
       opacity: 0;
-      animation: lineAppear 0.3s forwards;
+      transform: translateX(-6px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: opacity 0.32s ease, transform 0.32s ease;
     }
 
-    .pvp-line.l1 {
-      animation-delay: 0.2s;
-    }
-
-    .pvp-line.l2 {
-      animation-delay: 0.7s;
-    }
-
-    .pvp-line.l3 {
-      animation-delay: 1.2s;
-    }
-
-    .pvp-line.l4 {
-      animation-delay: 1.7s;
-    }
-
-    .pvp-line.l5 {
-      animation-delay: 2.2s;
-    }
-
-    @keyframes lineAppear {
-      from {
-        opacity: 0;
-        transform: translateX(-4px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+    .pvp-line.pvp-in {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .pvp-cursor {
@@ -2595,6 +2608,73 @@
       text-align: center;
       text-transform: uppercase;
     }
+
+    .pvp-cta-wrap {
+      position: relative;
+      margin: 26px auto 0;
+      width: fit-content;
+      border-radius: 14px;
+      padding: 1.5px;
+      background: conic-gradient(from var(--pvp-angle, 0deg), var(--sky), var(--gold), var(--ice), var(--sky));
+      animation: pvp-rotate-border 5s linear infinite;
+      box-shadow: 0 20px 45px -18px rgba(10, 22, 40, 0.55);
+    }
+
+    @property --pvp-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    @keyframes pvp-rotate-border {
+      to { --pvp-angle: 360deg; }
+    }
+
+    .pvp-cta {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 26px;
+      background: var(--navy);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 12.5px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s ease;
+    }
+
+    .pvp-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(120px 60px at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.14), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .pvp-cta-wrap:hover .pvp-cta { transform: translateY(-3px) scale(1.015); background: #0d1f38; }
+    .pvp-cta-wrap:hover .pvp-cta::before { opacity: 1; }
+    .pvp-cta-wrap:hover { animation-duration: 1.4s; }
+
+    .pvp-cta-bracket {
+      font-family: 'DM Mono', monospace;
+      color: var(--gold);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+    }
+
+    .pvp-cta strong {
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .pvp-cta:hover svg { transform: translateX(4px); }
+    .pvp-cta svg { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); flex-shrink: 0; color: var(--ice); }
 
     /* ==========================================
        FOOTER — MÉTODOS DE PAGO
@@ -5882,4 +5962,156 @@ body.agenda-modal-open {
   .lookback-eq-progress {
     height: 40px;
   }
+}
+
+
+/* ============================================================
+   MIX HERO — teaser de la sección Música, mismo lenguaje visual
+   que musica.html: negro puro, Anton, acentos "arcoíris" estilo
+   Google (azul/rojo/amarillo/verde) y DM Mono para los detalles.
+   Variables locales de marca-música (no tocan el :root del sitio).
+============================================================ */
+.mix-hero {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 0;
+  --mu-g1: #4285F4; /* azul */
+  --mu-g2: #EA4335; /* rojo */
+  --mu-g3: #FBBC05; /* amarillo */
+  --mu-g4: #34A853; /* verde */
+  --mu-bg: #0a0a0a;
+}
+
+/* Línea arcoíris que marca la transición desde el resto del sitio
+   hacia la identidad de Música — mismo recurso que usa el footer
+   y los botones de musica.html */
+.mix-hero::before {
+  content: '';
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, var(--mu-g1), var(--mu-g2), var(--mu-g3), var(--mu-g4), var(--mu-g1));
+  background-size: 400% 100%;
+  animation: mix-hero-rainbow-move 9s linear infinite;
+}
+@keyframes mix-hero-rainbow-move {
+  to { background-position: -300% 0; }
+}
+
+.mix-hero-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.9 / 1;
+  overflow: hidden;
+  background: var(--mu-bg);
+}
+
+.mix-hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mix-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.1) 28%, rgba(0, 0, 0, 0.35) 62%, rgba(0, 0, 0, 0.88) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, transparent 42%);
+}
+
+.mix-hero-content {
+  position: absolute;
+  left: 6%;
+  top: 50%;
+  transform: translateY(-50%) rotate(-1.4deg);
+  transform-origin: left center;
+}
+
+.mix-hero-eyebrow {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--mu-g1);
+  margin-bottom: 10px;
+  margin-left: 4px;
+}
+
+.mix-hero-big {
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.86;
+  font-size: clamp(3.4rem, 11vw, 8.5rem);
+  letter-spacing: -0.01em;
+  color: #f5f5f5;
+  text-shadow: 3px 4px 0 rgba(0, 0, 0, 0.6);
+}
+
+.mix-hero-big-sm {
+  display: block;
+  font-size: 0.36em;
+  letter-spacing: 0.2em;
+  margin-top: 0.1em;
+  background-image: linear-gradient(90deg, var(--mu-g1), var(--mu-g2), var(--mu-g3), var(--mu-g4));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mix-hero-desc {
+  position: absolute;
+  left: 6%;
+  bottom: 9%;
+  max-width: 380px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(245, 245, 245, 0.7);
+  font-weight: 300;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.mix-hero-go {
+  position: absolute;
+  right: 6%;
+  bottom: 9%;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-image:
+    linear-gradient(var(--mu-bg), var(--mu-bg)),
+    linear-gradient(90deg, var(--mu-g1), var(--mu-g2), var(--mu-g3), var(--mu-g4), var(--mu-g1));
+  background-size: 100% 100%, 400% 100%;
+  animation: mix-hero-rainbow-move 7s linear infinite;
+  animation-play-state: paused;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+.mix-hero-go:hover {
+  animation-duration: 1.8s;
+  animation-play-state: running;
+  box-shadow: 0 0 26px -6px rgba(66, 133, 244, 0.55), 0 0 26px -6px rgba(234, 67, 53, 0.4);
+  transform: scale(1.08);
+}
+
+@media (max-width: 768px) {
+  .mix-hero-card { aspect-ratio: 3 / 4; }
+  .mix-hero-content { left: 7%; }
+  .mix-hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.35em; }
+  .mix-hero-desc { left: 7%; right: 88px; max-width: none; bottom: 17%; font-size: 0.82rem; }
+  .mix-hero-go { right: 7%; bottom: 17%; width: 64px; height: 64px; font-size: 1rem; }
 }

@@ -51,28 +51,6 @@
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     /* ==========================================
-       CURSOR PERSONALIZADO
-    ========================================== */
-    const cursor = document.getElementById('cursor');
-    const cursorRing = document.getElementById('cursorRing');
-    if (window.matchMedia('(pointer: fine)').matches) {
-      let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-      document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX; mouseY = e.clientY;
-        cursor.style.left = mouseX + 'px';
-        cursor.style.top = mouseY + 'px';
-      });
-      function animateRing() {
-        ringX += (mouseX - ringX) * 0.12;
-        ringY += (mouseY - ringY) * 0.12;
-        cursorRing.style.left = ringX + 'px';
-        cursorRing.style.top = ringY + 'px';
-        requestAnimationFrame(animateRing);
-      }
-      animateRing();
-    }
-
-    /* ==========================================
        SMOOTH SCROLL
     ========================================== */
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1528,23 +1506,24 @@
     var lookbackItems = [
       { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785341674/Chimborazo_akwah1.webp', tipo: 'img', numero: '01', etiqueta: 'Chimborazo — Ecuador · 6.263 msnm', featured: true },
       { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343260/xd_sstfzi.jpg', tipo: 'img', numero: '02', etiqueta: 'Región de los Lagos — Chile' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343260/702064239_18461669509104361_8934122530821064269_n_gi6ex0.jpg', tipo: 'img', numero: '02', etiqueta: 'Zorro gris — Región de los Lagos, Chile' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343506/705757809_18533296687079277_3930928108253867192_n_oa6hmg.jpg', tipo: 'img', numero: '03', etiqueta: 'Cayambe — Ecuador · 5.790 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343260/xdd_suaqrj.jpg', tipo: 'img', numero: '04', etiqueta: 'Osorno — Chile · 2.652 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344090/EL_ALTAR_mmqryi.jpg', tipo: 'img', numero: '05', etiqueta: 'El Altar — Ecuador · 5.319 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344090/EL_ALTAR_1_cfeqvu.jpg', tipo: 'img', numero: '05', etiqueta: 'El Altar — Ecuador · 5.319 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344811/ELCAJAS_nc3nkh.jpg', tipo: 'img', numero: '06', etiqueta: 'Parque Nacional Cajas — Ecuador · hasta 4.450 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344811/ELCAJAS1_t9wnyo.jpg', tipo: 'img', numero: '06', etiqueta: 'Parque Nacional Cajas — Ecuador · hasta 4.450 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344811/PALLATANGA_kxe8sg.jpg', tipo: 'img', numero: '07', etiqueta: 'Pallatanga — Ecuador · 1.520 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785345862/punay_lix1os.jpg', tipo: 'img', numero: '08', etiqueta: 'Cerro Puñay — Ecuador · 3.245 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361221/cotopaxi1_a6yxud.jpg', tipo: 'img', numero: '09', etiqueta: 'Parque Nacional Cotopaxi — Ecuador · 5.897 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361221/cotopaxi2_j6pzft.jpg', tipo: 'img', numero: '09', etiqueta: 'Parque Nacional Cotopaxi — Ecuador · 5.897 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361850/patagonia_hat7mr.jpg', tipo: 'img', numero: '10', etiqueta: 'Cerro Catedral — Bariloche, Argentina · 2.388 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361850/patagonia1_rpqctt.jpg', tipo: 'img', numero: '10', etiqueta: 'Cerro Catedral — Bariloche, Argentina · 2.388 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785362592/tilcara_voptvb.webp', tipo: 'img', numero: '11', etiqueta: 'Tilcara — Jujuy, Argentina · 2.465 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785362918/Vilcanota_j5fio9.jpg', tipo: 'img', numero: '12', etiqueta: 'Cordillera Vilcanota — Perú · 6.384 msnm' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785366896/patagonico_if9nx1.jpg', tipo: 'img', numero: '13', etiqueta: 'El Calafate — Patagonia, Argentina' },
-      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785366896/patagonico1_yjaxkm.jpg', tipo: 'img', numero: '13', etiqueta: 'El Calafate — Patagonia, Argentina' }
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343260/702064239_18461669509104361_8934122530821064269_n_gi6ex0.jpg', tipo: 'img', numero: '03', etiqueta: 'Zorro gris — Región de los Lagos, Chile' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343506/705757809_18533296687079277_3930928108253867192_n_oa6hmg.jpg', tipo: 'img', numero: '04', etiqueta: 'Cayambe — Ecuador · 5.790 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785343260/xdd_suaqrj.jpg', tipo: 'img', numero: '05', etiqueta: 'Osorno — Chile · 2.652 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344090/EL_ALTAR_mmqryi.jpg', tipo: 'img', numero: '06', etiqueta: 'El Altar — Ecuador · 5.319 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344090/EL_ALTAR_1_cfeqvu.jpg', tipo: 'img', numero: '07', etiqueta: 'El Altar — Ecuador · 5.319 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344811/ELCAJAS_nc3nkh.jpg', tipo: 'img', numero: '08', etiqueta: 'Parque Nacional Cajas — Ecuador · hasta 4.450 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344811/ELCAJAS1_t9wnyo.jpg', tipo: 'img', numero: '09', etiqueta: 'Parque Nacional Cajas — Ecuador · hasta 4.450 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785344811/PALLATANGA_kxe8sg.jpg', tipo: 'img', numero: '10', etiqueta: 'Pallatanga — Ecuador · 1.520 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785345862/punay_lix1os.jpg', tipo: 'img', numero: '11', etiqueta: 'Cerro Puñay — Ecuador · 3.245 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361221/cotopaxi1_a6yxud.jpg', tipo: 'img', numero: '12', etiqueta: 'Parque Nacional Cotopaxi — Ecuador · 5.897 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361221/cotopaxi2_j6pzft.jpg', tipo: 'img', numero: '13', etiqueta: 'Parque Nacional Cotopaxi — Ecuador · 5.897 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361850/patagonia_hat7mr.jpg', tipo: 'img', numero: '14', etiqueta: 'Cerro Catedral — Bariloche, Argentina · 2.388 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785361850/patagonia1_rpqctt.jpg', tipo: 'img', numero: '15', etiqueta: 'Cerro Catedral — Bariloche, Argentina · 2.388 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785362592/tilcara_voptvb.webp', tipo: 'img', numero: '16', etiqueta: 'Tilcara — Jujuy, Argentina · 2.465 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785362918/Vilcanota_j5fio9.jpg', tipo: 'img', numero: '17', etiqueta: 'Cordillera Vilcanota — Perú · 6.384 msnm' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785366896/patagonico_if9nx1.jpg', tipo: 'img', numero: '18', etiqueta: 'El Calafate — Patagonia, Argentina' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1785366896/patagonico1_yjaxkm.jpg', tipo: 'img', numero: '19', etiqueta: 'El Calafate — Patagonia, Argentina' },
+      { src: 'https://res.cloudinary.com/djpfphcj/image/upload/v1787076081/quilotoa_xyiklq.jpg', tipo: 'img', numero: '20', etiqueta: 'Laguna Quilotoa — Cotopaxi, Ecuador · 3.914 msnm' }
       // Ejemplo de cómo seguir agregando (descomentá y editá):
       // , { src: 'TU_LINK_DE_CLOUDINARY_AQUI', tipo: 'img', numero: '04', etiqueta: 'Merch — Abril' }
       // , { src: 'TU_LINK_DE_VIDEO_AQUI', tipo: 'video', numero: '05', etiqueta: 'Merch — Abril', featured: true }
@@ -1868,11 +1847,28 @@
       eq.addEventListener('pointercancel', endScrub);
 
       // ---------------------------------------------------------------
-      // Rueda del mouse sobre la estantería (o la barra) mueve las fotos
-      // en horizontal, con inercia suave — no hace falta soltar el mouse
-      // para recorrer todo el Lookback.
+      // Rueda del mouse sobre TODA la sección de Lookback (no solo la
+      // estantería) mueve las fotos en horizontal, con inercia suave.
+      // Además, solo se activa una vez que la sección ya ocupa buena
+      // parte de la pantalla — así un scroll rápido de paso no "atrapa"
+      // el mouse por accidente, y la transición de entrada/salida se
+      // siente como parte del mismo gesto, no como un salto.
       // ---------------------------------------------------------------
+      var sectionEngaged = false;
+      if ('IntersectionObserver' in window && lookbackSection) {
+        var engageObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            sectionEngaged = entry.intersectionRatio >= 0.55;
+          });
+        }, { threshold: [0, 0.55, 1] });
+        engageObserver.observe(lookbackSection);
+      } else {
+        sectionEngaged = true; // sin soporte de IO, no bloqueamos la función
+      }
+
       function onWheel(e) {
+        if (!sectionEngaged) return; // todavía no "llegamos" de verdad a la sección
+
         var base = wheelTarget !== null ? wheelTarget : shelf.scrollLeft;
         var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
         var atStart = base <= 0 && delta < 0;
@@ -1889,8 +1885,12 @@
         e.preventDefault();
         wheelTarget = Math.min(Math.max(base + delta, 0), maxScroll());
       }
-      shelf.addEventListener('wheel', onWheel, { passive: false });
-      eq.addEventListener('wheel', onWheel, { passive: false });
+      if (lookbackSection) {
+        lookbackSection.addEventListener('wheel', onWheel, { passive: false });
+      } else {
+        shelf.addEventListener('wheel', onWheel, { passive: false });
+        eq.addEventListener('wheel', onWheel, { passive: false });
+      }
 
       // --- Tick seco (ruido filtrado), no un "bip" tipo burbuja ---
       var lastTickPlayedAt = 0;
@@ -2164,3 +2164,135 @@
     requestAnimationFrame(loop);
   })();
 
+
+/* Botón Backstage — brillo que sigue al mouse */
+(function () {
+  var btn = document.querySelector('.pvp-cta');
+  if (!btn) return;
+  btn.addEventListener('mousemove', function (e) {
+    var rect = btn.getBoundingClientRect();
+    var x = ((e.clientX - rect.left) / rect.width) * 100;
+    var y = ((e.clientY - rect.top) / rect.height) * 100;
+    btn.style.setProperty('--mx', x + '%');
+    btn.style.setProperty('--my', y + '%');
+  });
+})();
+
+/* Mockup de código — ciclo de tipeo y borrado con fragmentos reales de Andina */
+(function () {
+  var typingEl = document.getElementById('pvpTyping');
+  var filenameEl = document.getElementById('pvpFilename');
+  var diffEl = document.getElementById('pvpDiff');
+  var cursorEl = document.getElementById('pvpCursor');
+  if (!typingEl || !filenameEl || !diffEl || !cursorEl) return;
+
+  var SNIPPETS = [
+    {
+      file: 'proyecto-cliente.html — VS Code',
+      diff: { add: 18, del: 2 },
+      lines: [
+        '<span class="c-grey">&lt;!-- Diseño a medida --&gt;</span>',
+        '<span class="c-blue">&lt;section</span> <span class="c-teal">class</span>=<span class="c-orange">"hero"</span><span class="c-blue">&gt;</span>',
+        '&nbsp;&nbsp;<span class="c-blue">&lt;h1&gt;</span><span class="c-white">Tu negocio online</span><span class="c-blue">&lt;/h1&gt;</span>',
+        '&nbsp;&nbsp;<span class="c-blue">&lt;p&gt;</span><span class="c-white">Hecho con código real</span><span class="c-blue">&lt;/p&gt;</span>',
+        '<span class="c-blue">&lt;/section&gt;</span>'
+      ]
+    },
+    {
+      file: 'checkout.js — Pasarela de pagos',
+      diff: { add: 29, del: 5 },
+      lines: [
+        '<span class="c-grey">// botón de PayPal — cobra sin salir del sitio</span>',
+        '<span class="c-white">paypal.</span><span class="c-teal">Buttons</span><span class="c-white">({</span>',
+        '&nbsp;&nbsp;<span class="c-blue">createOrder</span><span class="c-white">: (d, a) => a.order.</span><span class="c-teal">create</span><span class="c-white">(pedido),</span>',
+        '&nbsp;&nbsp;<span class="c-blue">onApprove</span><span class="c-white">: (d, a) => a.order.</span><span class="c-teal">capture</span><span class="c-white">()</span>',
+        '<span class="c-white">}).</span><span class="c-teal">render</span><span class="c-white">(</span><span class="c-orange">\'#paypal-button\'</span><span class="c-white">);</span>'
+      ]
+    },
+    {
+      file: 'background.js — Extensión de Chrome',
+      diff: { add: 45, del: 8 },
+      lines: [
+        '<span class="c-grey">// escucha al popup de la extensión</span>',
+        '<span class="c-white">chrome.runtime.onMessage.</span><span class="c-teal">addListener</span><span class="c-white">((msg, s, respond) => {</span>',
+        '&nbsp;&nbsp;<span class="c-blue">if</span> <span class="c-white">(msg.type === </span><span class="c-orange">\'CHECK_UNFOLLOWERS\'</span><span class="c-white">) respond(scan());</span>',
+        '&nbsp;&nbsp;<span class="c-blue">return</span> <span class="c-white">true;</span>',
+        '<span class="c-white">});</span>'
+      ]
+    },
+    {
+      file: 'viewer-3d.js — Modelos 3D',
+      diff: { add: 33, del: 4 },
+      lines: [
+        '<span class="c-grey">// carga un modelo 3D real e interactivo</span>',
+        '<span class="c-blue">const</span> <span class="c-white">loader = </span><span class="c-blue">new</span> <span class="c-teal">GLTFLoader</span><span class="c-white">();</span>',
+        '<span class="c-white">loader.</span><span class="c-teal">load</span><span class="c-white">(</span><span class="c-orange">\'producto.glb\'</span><span class="c-white">, (gltf) => {</span>',
+        '&nbsp;&nbsp;<span class="c-white">scene.</span><span class="c-teal">add</span><span class="c-white">(gltf.scene);</span>',
+        '<span class="c-white">});</span>'
+      ]
+    },
+    {
+      file: 'booking.js — VS Code',
+      diff: { add: 41, del: 9 },
+      lines: [
+        '<span class="c-grey">// bloquea horarios que ya tienen cita confirmada</span>',
+        '<span class="c-white">supabase</span>',
+        '&nbsp;&nbsp;<span class="c-white">.</span><span class="c-teal">from</span><span class="c-white">(</span><span class="c-orange">\'citas\'</span><span class="c-white">)</span>',
+        '&nbsp;&nbsp;<span class="c-white">.</span><span class="c-teal">eq</span><span class="c-white">(</span><span class="c-orange">\'estado\'</span><span class="c-white">, </span><span class="c-orange">\'confirmada\'</span><span class="c-white">);</span>'
+      ]
+    }
+  ];
+
+  var idx = 0;
+  var timers = [];
+
+  function clearTimers() {
+    timers.forEach(function (t) { clearTimeout(t); });
+    timers = [];
+  }
+
+  function typeSnippet() {
+    var data = SNIPPETS[idx];
+
+    filenameEl.style.opacity = '0';
+    diffEl.style.opacity = '0';
+    timers.push(setTimeout(function () {
+      filenameEl.textContent = data.file;
+      diffEl.innerHTML = '<span class="pvp-diff-add">+' + data.diff.add + '</span><span class="pvp-diff-del">-' + data.diff.del + '</span>';
+      filenameEl.style.opacity = '1';
+      diffEl.style.opacity = '1';
+    }, 260));
+
+    var lineEls = data.lines.map(function (html) {
+      var span = document.createElement('span');
+      span.className = 'pvp-line';
+      span.innerHTML = html;
+      typingEl.insertBefore(span, cursorEl);
+      return span;
+    });
+
+    lineEls.forEach(function (el, i) {
+      timers.push(setTimeout(function () { el.classList.add('pvp-in'); }, 300 + i * 480));
+    });
+
+    var holdUntil = 300 + lineEls.length * 480 + 2200;
+    timers.push(setTimeout(function () { eraseSnippet(lineEls); }, holdUntil));
+  }
+
+  function eraseSnippet(lineEls) {
+    lineEls.forEach(function (el) { el.classList.remove('pvp-in'); });
+    timers.push(setTimeout(function () {
+      lineEls.forEach(function (el) { el.remove(); });
+      idx = (idx + 1) % SNIPPETS.length;
+      typeSnippet();
+    }, 420));
+  }
+
+  // arranca el ciclo; el primer fotograma ya está escrito en el HTML,
+  // así que empezamos borrándolo antes de tipear el siguiente
+  var initialLines = Array.prototype.slice.call(typingEl.querySelectorAll('.pvp-line'));
+  initialLines.forEach(function (el) { el.classList.add('pvp-in'); });
+  timers.push(setTimeout(function () { eraseSnippet(initialLines); }, 3400));
+})();
+
+/* Mix hero: video local ambiental, autoplay/loop/mudo — no necesita JS */

@@ -35,25 +35,7 @@ body.nr-body {
 
 .nr-body a { color: inherit; }
 
-/* ===== Cursor personalizado (solo desktop) ===== */
-.nr-cursor, .nr-cursor-ring {
-  position: fixed;
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 900;
-  opacity: 0;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.2s ease;
-}
-.nr-cursor { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
-.nr-cursor-ring {
-  width: 36px; height: 36px; border: 1px solid var(--ice);
-  border-radius: 50%;
-  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
-}
-@media (pointer: coarse) {
-  .nr-cursor, .nr-cursor-ring { display: none !important; }
-}
+/* cursor personalizado eliminado — se usa el puntero por defecto */
 
 /* ===== Barra de progreso (páginas de post) ===== */
 .nr-progress {
@@ -89,25 +71,11 @@ body.nr-body {
 .nr-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
   text-decoration: none;
   flex-shrink: 0;
 }
 .nr-logo svg { flex-shrink: 0; }
-.nr-logo .nav-logo-text {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  line-height: 1.1;
-  color: var(--white);
-}
-.nr-logo .nav-logo-text span {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.56rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ice);
-}
 
 .nr-nav-links { display: flex; gap: 28px; align-items: center; }
 
