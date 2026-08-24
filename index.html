@@ -272,6 +272,17 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-bg">
+      <!-- ⚠️ Video ambiental de fondo — sutil, se combina con el degradado
+           de abajo (que ahora es semi-transparente) para quedar "lavado"
+           en los mismos tonos claros del hero, sin opacar el texto.
+           Reemplazá el <source> por tu video real: loop, MUDO, comprimido,
+           idealmente paisajes/tomas de la cordillera en cámara lenta.
+           Guardalo en assets/video/hero-bg.mp4 (y opcional: poster en
+           assets/img/hero-bg-poster.webp) -->
+      <video class="hero-bg-video" autoplay muted loop playsinline preload="auto"
+        poster="assets/img/hero-bg-poster.webp">
+        <source src="assets/video/hero-bg.mp4" type="video/mp4" />
+      </video>
       <div class="hero-bg-gradient"></div>
       <canvas id="hero-particles"></canvas>
       <div class="hero-grid"></div>
@@ -307,7 +318,7 @@
             <path class="hbi-peak" d="M1 10.5L5 4l2.2 3.3L9.5 4L13 10.5H1z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" fill="none" />
             <circle class="hbi-spark" cx="9.5" cy="4" r="0.9" fill="currentColor" />
           </svg>
-          <span>Diseño Web · Ecuador · Argentina · Chile</span>
+          <span class="hero-badge-text">Diseño Web · Ecuador · Argentina · Chile</span>
         </div>
         <h1 class="hero-title">Andina<br><strong>Web Studio</strong></h1>
         <p class="hero-subtitle">Construimos la primera impresión que no se olvida.</p>

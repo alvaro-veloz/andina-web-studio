@@ -306,6 +306,17 @@ body.mu-body {
 }
 .mu-arc-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+.mu-arc-empty {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(245, 245, 245, 0.5);
+}
+
 .mu-arc-item.is-visible { opacity: 1; }
 
 .mu-arc-item:hover,
@@ -362,6 +373,10 @@ body.mu-body {
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid rgba(255,255,255,0.18);
+  display: none;
+}
+.mu-vinyl-disc img.has-art {
+  display: block;
 }
 
 @keyframes mu-vinyl-spin {

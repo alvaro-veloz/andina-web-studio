@@ -130,15 +130,20 @@
   if (!arc) return;
 
   var TRACKS = [
-    { q: 'Bonobo Cirrus' },
-    { q: 'Tycho A Walk' },
     { q: 'Rufus Du Sol Innerbloom' },
-    { q: 'Kiasmos Blurred EP' },
-    { q: 'ODESZA Say My Name' },
-    { q: 'Nicolas Jaar Space Is Only Noise' },
-    { q: 'Four Tet Baby' },
-    { q: 'Jon Hopkins Emerald Rush' },
-    { q: 'Boards of Canada Roygbiv' }
+    { q: 'Joy Crookes Feet Dont Fail Me Now' },
+    { q: 'Calvin Harris Thinking About You Ayah Marar' },
+    { q: 'Gustavo Cerati Vivo' },
+    { q: 'LONOWN Worry' },
+    { q: 'Duke Dumont Ocean Drive' },
+    { q: 'DJ Snake Let Me Love You' },
+    { q: 'DJ Snake Middle Bipolar Sunshine' },
+    { q: 'Feid Quemando Calorias' },
+    { q: 'Omar Courtz Lakenoshi' },
+    { q: 'Omar Courtz Luces De Colores' },
+    { q: 'Sentinel Alesso Freedom' },
+    { q: 'Rick Ross Stay Schemin Drake French Montana' },
+    { q: 'Qloo Young Cister Kreamly' }
   ];
 
   var audio = document.getElementById('muAudio');
@@ -172,6 +177,7 @@
     btn.classList.add('is-playing');
 
     art.src = data.artwork;
+    art.classList.add('has-art');
     label.textContent = 'Reproduciendo';
     trackEl.textContent = data.artist + ' — ' + data.title;
     toggleBtn.disabled = false;
@@ -321,12 +327,31 @@
     arc.addEventListener('pointercancel', endDrag);
   }
 
-  // Trae todas las canciones de la iTunes Search API en paralelo, y recién
-  // cuando todas resolvieron arma el arco/anillo — evita huecos por búsquedas fallidas.
-  Promise.all(TRACKS.map(function (t) {
+  // Trae las canciones de la iTunes Search API.
+  // ⚠️ Antes esto disparaba las 14 búsquedas en paralelo (Promise.all), lo que
+  // en la práctica pega contra el límite de requests por IP de la API de
+  // iTunes (no documentado, pero real) y hace que TODAS fallen en silencio
+  // — quedando el arco vacío sin ningún aviso. Eso es lo que se veía en el
+  // celular: nada de carátulas y el reproductor sin nada para tocar.
+  //
+  // Fix: 1) cachea el resultado en sessionStorage — una vez que carga bien,
+  //         no vuelve a golpear la API en cada visita/recarga durante la
+  //         misma sesión (además de evitar el límite, carga instantáneo).
+  //      2) las requests salen una atrás de la otra con una pequeña pausa,
+  //         no las 14 juntas.
+  //      3) si una búsqueda falla, reintenta una vez antes de darla por
+  //         perdida.
+  //      4) si a pesar de todo no logra traer ninguna, muestra un aviso en
+  //         vez de dejar la sección vacía sin explicación.
+  var CACHE_KEY = 'muTracksCache_v1';
+
+  function fetchTrack(t, attempt) {
     var url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(t.q) + '&media=music&limit=1';
     return fetch(url)
-      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
       .then(function (json) {
         var r = json.results && json.results[0];
         if (!r || !r.previewUrl) return null; // sin resultado o sin preview disponible
@@ -337,11 +362,62 @@
           preview: r.previewUrl
         };
       })
-      .catch(function () { return null; });
-  })).then(function (results) {
-    var loaded = results.filter(Boolean);
+      .catch(function (err) {
+        if (!attempt) {
+          // un solo reintento, con una pequeña espera (a veces alcanza)
+          return new Promise(function (resolve) {
+            setTimeout(function () { resolve(fetchTrack(t, 1)); }, 500);
+          });
+        }
+        console.warn('[musica] no se pudo traer "' + t.q + '":', err && err.message);
+        return null;
+      });
+  }
+
+  // Encadena las búsquedas de a una, con ~120ms entre cada una, en vez de
+  // dispararlas todas juntas.
+  function fetchAllSequential(tracks) {
+    var out = [];
+    return tracks.reduce(function (chain, t) {
+      return chain.then(function () {
+        return fetchTrack(t, 0).then(function (data) {
+          out.push(data);
+          return new Promise(function (resolve) { setTimeout(resolve, 120); });
+        });
+      });
+    }, Promise.resolve()).then(function () { return out; });
+  }
+
+  function showEmptyState() {
+    arc.innerHTML = '';
+    var msg = document.createElement('p');
+    msg.className = 'mu-arc-empty';
+    msg.textContent = 'No pudimos cargar las canciones ahora — probá recargar la página.';
+    arc.appendChild(msg);
+  }
+
+  function render(loaded) {
+    if (!loaded.length) { showEmptyState(); return; }
     if (isRingMode) layoutRing(loaded); else layoutArc(loaded);
-  });
+  }
+
+  var cached = null;
+  try {
+    var raw = sessionStorage.getItem(CACHE_KEY);
+    if (raw) cached = JSON.parse(raw);
+  } catch (e) { cached = null; }
+
+  if (cached && cached.length) {
+    render(cached);
+  } else {
+    fetchAllSequential(TRACKS).then(function (results) {
+      var loaded = results.filter(Boolean);
+      if (loaded.length) {
+        try { sessionStorage.setItem(CACHE_KEY, JSON.stringify(loaded)); } catch (e) {}
+      }
+      render(loaded);
+    });
+  }
 })();
 
 /* ---------- Mobile: hero tipo "reels" (un video full-screen por mix) ----------

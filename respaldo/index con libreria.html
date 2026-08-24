@@ -187,7 +187,7 @@
 
   <!-- ===== Fuentes ===== -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
 
@@ -234,6 +234,7 @@
         <ul class="nav-dropdown">
           <li><a href="about.html">Quiénes somos</a></li>
           <li><a href="notas-de-ruta.html">Notas de ruta</a></li>
+          <li><a href="musica.html">Música</a></li>
         </ul>
       </li>
       <li class="nav-item-dropdown">
@@ -261,6 +262,7 @@
     <a href="#sobre" onclick="closeMobile()">Estudio</a>
     <a href="about.html" onclick="closeMobile()" class="mobile-sub-link">↳ Quiénes somos</a>
     <a href="notas-de-ruta.html" onclick="closeMobile()" class="mobile-sub-link">↳ Notas de ruta</a>
+    <a href="musica.html" onclick="closeMobile()" class="mobile-sub-link">↳ Música</a>
     <a href="#proceso" onclick="closeMobile()">Proceso</a>
     <a href="backstage.html" onclick="closeMobile()" class="mobile-sub-link">↳ Backstage</a>
     <a href="#precios" onclick="closeMobile()">Precios</a>
@@ -270,6 +272,17 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-bg">
+      <!-- ⚠️ Video ambiental de fondo — sutil, se combina con el degradado
+           de abajo (que ahora es semi-transparente) para quedar "lavado"
+           en los mismos tonos claros del hero, sin opacar el texto.
+           Reemplazá el <source> por tu video real: loop, MUDO, comprimido,
+           idealmente paisajes/tomas de la cordillera en cámara lenta.
+           Guardalo en assets/video/hero-bg.mp4 (y opcional: poster en
+           assets/img/hero-bg-poster.webp) -->
+      <video class="hero-bg-video" autoplay muted loop playsinline preload="auto"
+        poster="assets/img/hero-bg-poster.webp">
+        <source src="assets/video/hero-bg.mp4" type="video/mp4" />
+      </video>
       <div class="hero-bg-gradient"></div>
       <canvas id="hero-particles"></canvas>
       <div class="hero-grid"></div>
@@ -305,7 +318,7 @@
             <path class="hbi-peak" d="M1 10.5L5 4l2.2 3.3L9.5 4L13 10.5H1z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" fill="none" />
             <circle class="hbi-spark" cx="9.5" cy="4" r="0.9" fill="currentColor" />
           </svg>
-          <span>Diseño Web · Ecuador · Argentina · Chile</span>
+          <span class="hero-badge-text">Diseño Web · Ecuador · Argentina · Chile</span>
         </div>
         <h1 class="hero-title">Andina<br><strong>Web Studio</strong></h1>
         <p class="hero-subtitle">Construimos la primera impresión que no se olvida.</p>
@@ -523,7 +536,7 @@
             </div>
             <div class="proyecto-slide-body">
               <span class="proyecto-number">01 — Salud Dental</span>
-              <h3 class="proyecto-nombre">Clinidental 🚧(En construcción)🚧</h3>
+              <h3 class="proyecto-nombre">Clinidental <span class="proyecto-badge-wip">En construcción</span></h3>
               <p class="proyecto-desc">Sitio para clínica dental diseñado para atraer pacientes y facilitar reservas en
                 línea.</p>
               <div class="proyecto-tags">
@@ -690,7 +703,7 @@
               <div class="mockup-browser">
                 <div class="mockup-bar">
                   <div class="mockup-dots"><span></span><span></span><span></span></div>
-                  <div class="mockup-url">nutricionclínica.com</div>
+                  <div class="mockup-url">nutricionclinica.com</div>
                 </div>
                 <div class="mockup-screen">
                   <img class="mockup-screen-img" src="assets/img/nutricion.webp" alt="Nutrición Clínica" loading="lazy"
@@ -760,7 +773,7 @@
               </div>
             </div>
             <div class="proyecto-slide-body">
-              <span class="proyecto-number">05 — Psicología</span>
+              <span class="proyecto-number">06 — Psicología</span>
               <h3 class="proyecto-nombre">Psicología Clínica</h3>
               <p class="proyecto-desc">Rediseño completo con nueva identidad visual, enfocado en generar confianza desde
                 el primer contacto.</p>
@@ -809,14 +822,14 @@
               </div>
             </div>
             <div class="proyecto-slide-body">
-              <span class="proyecto-number">06 — Medicina</span>
+              <span class="proyecto-number">07 — Medicina</span>
               <h3 class="proyecto-nombre">Medicina General</h3>
-              <p class="proyecto-desc">Landing cinematic con modelo 3D DNA en Spline, animaciones GSAP awards, galería
+              <p class="proyecto-desc">Landing cinematic con modelo 3D DNA en Spline, animaciones GSAP, galería
                 del consultorio y footer reveal.</p>
               <div class="proyecto-tags">
                 <span class="tag">Medicina</span>
                 <span class="tag">Spline 3D</span>
-                <span class="tag">GSAP Awards</span>
+                <span class="tag">GSAP</span>
               </div>
               <a href="https://dravivian.andinawebstudio.com/" target="_blank" rel="noopener" class="btn-demo">
                 Ver sitio
@@ -1733,6 +1746,29 @@
     </div><!-- .agenda-modal-panel -->
   </div><!-- .agenda-modal -->
 
+  <!-- MIX HERO — video local ambiental, ancho completo, GO adentro -->
+  <!-- ⚠️ Reemplazá el <source> por tu video real: 6-9 seg, loop, MUDO, comprimido.
+       Guardalo en assets/video/mix-hero.mp4 (y opcional: poster assets/img/mix-hero-poster.jpg) -->
+  <section class="mix-hero">
+    <div class="mix-hero-card">
+      <video class="mix-hero-video" autoplay muted loop playsinline
+        poster="assets/img/mix-hero-poster.webp">
+        <source src="assets/video/mix-hero.mp4" type="video/mp4" />
+      </video>
+      <span class="mix-hero-overlay"></span>
+
+      <div class="mix-hero-content reveal">
+        <span class="mix-hero-eyebrow">Música</span>
+        <h2 class="mix-hero-big">ANDINA<span class="mix-hero-big-sm">SOUND</span></h2>
+      </div>
+
+      <p class="mix-hero-desc reveal reveal-delay-1">Andina Web Studio te ofrece una experiencia musical para
+        tus eventos o fiestas.</p>
+
+      <a href="musica.html" class="mix-hero-go reveal reveal-delay-1">GO</a>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
@@ -1776,7 +1812,7 @@
           </div>
           <div class="footer-geo-item">
             <span class="footer-geo-dot"></span>
-            <span>0°13'N · Ecuador</span>
+            <span>0°13'S · Ecuador</span>
           </div>
         </div>
 
