@@ -576,6 +576,7 @@
     var title = item.textContent.trim();
     var tag = item.getAttribute('data-tag') || '';
     var yt = item.getAttribute('data-yt');
+    var ytT = item.getAttribute('data-yt-t'); // segundos donde arranca el set real (opcional)
     var dj = item.getAttribute('data-dj') || '';
     var instagram = item.getAttribute('data-instagram');
 
@@ -620,7 +621,7 @@
       '<div class="mu-showcase-cutout-wrap"><div class="mu-showcase-cutout"><img src="' + cutout + '" alt="" loading="lazy" /></div></div>' +
       '<h2 class="mu-showcase-title">' + title + '</h2>' +
       (yt ? '<span class="mu-showcase-yt-hint">Mirá el set<br>en YouTube</span>' : '') +
-      (yt ? '<a class="mu-showcase-yt" href="https://www.youtube.com/watch?v=' + yt + '" target="_blank" rel="noopener" aria-label="Ver el set completo en YouTube">' +
+      (yt ? '<a class="mu-showcase-yt" href="https://www.youtube.com/watch?v=' + yt + (ytT ? '&t=' + ytT + 's' : '') + '" target="_blank" rel="noopener" aria-label="Ver el set completo en YouTube">' +
         '<svg width="13" height="13" viewBox="0 0 18 18" fill="currentColor"><path d="M5 3.5v11l9-5.5-9-5.5z"/></svg>' +
         '<span class="mu-showcase-yt-label">Ver el set completo en YouTube</span></a>' : '') +
       (instagram ? '<a class="mu-showcase-ig" href="' + instagram + '" target="_blank" rel="noopener" aria-label="Instagram de ' + (dj || 'la DJ') + '">' +
@@ -698,11 +699,11 @@
   var embed = document.getElementById('muPlayerEmbed');
   if (!modal || !embed) return;
 
-  function openPlayer(id) {
+  function openPlayer(id, startSeconds) {
     if (!id) return;
     embed.innerHTML = '';
     var iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+    iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0' + (startSeconds ? '&start=' + startSeconds : '');
     iframe.title = 'Reproductor de mix';
     iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
     iframe.allowFullscreen = true;
@@ -719,7 +720,7 @@
 
   document.querySelectorAll('[data-yt]').forEach(function (el) {
     el.addEventListener('click', function () {
-      openPlayer(el.getAttribute('data-yt'));
+      openPlayer(el.getAttribute('data-yt'), el.getAttribute('data-yt-t'));
     });
   });
 
