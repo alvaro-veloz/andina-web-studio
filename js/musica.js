@@ -327,22 +327,8 @@
     arc.addEventListener('pointercancel', endDrag);
   }
 
-  // Trae las canciones de la iTunes Search API.
-  // ⚠️ Antes esto disparaba las 14 búsquedas en paralelo (Promise.all), lo que
-  // en la práctica pega contra el límite de requests por IP de la API de
-  // iTunes (no documentado, pero real) y hace que TODAS fallen en silencio
-  // — quedando el arco vacío sin ningún aviso. Eso es lo que se veía en el
-  // celular: nada de carátulas y el reproductor sin nada para tocar.
-  //
-  // Fix: 1) cachea el resultado en sessionStorage — una vez que carga bien,
-  //         no vuelve a golpear la API en cada visita/recarga durante la
-  //         misma sesión (además de evitar el límite, carga instantáneo).
-  //      2) las requests salen una atrás de la otra con una pequeña pausa,
-  //         no las 14 juntas.
-  //      3) si una búsqueda falla, reintenta una vez antes de darla por
-  //         perdida.
-  //      4) si a pesar de todo no logra traer ninguna, muestra un aviso en
-  //         vez de dejar la sección vacía sin explicación.
+  // Trae las canciones desde la iTunes Search API, en serie (no todas
+  // juntas) y con reintento + cache de sesión para que sea rápido y estable.
   var CACHE_KEY = 'muTracksCache_v1';
 
   function fetchTrack(t, attempt) {
@@ -640,8 +626,9 @@
     blocks.push({ el: block, video: video, clip: clip, cutoutWrap: inner.querySelector('.mu-showcase-cutout-wrap') });
   });
 
-  // Solo reproduce el clip que está realmente en pantalla, y dispara la
-  // animación de entrada del texto la primera vez que el bloque se ve
+  // Reproduce el clip que está en pantalla y dispara el fade-in del texto
+  // ("is-seen", queda fijo) y el balanceo de la foto ("in-view", se apaga
+  // al salir de pantalla para no dejarlo corriendo de fondo).
   if (blocks.length) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -652,12 +639,14 @@
           if (!b.video.src) b.video.src = b.clip;
           b.video.play().catch(function () {});
           entry.target.classList.add('is-seen');
+          entry.target.classList.add('in-view');
         } else {
           b.video.pause();
           // libera la memoria del decodificador — no lo dejamos "pausado
           // pero cargado" indefinidamente, que era lo que inflaba la RAM
           b.video.removeAttribute('src');
           b.video.load();
+          entry.target.classList.remove('in-view');
         }
       });
     }, { threshold: 0.35 });

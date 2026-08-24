@@ -637,7 +637,7 @@ body.mu-body {
   animation: mu-cutout-sway 7s ease-in-out infinite alternate;
   animation-play-state: paused;
 }
-.mu-showcase-block.is-seen .mu-showcase-cutout {
+.mu-showcase-block.in-view .mu-showcase-cutout {
   animation-play-state: running;
 }
 @keyframes mu-cutout-sway {
