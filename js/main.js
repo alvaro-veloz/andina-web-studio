@@ -590,6 +590,22 @@
               success.style.display = 'flex';
               setTimeout(function() { success.style.display = 'none'; }, 6000);
             }
+
+            // Avisa a n8n (alerta instantánea por Telegram)
+            fetch('https://faker-t1.app.n8n.cloud/webhook/nuevo-lead', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                nombre: formData.get('nombre'),
+                email: formData.get('email'),
+                tipo: formData.get('tipo'),
+                presupuesto: formData.get('presupuesto'),
+                dominio: formData.get('dominio'),
+                mensaje: formData.get('mensaje')
+              })
+            }).catch(function(err) {
+              console.error('No se pudo notificar a n8n:', err);
+            });
           } else {
             throw new Error(data.message || 'Error al enviar');
           }
@@ -1426,6 +1442,21 @@
         if (!occupiedMap[fecha]) occupiedMap[fecha] = [];
         occupiedMap[fecha].push(selectedSlot);
         updateConfirmState();
+
+        // Avisa a n8n para automatizar (ej: crear evento en Google Calendar)
+        fetch('https://faker-t1.app.n8n.cloud/webhook/nueva-cita', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre: nombre,
+            telefono: telefono,
+            email: email || null,
+            fecha: fecha,
+            hora: selectedSlot
+          })
+        }).catch(function(err) {
+          console.error('No se pudo notificar a n8n:', err);
+        });
       }).catch(function(err) {
         console.error('Error al confirmar la cita:', err);
         showError('No se pudo confirmar la cita. Intenta de nuevo.');
